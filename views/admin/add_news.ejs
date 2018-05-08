@@ -1,0 +1,59 @@
+<% include header %>
+  <div class="content-wrapper add-news">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">add news</li>
+      </ol>
+      <div class="row">
+        <div class="col-12">
+          <h1 class="_title">Thêm Tin Mới</h1>
+          <form action="/admin/addNews" method="post" class="form-add" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="">Tiêu đề</label>
+                <input type="text" name="title" class="form-control" required placeholder="" aria-describedby="helpId">
+                <small id="helpId" class="text-muted"></small>
+              </div>
+              <div class="form-group">
+                <label for="">Hình Ảnh</label>
+                <input type="file" name="images" required class="form-control">
+                <small id="helpId" class="text-muted"></small>
+              </div>
+              <div class="form-group">
+                <label for="">Danh Mục</label>
+                <select class="form-control" required name="category" >
+                  <option value="">Lựa Chọn</option>
+                  <% data.forEach(item=>{%>
+                    <option value="<%= item._id%>"><%= item.name%></option>
+                  <%})%>
+                </select>
+                <small id="helpId" class="text-muted"></small>
+              </div>
+              <div class="form-group">
+                <label for="">Mô tả</label>
+                <textarea class="tinymce" name="description" cols="30" rows="10"></textarea>
+                <small id="helpId" class="text-muted"></small>
+              </div>
+              <div class="form-group">
+                <label for="">Chi tiết tin</label>
+                <textarea class="tinymce" name="newsdetail" cols="30" rows="10" >Chi tiết bài viết</textarea>
+                <small id="helpId" class="text-muted"></small>
+              </div>
+                <%if(message.status){ %>
+                  <div class="text-center" style="color:#28a745;font-weight: 500;"><%= message.text%></div>
+                <%}else{%>
+                <div class="text-center" style="color:#d23117;font-weight: 500;"><%= message.text%></div>
+                <%}%>
+              <button type="submit" class="btn btn-outline-success btn-block">Đăng Bài</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <script type="text/javascript" src="/javascripts/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="/javascripts/tinymce/js/tinymce/init-tinymce.js"></script>
+ <% include footer%>

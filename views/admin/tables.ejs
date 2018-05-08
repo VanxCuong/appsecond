@@ -1,0 +1,62 @@
+<% include header%>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Tables</li>
+      </ol>
+      <!-- Example DataTables Card-->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i> Thành viên bình luận</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Tin</th>
+                  <th>Nội dung</th>
+                  <th>Level</th>
+                  <th>Thời Gian</th>
+                  <th>Hành Động</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>ID</th>
+                  <th>Tin</th>
+                  <th>Nội dung</th>
+                  <th>Level</th>
+                  <th>Thời Gian</th>
+                  <th>Hành Động</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>New York</td>
+                  <td>27</td>
+                  <td>1</td>
+                  <td>09:03:21</td>
+                  <td>
+                    <div class="btn-group">
+                      <a href="" class="btn btn-outline-danger"><i class="fa fa-pencil">Sửa</i> </a>
+                      <a href="" class="btn btn-outline-warning"><i class="fa fa-remove">Xóa</i> </a>
+                    </div>
+                    
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+<% include footer%>

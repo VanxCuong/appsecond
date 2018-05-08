@@ -1,0 +1,51 @@
+<% include header %>
+  <div class="content-wrapper add-news manager-Category">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">add news</li>
+      </ol>
+      <div class="row">
+        <div class="col-12">
+          <h1 class="_title">Danh Mục</h1>
+          <form action="/admin/category" method="post" class="form-add" >
+              <div class="form-group">
+                <label for="">Tên Danh Mục</label>
+                <input type="text" name="name" class="form-control" placeholder="" aria-describedby="helpId">
+                <small id="helpId" class="text-muted"><%= checkInputCategory%></small>
+              </div>
+              <button type="submit" onclick="if(!confirm('bạn có muốn thêm không ?'))  return false;" class="btn btn-outline-success btn-block">Đăng Bài</button>
+          </form>
+          <hr>
+          <h3>Danh Mục</h3>
+          <ul class="list-group">
+              <% data.forEach((item)=>{%>
+              <li class="list-group-item">
+                  <div class="float-left">
+                    <p ><%= item.name%></p>
+                    <input type="text" value="<%= item.name%>" style="display:none" class="form-control">
+                  </div>
+                  
+                  <div class=" float-right">
+                    <div class="perform btn-group">
+                      <a href="" class=" btn btn-outline-danger edit"><i class="fa fa-pencil"></i> Sửa</a>
+                      <a href="/admin/category/remove/<%= item._id%>" class=" btn btn-outline-warning delete" onclick="if(!confirm('bạn có muốn xóa không ?'))  return false;" ><i class="fa fa-remove"></i> Xóa</a>
+                    </div>
+                    <div class="perform-save btn-group" style="display:none">
+                      <a href="<%= item._id%>" class=" btn btn-outline-success save"><i class="fa fa-pencil"></i> Lưu</a>
+                      <a href="<%= item._id%>" class=" btn btn-outline-danger reset"><i class="fa fa-pencil"></i> Hủy</a>
+                    </div>
+                    
+                  </div>
+              </li>
+               <%})%>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+ <% include footer%>

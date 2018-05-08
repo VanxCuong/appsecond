@@ -1,0 +1,81 @@
+<% include header %>
+  <div class="content-wrapper add-news edit-news">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">add news</li>
+      </ol>
+      <div class="row">
+        <div class="col-12">
+          <% if(message){ %>
+            <div class="alert alert-success text-center" role="alert"><%= message.text%></div>
+          <%}else{%>
+            <div class="alert alert-warning text-center" role="alert"><%= message.text%></div>
+          <%}%>
+          <h1 class="_title">Thêm Tin Mới</h1>
+          <form action="/admin/news/edit/<%= dataNews._id %>" method="post" class="form-add" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="">Tiêu đề</label>
+                <input type="text" name="title" value="<%= dataNews.title%>" class="form-control" required placeholder="" aria-describedby="helpId">
+                <small id="helpId" class="text-muted"></small>
+              </div>
+              <div class="form-group">
+                <label for="">Hình Ảnh</label>
+                <img src="/uploads/<%= dataNews.image%>" style="width:100px;height:100px;">
+                <span class="edit-img">Sửa</span>
+                
+              </div>
+              <div class="form-group">
+                <label for="">Danh Mục</label>
+                <select class="form-control" required name="category" >
+                <option value="<%= dataNews.category_id._id%>"><%= dataNews.category_id.name%></option>
+
+                  <% dataCtg.forEach(item=>{%>
+                    <% if((dataNews.category_id.name)!==(item.name)){ %>
+                    <option value="<%= item._id%>"><%= item.name%></option>
+                    <%}%>
+                  <%})%>
+                </select>
+                <small id="helpId" class="text-muted"></small>
+              </div>
+              <div class="form-group">
+                <label for="">Mô tả</label>
+                <textarea class="tinymce" name="description" cols="30" rows="10"><%= dataNews.description%></textarea>
+                <small id="helpId" class="text-muted"></small>
+              </div>
+              <div class="form-group">
+                <label for="">Chi tiết tin</label>
+                <textarea class="tinymce" name="newsdetail" cols="30" rows="10" ><%= dataNews.news_detail%></textarea>
+                <small id="helpId" class="text-muted"></small>
+              </div>
+              <button type="submit"  class="btn btn-outline-success btn-block" onclick="if(!confirm('Bạn có muốn cập nhật bài viết: <%= dataNews._id%>'))return false;">Cập Nhật</button>
+              <a href="/admin/news" class="btn btn-outline-danger btn-block" onclick="if(!confirm('Bạn có muốn quay lại trang quản lý tin tức ??'))return false;">Quay lại</a>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <script>
+        var element=document.querySelector(".edit-news .edit-img");
+        var status=1;
+        var divHTML=`<div class="form-edit-img mt-2"><h4>Chọn ảnh cần sửa</h4><input type="file" name="images" class="form-control"></div>`;
+        element.onclick=()=>{
+          if(status==1){
+            status=0;
+            element.insertAdjacentHTML("afterend",divHTML);
+            element.innerHTML="Hủy";
+          }else{
+            status=1;
+            element.nextSibling.remove();
+            element.innerHTML="Sửa";
+          }
+          
+        }
+    </script>
+    <script type="text/javascript" src="/javascripts/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="/javascripts/tinymce/js/tinymce/init-tinymce.js"></script>
+ <% include footer%>

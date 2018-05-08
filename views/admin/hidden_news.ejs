@@ -1,0 +1,83 @@
+<% include header%>
+<%
+function getDateTime(a) {
+  var date = new Date(a);
+  var hour = date.getHours();
+  hour = (hour < 10 ? "0" : "") + hour;
+  var min  = date.getMinutes();
+  min = (min < 10 ? "0" : "") + min;
+  var sec  = date.getSeconds();
+  sec = (sec < 10 ? "0" : "") + sec;
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  month = (month < 10 ? "0" : "") + month;
+  var day  = date.getDate();
+  day = (day < 10 ? "0" : "") + day;
+  return hour + ":" + min + ":" + sec+" - "+day + "/" + month + "/" + year;
+}
+%>
+  <div class="content-wrapper hidden-news">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Tables</li>
+      </ol>
+      <!-- Example DataTables Card-->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i> Quản Lý Thành Viên</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="reload" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Tiêu đề</th>
+                  <th>Hình ảnh</th>
+                  <th>Mô tả</th>
+                  <th>Ngày tạo</th>
+                  <th>Hành Động</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                    <th>STT</th>
+                    <th>Tiêu đề</th>
+                    <th>Hình ảnh</th>
+                    <th>Mô tả</th>
+                    <th>Ngày tạo</th>
+                    <th>Hành Động</th>
+                </tr>
+              </tfoot>
+              <tbody>
+              <% dem=0;%>
+              <% data.forEach(item=>{%>
+                <tr>
+                  <td><%=++dem%></td>
+                  <td><a href=""><%= item.title%></a></td>
+                  <td><img src="/uploads/<%= item.image%>" style="width:50px;height:50px" alt=""></td>
+                  <td><%- item.status%></td>
+                  <td><%= getDateTime(item.create_at)%></td>
+                  <td>
+                    <div class="btn-group">
+                      <a href="<%= item._id%>" class="btn btn-outline-success show"><i class="fa fa-eye-slash"></i> Show</i> </a>
+                      <a href="/admin/news/edit/<%= item._id%>" class="btn btn-outline-danger edit" ><i class="fa fa-pencil"> Sửa</i> </a>
+                      <a href="<%= item._id%>" class="btn btn-outline-warning del"><i class="fa fa-remove"> Xóa</i> </a>
+                    </div>
+                  </td>
+                </tr>
+                <%})%>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+        <div class="card-footer small text-muted" >Updated yesterday at 11:59 PM</div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+<% include footer%>
