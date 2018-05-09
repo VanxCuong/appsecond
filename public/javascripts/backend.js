@@ -2,10 +2,41 @@ document.addEventListener("DOMContentLoaded",function () {
     Category();
     performNews();
 });
+/**
+ * 
+ * @param {*} status : Trạng thái boolean gửi true false.
+ * True: Hiển thị bên  show tin
+ * false: hiển thị bên ẩn tin
+ * @param {*} table : Vị trí nhận giá trị thêm vào
+ * @param {*} element: Vị trí phần tử được click
+ */
+var OptimalShowNews=(status,element,table)=>{
+    element.previousElementSibling.classList.remove("d-none");
+    var position=element.getAttribute("data-sl"),
+        data={position:position},
+        url="/admin/News/showInterface";
+    status==true?data.perform=true:data.perform=false;
+    console.log(data);
+    
+    element.setAttribute("data-sl",Number(position)+1);
+    loadDoc(url,data,(res)=>{
+        if(res){
+            element.previousElementSibling.classList.add("d-none");
+            // table.insertAdjacentHTML("afterend",DivNewsHTML(res,Number(position)));
+            table.appendChild(DivNewsHTML(res,Number(position)));
+            // sử dụng hàm performnews này để lấy lại giá trị hành động vừa thêm vào.
+            performNews();
+        }
+    })
+}
 var DivNewsHTML=(data,position)=>{
     var data=JSON.parse(data);
     var content="";
+    var others="";
+    console.log(data);
+    
     data.forEach((x,y)=>{
+        x.status===true?others=`<a href="${x._id}" class="btn btn-outline-success hidden"><i class="fa fa-eye-slash"></i> Ẩn</i> </a>`:others=`<a href="${x._id}" class="btn btn-outline-success show"><i class="fa fa-eye-slash"></i> Show</i> </a>`;
         content+=`
             <tr>
                 <td>${++position}</td>
@@ -15,7 +46,7 @@ var DivNewsHTML=(data,position)=>{
                 <td>${getDateTime(x.create_at)}</td>
                 <td>
                 <div class="btn-group">
-                    <a href="${x._id}" class="btn btn-outline-success hidden"><i class="fa fa-eye-slash"></i> Ẩn</i> </a>
+                    ${others}
                     <a href="/admin/news/edit/${x._id}" class="btn btn-outline-danger edit" ><i class="fa fa-pencil"> Sửa</i> </a>
                     <a href="${x._id}" class="btn btn-outline-warning del"><i class="fa fa-remove"> Xóa</i> </a>
                 </div>
@@ -27,19 +58,28 @@ var DivNewsHTML=(data,position)=>{
 }
 var showNewsInterFace=(element)=>{
     element.previousElementSibling.classList.remove("d-none");
-    var table=document.querySelector(".manager-news #reload tbody tr:last-child"),
+    var table=document.querySelector(".manager-news #reload tbody"),
         position=element.getAttribute("data-sl"),
         url="/admin/News/showInterface";
     element.setAttribute("data-sl",Number(position)+1);
     loadDoc(url,{position:position,perform:true},(res)=>{
         if(res){
             element.previousElementSibling.classList.add("d-none");
-            table.insertAdjacentHTML("afterend",DivNewsHTML(res,Number(position)));
-            // sử dụng hàm performnews này để lấy lại giá trị hành động vừa thêm vào.
+            // console.log(DivNewsHTML(res,Number(position)));
+            
+            // table.insertAdjacentHTML("afterend",DivNewsHTML(res,Number(position)));
+            // // sử dụng hàm performnews này để lấy lại giá trị hành động vừa thêm vào.
             performNews();
         }
     })
 }
+var showNewsInterFaceHidden=(element)=>{
+    var table=document.querySelector(".hidden-news #reload tbody");
+    
+    // OptimalShowNews(false,element,table);
+    
+}
+
 var loadDoc=(url,data,cb)=>{
     if (window.XMLHttpRequest) {
         //code for IE7+, Firefox, Chrome and Opera
@@ -146,6 +186,11 @@ var Category=()=>{
 var removeElement=(element,url,cb)=>{
     OptimalFor(element,i=>{
         element[i].onclick=()=>{
+            // Fix lỗi mỗi khi click xóa - ẩn - hiện.
+            var ButtonShowNews=document.querySelector(".shownews"),
+                position=ButtonShowNews.getAttribute("data-sl");
+            ButtonShowNews.setAttribute("data-sl",Number(position)-1);
+
             var id=element[i].getAttribute("href");
             if(confirm("Bạn có muốn thực hiện không ?")){
                 loadMethodGet(url+id,(res)=>{
@@ -157,15 +202,20 @@ var removeElement=(element,url,cb)=>{
     })
 }
 var performNews=()=>{
-    var element=document.querySelectorAll(".manager-news .del");
+    var elementDelNewsShow=document.querySelectorAll(".manager-news .del");
+    var elementDelNewsHidden=document.querySelectorAll(".hidden-news .del");
     var elementHidden=document.querySelectorAll(".manager-news .hidden");
     var elementShow=document.querySelectorAll(".hidden-news .show");
     var urlRemove="/admin/news/del/";
     var urlHidden="/admin/news/hidden/";
     var urlShow="/admin/news/show/";
-    removeElement(element,urlRemove,(i,res)=>{
+    removeElement(elementDelNewsShow,urlRemove,(i,res)=>{
         if(res)
-            element[i].parentElement.parentElement.parentElement.remove();
+            elementDelNewsShow[i].parentElement.parentElement.parentElement.remove();
+    })
+    removeElement(elementDelNewsHidden,urlRemove,(i,res)=>{
+        if(res)
+            elementDelNewsHidden[i].parentElement.parentElement.parentElement.remove();
     })
     removeElement(elementHidden,urlHidden,(i,res)=>{
         elementHidden[i].parentElement.parentElement.parentElement.remove();

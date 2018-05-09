@@ -114,8 +114,10 @@ router.post('/News/showInterface', function(req, res, next) {
     var data={},
         perform=req.body.perform,
         position=req.body.position;
-    perform=true?data={status:1}:data={status:0};
+    perform==true?data={status:1}:data={status:0};
     news.getLimitDocument(data,1,position).then(value=>{
+        console.log(value);
+        
         res.send(value)
     }).catch(err=>{
         console.log("News"+err);
