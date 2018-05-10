@@ -1,5 +1,22 @@
 <% include header%>
-  <div class="content-wrapper">
+<%
+function getDateTime(a) {
+  var date = new Date(a);
+  var hour = date.getHours();
+  hour = (hour < 10 ? "0" : "") + hour;
+  var min  = date.getMinutes();
+  min = (min < 10 ? "0" : "") + min;
+  var sec  = date.getSeconds();
+  sec = (sec < 10 ? "0" : "") + sec;
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  month = (month < 10 ? "0" : "") + month;
+  var day  = date.getDate();
+  day = (day < 10 ? "0" : "") + day;
+  return day + "/" + month + "/" + year;
+}
+%>
+  <div class="content-wrapper manager-users">
     <div class="container-fluid">
       <!-- Breadcrumbs-->
       <ol class="breadcrumb">
@@ -11,47 +28,40 @@
       <!-- Example DataTables Card-->
       <div class="card mb-3">
         <div class="card-header">
-          <i class="fa fa-table"></i> Quản Lý Thành Viên</div>
+          <i class="fa fa-table"></i> Quản Lý Thành Viên <span class="badge badge-info"><%= countUsers%></span></div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
+            <table class="table table-bordered" id="reload" width="100%" cellspacing="0">
                 <tr>
                   <th>STT</th>
-                  <th>Username</th>
-                  <th>Password</th>
+                  <th>Email</th>
                   <th>Level</th>
                   <th>Ngày tạo</th>
+                  <th>Update</th>
                   <th>Hành Động</th>
                 </tr>
-              </thead>
-              <tfoot>
+                <%var dem=0;%>
+                <%  data.forEach(item=>{ %>
                 <tr>
-                    <th>STT</th>
-                    <th>Username</th>
-                    <th>Password</th>
-                    <th>Level</th>
-                    <th>Ngày tạo</th>
-                    <th>Hành Động</th>
-                </tr>
-              </tfoot>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>New York</td>
-                  <td>27</td>
-                  <td>1</td>
-                  <td>09:03:21</td>
+                  <td><%= ++dem%></td>
+                  <td><%= item.email%></td>
+                  <td><%= item.level%></td>
+                  <td><%= getDateTime(item.create_at)%></td>
+                  <td><%= getDateTime(item.update_at)%></td>
                   <td>
                     <div class="btn-group">
-                      <a href="" class="btn btn-outline-danger"><i class="fa fa-pencil">Sửa</i> </a>
-                      <a href="" class="btn btn-outline-warning"><i class="fa fa-remove">Xóa</i> </a>
+                      <a href="<%= item._id%>" class="btn btn-outline-success locks"><i class="fa fa-pencil">Khóa</i> </a>
+                      <a href="/admin/users/edit/<%= item._id%>" class="btn btn-outline-danger edit"><i class="fa fa-pencil">Sửa</i> </a>
+                      <a href="<%= item._id%>" class="btn btn-outline-warning remove"><i class="fa fa-remove">Xóa</i> </a>
                     </div>
-                    
                   </td>
                 </tr>
-              </tbody>
+                <%})%>
             </table>
+            <div class="handleOrther text-center">
+              <div class="loaditem d-none"><img src="/uploads/load.gif" alt=""></div>
+              <div class="btn btn-outline-danger shownews"  data-sl="<%= dem %>"  onclick="showUserInterface(this)">Xem Thêm</div>
+            </div>
           </div>
         </div>
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>

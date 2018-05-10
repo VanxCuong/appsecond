@@ -1,5 +1,16 @@
 *{}
 
+.form-group.form-input-register .checkEmail {
+    position: absolute;
+    top: 73%;
+    right: 5%;
+    transform: translateY(-50%);
+}
+
+.form-group.form-input-register {
+    position: relative;
+}
+
 tr td {
     text-align: center;
 }

@@ -3,6 +3,33 @@ document.addEventListener("DOMContentLoaded",function () {
     performNews();
 });
 /**
+ * Kiểm tra định dạng email. Đúng thì trả về email sai thì null
+ * @param {*} email
+ */
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+var HTMLcheckTrue='<i class="fa fa-check" style="color:green"></i>';
+var HTMLcheckFalse='<i class="fa fa-times" style="color:red;"></i>';
+var changeRegisterEmail=(element)=>{
+    var text=element.value;
+    var elementCheck=document.querySelector(".form-register .checkEmail");
+    if(!validateEmail(text)){
+        return elementCheck.innerHTML=HTMLcheckFalse;
+    }
+    var url ="/users/register/check";
+    var data={email:text};
+    loadDoc(url,data,(res)=>{
+        if(res=="true"){
+            while(elementCheck.firstChild){
+                elementCheck.removeChild(elementCheck.firstChild);
+            }
+            elementCheck.innerHTML=HTMLcheckTrue;
+        }
+    })
+}
+/**
  * 
  * @param {*} status : Trạng thái boolean gửi true false.
  * True: Hiển thị bên  show tin
@@ -10,31 +37,19 @@ document.addEventListener("DOMContentLoaded",function () {
  * @param {*} table : Vị trí nhận giá trị thêm vào
  * @param {*} element: Vị trí phần tử được click
  */
-var OptimalShowNews=(status,element,table)=>{
+var OptimalShowNews=(status,url,element,table,cb)=>{
     element.previousElementSibling.classList.remove("d-none");
     var position=element.getAttribute("data-sl"),
-        data={position:position},
-        url="/admin/News/showInterface";
+        data={position:position};
     status==true?data.perform=true:data.perform=false;
-    console.log(data);
-    
-    element.setAttribute("data-sl",Number(position)+1);
     loadDoc(url,data,(res)=>{
-        if(res){
-            element.previousElementSibling.classList.add("d-none");
-            // table.insertAdjacentHTML("afterend",DivNewsHTML(res,Number(position)));
-            table.appendChild(DivNewsHTML(res,Number(position)));
-            // sử dụng hàm performnews này để lấy lại giá trị hành động vừa thêm vào.
-            performNews();
-        }
+        cb(position,res);
     })
 }
 var DivNewsHTML=(data,position)=>{
     var data=JSON.parse(data);
     var content="";
     var others="";
-    console.log(data);
-    
     data.forEach((x,y)=>{
         x.status===true?others=`<a href="${x._id}" class="btn btn-outline-success hidden"><i class="fa fa-eye-slash"></i> Ẩn</i> </a>`:others=`<a href="${x._id}" class="btn btn-outline-success show"><i class="fa fa-eye-slash"></i> Show</i> </a>`;
         content+=`
@@ -56,28 +71,91 @@ var DivNewsHTML=(data,position)=>{
     })
     return content;
 }
-var showNewsInterFace=(element)=>{
-    element.previousElementSibling.classList.remove("d-none");
-    var table=document.querySelector(".manager-news #reload tbody"),
-        position=element.getAttribute("data-sl"),
-        url="/admin/News/showInterface";
-    element.setAttribute("data-sl",Number(position)+1);
-    loadDoc(url,{position:position,perform:true},(res)=>{
-        if(res){
-            element.previousElementSibling.classList.add("d-none");
-            // console.log(DivNewsHTML(res,Number(position)));
-            
-            // table.insertAdjacentHTML("afterend",DivNewsHTML(res,Number(position)));
-            // // sử dụng hàm performnews này để lấy lại giá trị hành động vừa thêm vào.
-            performNews();
-        }
+var DivUsersHTML=(data,position)=>{
+    var data=JSON.parse(data);
+    var content="";
+    var others="";
+    data.forEach((x,y)=>{
+        x.status===true?others=`<a href="${x._id}" class="btn btn-outline-success locks"><i class="fa fa-pencil">Khóa</i> </a>`:others=`<a href="${x._id}" class="btn btn-outline-success show"><i class="fa fa-pencil">Mở Khóa</i> </a>`;
+        content+=`
+            <tr>
+              <td>${++position}</td>
+              <td>${x.email}</td>
+              <td>${x.level}</td>
+              <td>${getDayTime(x.create_at)}</td>
+              <td>${getDayTime(x.update_at)}</td>
+              <td>
+                <div class="btn-group">
+                  ${others}
+                  <a href="/admin/users/edit/${x._id}" class="btn btn-outline-danger edit"><i class="fa fa-pencil">Sửa</i> </a>
+                  <a href="${x._id}" class="btn btn-outline-warning remove"><i class="fa fa-remove">Xóa</i> </a>
+                </div>
+              </td>
+            </tr>
+        `
     })
+    return content;
+}
+var showNewsInterFace=(element)=>{
+    var table=document.querySelector(".manager-news #reload tr:last-child");
+    var url="/admin/News/showInterface";
+    OptimalShowNews(true,url,element,table,(position,res)=>{
+        element.previousElementSibling.classList.add("d-none");
+        if(JSON.parse(res).length>0){
+            element.previousElementSibling.classList.add("d-none");
+            table.insertAdjacentHTML("afterend",DivNewsHTML(res,Number(position)));
+            // sử dụng hàm performnews này để lấy lại giá trị hành động vừa thêm vào.
+            performNews();
+        }else{
+            element.classList.add("d-none");
+        }
+    });
 }
 var showNewsInterFaceHidden=(element)=>{
-    var table=document.querySelector(".hidden-news #reload tbody");
-    
-    // OptimalShowNews(false,element,table);
-    
+    var url="/admin/News/showInterface";
+    var table=document.querySelector(".hidden-news #reload tr:last-child");
+    OptimalShowNews(false,url,element,table,(position,res)=>{
+        element.previousElementSibling.classList.add("d-none");
+        if(JSON.parse(res).length>0){
+            element.previousElementSibling.classList.add("d-none");
+            table.insertAdjacentHTML("afterend",DivNewsHTML(res,Number(position)));
+            // sử dụng hàm performnews này để lấy lại giá trị hành động vừa thêm vào.
+            performNews();
+        }else{
+            element.classList.add("d-none");
+        }
+    });
+}
+var showUserInterface=(element)=>{
+    var url="/admin/Users/showInterface";
+    var table=document.querySelector(".manager-users #reload tr:last-child");
+    OptimalShowNews(true,url,element,table,(position,res)=>{
+        element.previousElementSibling.classList.add("d-none");
+        if(JSON.parse(res).length>0){
+            element.setAttribute("data-sl",Number(position)+1);
+            table.insertAdjacentHTML("afterend",DivUsersHTML(res,Number(position)));
+            // sử dụng hàm performnews này để lấy lại giá trị hành động vừa thêm vào.
+            performNews();
+        }else{
+            element.classList.add("d-none");
+        }
+    });
+}
+var showUserInterfaceHidden=(element)=>{
+    var url="/admin/Users/showInterface";
+    var table=document.querySelector(".AccountLocks #reload tr:last-child");
+    OptimalShowNews(false,url,element,table,(position,res)=>{
+        element.previousElementSibling.classList.add("d-none");
+        if(JSON.parse(res).length>0){
+            element.setAttribute("data-sl",Number(position)+1);
+            table.insertAdjacentHTML("afterend",DivUsersHTML(res,Number(position)));
+            // sử dụng hàm performnews này để lấy lại giá trị hành động vừa thêm vào.
+            performNews();
+        }else{
+            element.classList.add("d-none");
+        }
+        
+    });
 }
 
 var loadDoc=(url,data,cb)=>{
@@ -186,11 +264,6 @@ var Category=()=>{
 var removeElement=(element,url,cb)=>{
     OptimalFor(element,i=>{
         element[i].onclick=()=>{
-            // Fix lỗi mỗi khi click xóa - ẩn - hiện.
-            var ButtonShowNews=document.querySelector(".shownews"),
-                position=ButtonShowNews.getAttribute("data-sl");
-            ButtonShowNews.setAttribute("data-sl",Number(position)-1);
-
             var id=element[i].getAttribute("href");
             if(confirm("Bạn có muốn thực hiện không ?")){
                 loadMethodGet(url+id,(res)=>{
@@ -202,6 +275,9 @@ var removeElement=(element,url,cb)=>{
     })
 }
 var performNews=()=>{
+    /**
+     * Xử Lý page News
+     */
     var elementDelNewsShow=document.querySelectorAll(".manager-news .del");
     var elementDelNewsHidden=document.querySelectorAll(".hidden-news .del");
     var elementHidden=document.querySelectorAll(".manager-news .hidden");
@@ -210,22 +286,59 @@ var performNews=()=>{
     var urlHidden="/admin/news/hidden/";
     var urlShow="/admin/news/show/";
     removeElement(elementDelNewsShow,urlRemove,(i,res)=>{
-        if(res)
-            elementDelNewsShow[i].parentElement.parentElement.parentElement.remove();
+        FixShowElement(".shownews","data-sl");
+        elementDelNewsShow[i].parentElement.parentElement.parentElement.remove();
+
     })
     removeElement(elementDelNewsHidden,urlRemove,(i,res)=>{
-        if(res)
-            elementDelNewsHidden[i].parentElement.parentElement.parentElement.remove();
+        FixShowElement(".shownews","data-sl");
+        elementDelNewsHidden[i].parentElement.parentElement.parentElement.remove();
     })
     removeElement(elementHidden,urlHidden,(i,res)=>{
+        // Fix lỗi mỗi khi click xóa - ẩn - hiện.
+        FixShowElement(".shownews","data-sl");
         elementHidden[i].parentElement.parentElement.parentElement.remove();
     })
     removeElement(elementShow,urlShow,(i,res)=>{
+        FixShowElement(".shownews","data-sl");
         elementShow[i].parentElement.parentElement.parentElement.remove();
     })
+    /**
+     * Kết thúcXử Lý page News
+     */
+    // Xử Lý Trang users
+    var elmLockUser=document.querySelectorAll(".manager-users .locks"),
+        elmRemoveUser=document.querySelectorAll(".manager-users .remove"),
+        elmShowUser=document.querySelectorAll(".AccountLocks .show"),
+        elmRemoveUserLock=document.querySelectorAll(".AccountLocks .del"),
+        urlLockUser="/admin/users/lock/",
+        urlRemoveUser="/admin/users/del/",
+        urlShowUser="/admin/users/show/";
+    removeElement(elmRemoveUser,urlRemoveUser,(i,res)=>{
+        FixShowElement(".shownews","data-sl");
+        elmRemoveUser[i].parentElement.parentElement.parentElement.remove();
+    })
+    removeElement(elmLockUser,urlLockUser,(i,res)=>{
+        FixShowElement(".shownews","data-sl");
+        elmLockUser[i].parentElement.parentElement.parentElement.remove();
+    })
+    removeElement(elmShowUser,urlShowUser,(i,res)=>{
+        FixShowElement(".shownews","data-sl");
+        elmShowUser[i].parentElement.parentElement.parentElement.remove();
+    })
+    removeElement(elmRemoveUserLock,urlRemoveUser,(i,res)=>{
+        FixShowElement(".shownews","data-sl");
+        elmRemoveUserLock[i].parentElement.parentElement.parentElement.remove();
+    })
 
+    // Kết thúc Xử Lý Trang users
 }
-
+var FixShowElement=(element,attribute)=>{
+    // Fix lỗi mỗi khi click xóa - ẩn - hiện.
+    var ButtonShowNews=document.querySelector(element),
+    position=ButtonShowNews.getAttribute(attribute);
+    ButtonShowNews.setAttribute(attribute,Number(position)-1);
+}
 var findElementPrev=(element)=>{
     return element.parentElement.previousElementSibling;
 }
@@ -246,4 +359,13 @@ var getDateTime=(a)=>{
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
     return hour + ":" + min + ":" + sec+" - "+day + "/" + month + "/" + year;
+  }
+var getDayTime=(a)=>{
+    var date = new Date(a);
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    return day + "/" + month + "/" + year;
   }

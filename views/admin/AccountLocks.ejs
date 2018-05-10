@@ -13,10 +13,10 @@ function getDateTime(a) {
   month = (month < 10 ? "0" : "") + month;
   var day  = date.getDate();
   day = (day < 10 ? "0" : "") + day;
-  return hour + ":" + min + ":" + sec+" - "+day + "/" + month + "/" + year;
+  return day + "/" + month + "/" + year;
 }
 %>
-  <div class="content-wrapper hidden-news">
+  <div class="content-wrapper AccountLocks">
     <div class="container-fluid">
       <!-- Breadcrumbs-->
       <ol class="breadcrumb">
@@ -28,31 +28,31 @@ function getDateTime(a) {
       <!-- Example DataTables Card-->
       <div class="card mb-3">
         <div class="card-header">
-          <i class="fa fa-table"></i> Quản Lý Thành Viên</div>
+          <i class="fa fa-table"></i> Quản Lý Thành Viên <span class="badge badge-info"><%= countUsers%></span></div>
         <div class="card-body">
           <div class="table-responsive">
             <table class="table table-bordered" id="reload" width="100%" cellspacing="0">
                 <tr>
                   <th>STT</th>
-                  <th>Tiêu đề</th>
-                  <th>Hình ảnh</th>
-                  <th>Mô tả</th>
+                  <th>Email</th>
+                  <th>Level</th>
                   <th>Ngày tạo</th>
+                  <th>Update</th>
                   <th>Hành Động</th>
                 </tr>
-              <% dem=0;%>
-              <% data.forEach(item=>{%>
+                <%var dem=0;%>
+                <%  data.forEach(item=>{ %>
                 <tr>
-                  <td><%=++dem%></td>
-                  <td><a href=""><%= item.title%></a></td>
-                  <td><img src="/uploads/<%= item.image%>" style="width:50px;height:50px" alt=""></td>
-                  <td><%- item.status%></td>
+                  <td><%= ++dem%></td>
+                  <td><%= item.email%></td>
+                  <td><%= item.level%></td>
                   <td><%= getDateTime(item.create_at)%></td>
+                  <td><%= getDateTime(item.update_at)%></td>
                   <td>
                     <div class="btn-group">
-                      <a href="<%= item._id%>" class="btn btn-outline-success show"><i class="fa fa-eye-slash"></i> Show</i> </a>
-                      <a href="/admin/news/edit/<%= item._id%>" class="btn btn-outline-danger edit" ><i class="fa fa-pencil"> Sửa</i> </a>
-                      <a href="<%= item._id%>" class="btn btn-outline-warning del"><i class="fa fa-remove"> Xóa</i> </a>
+                      <a href="<%= item._id%>" class="btn btn-outline-success show"><i class="fa fa-pencil">Mở Khóa</i> </a>
+                      <a href="/admin/users/edit/<%= item._id%>" class="btn btn-outline-danger"><i class="fa fa-pencil">Sửa</i> </a>
+                      <a href="<%= item._id%>" class="btn btn-outline-warning del"><i class="fa fa-remove">Xóa</i> </a>
                     </div>
                   </td>
                 </tr>
@@ -60,14 +60,14 @@ function getDateTime(a) {
             </table>
             <div class="handleOrther text-center">
               <div class="loaditem d-none"><img src="/uploads/load.gif" alt=""></div>
-              <div class="btn btn-outline-danger shownews"  data-sl="<%= dem %>"  onclick="showNewsInterFaceHidden(this)">Xem Thêm</div>
+              <div class="btn btn-outline-danger shownews"  data-sl="<%= dem %>"  onclick="showUserInterfaceHidden(this)">Xem Thêm</div>
             </div>
-
           </div>
         </div>
-        <div class="card-footer small text-muted" >Updated yesterday at 11:59 PM</div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
     </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
+    <!-- Button trigger modal -->
 <% include footer%>

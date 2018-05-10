@@ -1,0 +1,65 @@
+<% include header%>
+<%
+function getDateTime(a) {
+  var date = new Date(a);
+  var hour = date.getHours();
+  hour = (hour < 10 ? "0" : "") + hour;
+  var min  = date.getMinutes();
+  min = (min < 10 ? "0" : "") + min;
+  var sec  = date.getSeconds();
+  sec = (sec < 10 ? "0" : "") + sec;
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  month = (month < 10 ? "0" : "") + month;
+  var day  = date.getDate();
+  day = (day < 10 ? "0" : "") + day;
+  return day + "/" + month + "/" + year;
+}
+%>
+  <div class="content-wrapper manager-users">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Tables</li>
+      </ol>
+      <!-- Example DataTables Card-->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i> Sửa thông tin thành viên: </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <div class="handleOrther">
+                <form>
+                    <div class="form-group">
+                      <label for="">Họ Tên</label>
+                      <input type="email" class="form-control" name="" id="" aria-describedby="emailHelpId" placeholder="">
+                      <small id="emailHelpId" class="form-text text-muted">Help text</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Email</label>
+                      <input type="text" class="form-control" name="" id="" aria-describedby="emailHelpId" placeholder="">
+                      <small id="emailHelpId" class="form-text text-muted">Help text</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Mật khẩu</label>
+                      <input type="email" class="form-control" name="" id="" aria-describedby="emailHelpId" placeholder="">
+                      <small id="emailHelpId" class="form-text text-muted">Help text</small>
+                    </div>
+                    <div class="form-group">
+                      <label for=""></label>
+                      <input type="email" class="form-control" name="" id="" aria-describedby="emailHelpId" placeholder="">
+                      <small id="emailHelpId" class="form-text text-muted">Help text</small>
+                    </div>
+                </form>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+<% include footer%>

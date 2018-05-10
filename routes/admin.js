@@ -2,6 +2,7 @@ var express = require('express');
 var  upload = require('../lib/multer').upload;
 var slug = require('../lib/slug');
 var category=require('../models/category');
+var user=require('../models/user');
 var news=require('../models/news');
 var router = express.Router();
 router.get('/', function(req, res, next) {
@@ -64,7 +65,14 @@ router.get('/charts', function(req, res, next) {
   res.render('./admin/charts', { title: 'Express' });
 });
 router.get('/register', function(req, res, next) {
-  res.render('./admin/register', { title: 'Express' });
+    var obj={status:true,text:""};
+    var message=req.flash("mess-register");
+    if(message[0]){
+        obj=message[0];
+    }
+    console.log(obj);
+    
+    res.render('./admin/register',{message:obj});
 });
 router.get('/navbar', function(req, res, next) {
   res.render('./admin/navbar', { title: 'Express' });
@@ -116,8 +124,6 @@ router.post('/News/showInterface', function(req, res, next) {
         position=req.body.position;
     perform==true?data={status:1}:data={status:0};
     news.getLimitDocument(data,1,position).then(value=>{
-        console.log(value);
-        
         res.send(value)
     }).catch(err=>{
         console.log("News"+err);
@@ -185,7 +191,48 @@ router.get('/news/hidden', function(req, res, next) {
 
 
 // 
-router.get('/managerUsers', function(req, res, next) {
-    res.render('./admin/managerUsers', { });
+/**
+ * Xử Lý Users
+ */
+router.get('/Users', function(req, res, next) {
+    var condition={status:1};
+    Promise.all([user.findOption(condition,1,0),user.countDocument(condition)]).then(value=>{
+        res.render('./admin/managerUsers', {data:value[0],countUsers:value[1]});
+    })
 });
+router.get('/Users/hidden', function(req, res, next) {
+    var condition={status:0};
+    Promise.all([user.findOption(condition,1,0),user.countDocument(condition)]).then(value=>{
+        res.render('./admin/AccountLocks', {data:value[0],countUsers:value[1]});
+    })
+});
+router.post('/Users/showInterface', function(req, res, next) {
+    var data={},
+        perform=req.body.perform,
+        position=req.body.position;
+    perform==true?data={status:1}:data={status:0};
+    user.findOption(data,1,position).then(value=>{
+        res.send(value);
+    }).catch(err=>{
+        res.send(false);
+    })
+});
+router.get('/Users/del/:id', function(req, res, next) {
+    var id=req.params.id;
+    user.removeDocument(id).then(value=>res.send(true)).catch(err=>res.send(false));
+});
+router.get('/Users/lock/:id', function(req, res, next) {
+    var id=req.params.id;
+    var data={status:0};
+    user.updateDocument(id,data).then(value=>res.send(true)).catch(err=>res.send(false));
+});
+router.get('/Users/show/:id', function(req, res, next) {
+    var id=req.params.id;
+    var data={status:1};
+    user.updateDocument(id,data).then(value=>res.send(true)).catch(err=>res.send(false));
+});
+router.get('/Users/edit/:id', function(req, res, next) {
+    res.render("./admin/edit_users");
+});
+
 module.exports = router;
