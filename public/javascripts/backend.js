@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded",function () {
     Category();
     performNews();
 });
+var QuantityShow=20;
 /**
  * Kiểm tra định dạng email. Đúng thì trả về email sai thì null
  * @param {*} email
@@ -96,19 +97,25 @@ var DivUsersHTML=(data,position)=>{
     })
     return content;
 }
+var OptimalShowOption=(element,position,res,cb)=>{
+    if(JSON.parse(res).length>0){
+        element.setAttribute("data-sl",Number(position)+QuantityShow);
+        cb();
+        // sử dụng hàm performnews này để lấy lại giá trị hành động vừa thêm vào.
+        performNews();
+    }
+    if(JSON.parse(res).length<QuantityShow){
+        element.classList.add("d-none");
+    }
+}
 var showNewsInterFace=(element)=>{
     var table=document.querySelector(".manager-news #reload tr:last-child");
     var url="/admin/News/showInterface";
     OptimalShowNews(true,url,element,table,(position,res)=>{
         element.previousElementSibling.classList.add("d-none");
-        if(JSON.parse(res).length>0){
-            element.previousElementSibling.classList.add("d-none");
+        OptimalShowOption(element,position,res,()=>{
             table.insertAdjacentHTML("afterend",DivNewsHTML(res,Number(position)));
-            // sử dụng hàm performnews này để lấy lại giá trị hành động vừa thêm vào.
-            performNews();
-        }else{
-            element.classList.add("d-none");
-        }
+        })
     });
 }
 var showNewsInterFaceHidden=(element)=>{
@@ -116,14 +123,9 @@ var showNewsInterFaceHidden=(element)=>{
     var table=document.querySelector(".hidden-news #reload tr:last-child");
     OptimalShowNews(false,url,element,table,(position,res)=>{
         element.previousElementSibling.classList.add("d-none");
-        if(JSON.parse(res).length>0){
-            element.previousElementSibling.classList.add("d-none");
+        OptimalShowOption(element,position,res,()=>{
             table.insertAdjacentHTML("afterend",DivNewsHTML(res,Number(position)));
-            // sử dụng hàm performnews này để lấy lại giá trị hành động vừa thêm vào.
-            performNews();
-        }else{
-            element.classList.add("d-none");
-        }
+        })
     });
 }
 var showUserInterface=(element)=>{
@@ -131,14 +133,9 @@ var showUserInterface=(element)=>{
     var table=document.querySelector(".manager-users #reload tr:last-child");
     OptimalShowNews(true,url,element,table,(position,res)=>{
         element.previousElementSibling.classList.add("d-none");
-        if(JSON.parse(res).length>0){
-            element.setAttribute("data-sl",Number(position)+1);
+        OptimalShowOption(element,position,res,()=>{
             table.insertAdjacentHTML("afterend",DivUsersHTML(res,Number(position)));
-            // sử dụng hàm performnews này để lấy lại giá trị hành động vừa thêm vào.
-            performNews();
-        }else{
-            element.classList.add("d-none");
-        }
+        })
     });
 }
 var showUserInterfaceHidden=(element)=>{
@@ -146,15 +143,9 @@ var showUserInterfaceHidden=(element)=>{
     var table=document.querySelector(".AccountLocks #reload tr:last-child");
     OptimalShowNews(false,url,element,table,(position,res)=>{
         element.previousElementSibling.classList.add("d-none");
-        if(JSON.parse(res).length>0){
-            element.setAttribute("data-sl",Number(position)+1);
+        OptimalShowOption(element,position,res,()=>{
             table.insertAdjacentHTML("afterend",DivUsersHTML(res,Number(position)));
-            // sử dụng hàm performnews này để lấy lại giá trị hành động vừa thêm vào.
-            performNews();
-        }else{
-            element.classList.add("d-none");
-        }
-        
+        })
     });
 }
 

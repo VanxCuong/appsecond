@@ -5,6 +5,7 @@ var category=require('../models/category');
 var user=require('../models/user');
 var news=require('../models/news');
 var router = express.Router();
+var quantityShow=20;
 router.get('/', function(req, res, next) {
   res.render('./admin/index', { title: 'Express' });
 });
@@ -112,7 +113,7 @@ router.post('/addNews',upload, function(req, res, next) {
 });
 router.get('/News', function(req, res, next) {
     var data={status:1};
-    news.getLimitDocument(data,1,0).then(value=>{
+    news.getLimitDocument(data,quantityShow,0).then(value=>{
         res.render('./admin/managerNews',{data:value});
     }).catch(err=>{
         console.log("News"+err);
@@ -182,7 +183,7 @@ router.get('/news/show/:id', function(req, res, next) {
 });
 router.get('/news/hidden', function(req, res, next) {
     var data={status:0};
-    news.getLimitDocument(data,1,0).then(value=>{
+    news.getLimitDocument(data,quantityShow,0).then(value=>{
         res.render("./admin/hidden_news",{data:value});
     }).catch(err=>{
         console.log("News"+err);
@@ -196,13 +197,13 @@ router.get('/news/hidden', function(req, res, next) {
  */
 router.get('/Users', function(req, res, next) {
     var condition={status:1};
-    Promise.all([user.findOption(condition,1,0),user.countDocument(condition)]).then(value=>{
+    Promise.all([user.findOption(condition,quantityShow,0),user.countDocument(condition)]).then(value=>{
         res.render('./admin/managerUsers', {data:value[0],countUsers:value[1]});
     })
 });
 router.get('/Users/hidden', function(req, res, next) {
     var condition={status:0};
-    Promise.all([user.findOption(condition,1,0),user.countDocument(condition)]).then(value=>{
+    Promise.all([user.findOption(condition,quantityShow,0),user.countDocument(condition)]).then(value=>{
         res.render('./admin/AccountLocks', {data:value[0],countUsers:value[1]});
     })
 });

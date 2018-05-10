@@ -58,10 +58,12 @@ function getDateTime(a) {
                 </tr>
                 <%})%>
             </table>
+            <% if(countUsers<20){ %>
             <div class="handleOrther text-center">
               <div class="loaditem d-none"><img src="/uploads/load.gif" alt=""></div>
               <div class="btn btn-outline-danger shownews"  data-sl="<%= dem %>"  onclick="showUserInterfaceHidden(this)">Xem Thêm</div>
             </div>
+            <%}%>
           </div>
         </div>
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
