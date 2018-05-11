@@ -1,0 +1,44 @@
+<% include header %>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Blank Page</li>
+      </ol>
+      <div class="row">
+        <div class="col-12">
+          <div class="card text-left|center|right">
+            <div class="card-header">Quản Lý Router</div>
+            <div class="card-body">
+              <form action="/admin/role" method="post">
+                  <div class="form-group">
+                    <label for="">Thêm Quyền Quản trị ADMIN</label>
+                    <input type="text" name="role" id="" class="form-control" required  placeholder="" aria-describedby="helpId">
+                    <% if(message){ %>
+                      <small id="helpId" class="text-muted" style="color:green"><%=message.text%></small>
+                    <%}else{%>
+                      <small id="helpId" class="text-muted" style="color:danger"><%=message.text%></small>
+                    <%}%>
+                  </div>
+                  
+                  <button type="submit" class="btn btn-secondary">Submit</button>
+              </form>
+            </div>
+          </div>
+          <div class="card text-left|center|right">
+            <div class="card-header">Quản Lý Quyền</div>
+            <div class="list-group ">
+              <% data.forEach(item=>{ %>
+              <a class="list-group-item list-group-item-action "><%= item.name%> <span class="float-right badge badge-danger">Xóa</span></a>
+              <%})%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+ <% include footer%>

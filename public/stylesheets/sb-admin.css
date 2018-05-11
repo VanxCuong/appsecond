@@ -1,5 +1,16 @@
 *{}
 
+.manager-router .card-body {
+    padding: 10px 12px;
+}
+
+.manager-router li.list-group-item.d-flex.justify-content-between.align-items-center {
+    padding: 5px 0 5px 5px;
+    color: #343a40;
+    background: #bdbaba;
+    margin: 2px 0;
+}
+
 .form-group.form-input-register .checkEmail {
     position: absolute;
     top: 73%;

@@ -4,6 +4,9 @@ var slug = require('../lib/slug');
 var category=require('../models/category');
 var user=require('../models/user');
 var news=require('../models/news');
+var role=require('../models/role');
+var routers=require('../models/router');
+var routerRole=require('../models/RouterRole');
 var router = express.Router();
 var quantityShow=20;
 router.get('/', function(req, res, next) {
@@ -14,6 +17,8 @@ router.get('/', function(req, res, next) {
  * Category
  */
 router.get('/category', function(req, res, next) {
+    console.log(req.url);
+    
     var checkInputCategory=req.flash("message");
     category.getDocument().then(value=>{
         res.render('./admin/managerCategory', { title: 'Express',data:value,checkInputCategory:checkInputCategory[0]});
@@ -235,5 +240,50 @@ router.get('/Users/show/:id', function(req, res, next) {
 router.get('/Users/edit/:id', function(req, res, next) {
     res.render("./admin/edit_users");
 });
-
+// Kết thúc xử lý Users
+router.get('/role', function(req, res, next) {
+    var obj={status:true,text:""};
+    var message=req.flash("mess-role");
+    if(message[0]) obj=message[0];
+    role.findOption({}).then(value=>{
+        res.render("./admin/role",{data:value,message:obj});
+    })
+});
+router.post('/role', function(req, res, next) {
+    var data={name:req.body.role};
+    role.createDocument(data).then(value=>{
+        req.flash("mess-role",{status:true,text:"Thêm mới thành công"})
+        return res.redirect("/admin/role");
+    }).catch(err=>{
+        req.flash("mess-role",{status:false,text:"Thêm mới thất bại"});
+        return res.redirect("/admin/role");
+    })
+});
+router.get('/router', function(req, res, next) {
+    var obj={status:true,text:""};
+    var message=req.flash("mess-router");
+    if(message[0]) obj=message[0];
+    Promise.all([routerRole.findExtend({}),role.findOption({})]).then(value=>{
+        res.render("./admin/router",{data:value[0],role:value[1],message:obj});
+    })
+});
+router.post('/router', function(req, res, next) {
+    var ir={name:req.body.router};
+    var role_id=req.body.role_id;
+    var insertRouter=new routers(ir);
+    insertRouter.save((err,result)=>{
+        var data={
+            router_id:insertRouter._id,
+            role_id:role_id
+        }
+        routerRole.createDocument(data).then(value=>{
+            req.flash("mess-router",{status:true,text:"Thêm mới thành công"})
+            return res.redirect("/admin/router");
+        }).catch(err=>{
+            req.flash("mess-router",{status:false,text:"Thêm mới thất bại"});
+            return res.redirect("/admin/router");
+        })
+    })
+    
+});
 module.exports = router;

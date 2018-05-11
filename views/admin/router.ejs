@@ -1,0 +1,133 @@
+<% include header %>
+  <div class="content-wrapper manager-router">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Blank Page</li>
+      </ol>
+      <div class="row">
+        <div class="col-12">
+          <div class="card text-left|center|right">
+            <div class="card-header">Quản Lý Router</div>
+            <div class="card-body">
+              <form action="/admin/router" method="post">
+                  <div class="form-group">
+                    <label for="RouterID">Tên Router</label>
+                    <input type="text" name="router" id="RouterID" class="form-control" required  placeholder="" aria-describedby="helpId">
+                    
+                  </div>
+                  <div class="form-group">
+                    <div class="form-group">
+                      <label>Quyền Router</label>
+                      <select class="form-control" required name="role_id">
+                        <option value="">Lựa chọn</option>
+                        <% role.forEach(item=>{ %>
+                            <option value="<%= item._id %>"><%= item.name%></option>
+                        <%})%>
+                      </select>
+                    </div>
+                  </div>
+                  <% if(message){ %>
+                      <small id="helpId" class="text-muted" style="color:green !important"><%=message.text%></small>
+                    <%}else{%>
+                      <small id="helpId" class="text-muted" style="color:danger !important"><%=message.text%></small>
+                    <%}%>
+                  
+                  <button type="submit" class="btn btn-secondary btn-block">Submit</button>
+              </form>
+            </div>
+          </div>
+          <div class="card text-left|center|right">
+            <div class="card-header">Quản Lý Quyền</div>
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="card text-left">
+                  <div class="card-body">
+                    <h4 class="card-title">ADMIN</h4>
+                    <ul class="list-group">
+                      <% data.forEach(item=>{ %>
+                        <% if(item.role_id.name=="ADMIN"){ %>
+                          <li class="list-group-item d-flex justify-content-between align-items-center ">
+                            <%= item.router_id.name%>
+                            <span >
+                              <a href="<%= item._id%>" class="badge badge-secondary badge-pill" href="">Sửa</a>
+                              <a href="<%= item._id%>" class="badge badge-secondary badge-pill" href="">Xóa</a>
+                            </span>
+                          </li>
+                        <%}%>
+                      <%})%>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="card text-left">
+                  <div class="card-body">
+                    <h4 class="card-title">Quản Trị</h4>
+                    <ul class="list-group">
+                        <% data.forEach(item=>{ %>
+                          <% if(item.role_id.name=="Quản trị"){ %>
+                            <li class="list-group-item d-flex justify-content-between align-items-center ">
+                              <%= item.router_id.name%>
+                              <span >
+                                  <a href="<%= item._id%>" class="badge badge-secondary badge-pill" href="">Sửa</a>
+                                  <a href="<%= item._id%>" class="badge badge-secondary badge-pill" href="">Xóa</a>
+                                </span>
+                            </li>
+                          <%}%>
+                        <%})%>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="card text-left">
+                  <div class="card-body">
+                    <h4 class="card-title">Nhân viên</h4>
+                    <ul class="list-group">
+                      <% data.forEach(item=>{ %>
+                        <% if(item.role_id.name=="Nhân Viên"){ %>
+                          <li class="list-group-item d-flex justify-content-between align-items-center ">
+                            <%= item.router_id.name%>
+                            <span >
+                                <a href="<%= item._id%>" class="badge badge-secondary badge-pill" href="">Sửa</a>
+                                <a href="<%= item._id%>" class="badge badge-secondary badge-pill" href="">Xóa</a>
+                              </span>
+                          </li>
+                        <%}%>
+                      <%})%>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="card text-left">
+                  <div class="card-body">
+                    <h4 class="card-title">Thính giả</h4>
+                    <ul class="list-group">
+                      <% data.forEach(item=>{ %>
+                        <% if(item.role_id.name=="Thính Giả"){ %>
+                          <li class="list-group-item d-flex justify-content-between align-items-center ">
+                            <%= item.router_id.name%>
+                            <span >
+                                <a href="<%= item._id%>" class="badge badge-secondary badge-pill" href="">Sửa</a>
+                                <a href="<%= item._id%>" class="badge badge-secondary badge-pill" href="">Xóa</a>
+                              </span>
+                          </li>
+                        <%}%>
+                      <%})%>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+ <% include footer%>
