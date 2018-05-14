@@ -37,3 +37,27 @@ module.exports.findExtend=(condition)=>{
         })
     })
 }
+module.exports.updateDocument=(id,data)=>{
+    return new Promise((resolve,reject)=>{
+        RouterRoles.updateOne({_id:id},data,(err,result)=>{
+            if(err) return reject(new Error(err));
+            return resolve(result);
+        })
+    })
+}
+module.exports.removeRoleDocument=(id)=>{
+    return new Promise((resolve,reject)=>{
+        RouterRoles.remove({role_id:id},(err,result)=>{
+            if(err) return reject(err);
+            return resolve(result);
+        })
+    })
+}
+module.exports.removeDocument=(id)=>{
+    return new Promise((resolve,reject)=>{
+        RouterRoles.remove({_id:id},(err,result)=>{
+            if(err) return reject(err);
+            return resolve(result);
+        })
+    })
+}

@@ -1,7 +1,64 @@
 document.addEventListener("DOMContentLoaded",function () {
     Category();
     performNews();
+    performRouter();
 });
+var performRouter=()=>{
+    var elementEdit=document.querySelectorAll(".manager-router .method-router .edit"),
+        elementModal=document.querySelector(".method-edit-router"),
+        elementModalBlack=document.querySelector(".method-edit-router .black"),
+        elementModalUpdate=document.querySelector(".method-edit-router .save"),
+        elementTitleRole=document.querySelector(".method-edit-router .title-role span"),
+        elementIdRole=document.querySelector(".method-edit-router .title-id span"),
+        elementInputEditRouter=document.querySelector(".method-edit-router #RouterID"),
+        elementOptionRole=document.querySelectorAll(".method-edit-router option");
+        OptimalFor(elementEdit,i=>{
+            elementEdit[i].onclick=()=>{
+                var value=elementEdit[i].parentElement.previousElementSibling.textContent,
+                    role=elementEdit[i].getAttribute("data-role"),
+                    router_id=elementEdit[i].getAttribute("data-router"),
+                    id=elementEdit[i].getAttribute("href");
+                // Set giá trị cho title
+                elementTitleRole.innerHTML=role;
+                elementIdRole.innerHTML=id;
+                elementIdRole.setAttribute("data-router",router_id);
+                elementInputEditRouter.value=value;
+                OptimalFor(elementOptionRole,i=>{
+                    if(elementOptionRole[i].innerHTML==role){
+                        elementOptionRole[i].selected="selected";
+                    }
+                })
+                elementModal.classList.add("show");
+                return false;
+            }
+        })
+}
+// Update Role Router
+var UpdateRouterNow=(element)=>{
+    var txtRouter=document.querySelector(".method-edit-router #RouterID").value,
+        txtIdRole=document.querySelector(".method-edit-router #select-role").value,
+        elementId=document.querySelector(".method-edit-router .title-id span"),
+        txtIdRouterRole=elementId.textContent,
+        router_id=elementId.getAttribute("data-router"),
+        data={role_id:txtIdRole,name:txtRouter,id:txtIdRouterRole,router_id:router_id},
+        url="/admin/router/update";
+    loadDoc(url,data,res=>{
+        if(res=="true"){
+            alert('Sửa Thành Công !!');
+        }
+        $('#show_CTG').load(location.href + " #show_CTG>*");
+    });
+}
+/**
+ * Hàm Xử lý ẩn form sửa // url - router
+ * @param {} elementModalRemove : đối tượng truyền vào
+ */
+var removePerformRouter=(elementModalRemove)=>{
+    var elementModal=document.querySelector(".method-edit-router");
+    elementModalRemove.onclick=()=>{
+        elementModal.classList.remove("show");
+    }
+}
 var QuantityShow=20;
 /**
  * Kiểm tra định dạng email. Đúng thì trả về email sai thì null
@@ -27,6 +84,8 @@ var changeRegisterEmail=(element)=>{
                 elementCheck.removeChild(elementCheck.firstChild);
             }
             elementCheck.innerHTML=HTMLcheckTrue;
+        }else{
+            elementCheck.innerHTML=HTMLcheckFalse;
         }
     })
 }
@@ -193,8 +252,6 @@ var Category=()=>{
     var edit=document.querySelectorAll(".manager-Category .edit");
     var save=document.querySelectorAll(".manager-Category .perform-save .save");
     var reset=document.querySelectorAll(".manager-Category .perform-save .reset");
-    console.log(edit);
-    
     OptimalFor(edit,i=>{
         edit[i].onclick=()=>{
             var element=edit[i].parentElement;

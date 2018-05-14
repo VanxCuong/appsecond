@@ -1,4 +1,57 @@
 *{}
+.manager-router .method-edit-router.show{
+  animation:showMoveup 0.5s forwards ease-in-out;
+  display: block !important;
+}
+@-webkit-keyframes showMoveup{
+  from{transform:translateY(-50px) ;opacity:0;}
+  to{transform: translateY(0px) ;opacity:1;}
+}
+.manager-router .method-edit-router .remove {
+    position: absolute;
+    top: 1%;
+    right: 3%;
+    cursor: pointer;
+    font-size: 24px;
+    transform: rotate(0deg);
+    transition: .4s all cubic-bezier(0.65, 0.17, 0, 1.07);
+}
+
+.manager-router .method-edit-router .remove:hover {
+    transform: rotate(180deg);
+}
+.manager-router .method-edit-router .title-role{font-size: 24px;font-family: -webkit-pictograph;font-weight: 600;}
+.manager-router .method-edit-router .title-id{font-size: 13px;color: gray;}
+.manager-router .method-edit-router{
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+}
+.manager-router .method-edit-router .black{
+    background: #6767667a;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 11;
+}
+.manager-router .method-edit-router form{
+    width: 49%;
+    position: relative;
+    z-index: 11;
+    background: white;
+    padding: 2%;
+    transition: .4s all ease;
+    box-shadow: 1px 2px 7px 3px #5a575794;
+    border-radius: 7px;
+    top: 32%;
+    left: 17%;
+}
+.manager-router input.edit-router {
+    padding: 0 10px;
+    width: 78%;
+}
 
 .manager-router .card-body {
     padding: 10px 12px;
@@ -556,4 +609,3 @@ footer.sticky-footer {
     width: calc(100% - 55px);
   }
 }
-  

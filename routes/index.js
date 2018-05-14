@@ -2,13 +2,16 @@ var express = require('express');
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 var passportjs=require("../lib/passport");
+var news=require("../models/news");
+var category=require("../models/category");
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log(req.user);
+  Promise.all([news.getLimitDocument({status:1},20,0),category.getDocument()]).then(value=>{
+    res.render('index', {news:value[0],category:value[1]});
+  })
   
-  res.render('index', { title: 'Express' });
 });
 router.get('/news', function(req, res, next) {
   res.render('news_detail', { title: 'Express' });

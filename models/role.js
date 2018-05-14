@@ -28,3 +28,11 @@ module.exports.findOption=(condition)=>{
         })
     })
 }
+module.exports.updateDocument=(id,data)=>{
+    return new Promise((resolve,reject)=>{
+        Roles.find({_id:id},data,(err,result)=>{
+            if(err) return reject(new Error(err));
+            return resolve(result);
+        })
+    })
+}

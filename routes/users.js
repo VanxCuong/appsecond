@@ -1,5 +1,7 @@
 var express = require('express');
 var user=require("../models/user");
+var role=require("../models/role");
+var roleUser=require("../models/roleUser");
 var encode=require("../lib/encode");
 var router = express.Router();
 
@@ -26,10 +28,23 @@ router.post('/register/account', function(req, res, next) {
      return Promise.reject(new Error("Không thể Insert"));
     })
     .then(value=>{
-       user.createDocument(data).then(result=>{
-         req.flash("mess-register",{status:true,text:"Đăng ký thành công"});
-         return res.redirect("/admin/register");
-       })
+      var insertUser=new user(data);
+      insertUser.save((err,result)=>{
+          findIdRole(idRole=>{
+            var dl=new roleUser({
+              user_id:insertUser._id,
+              role_id:idRole
+            })
+            dl.save((err,result)=>{
+              if(err){
+                req.flash("mess-register",{status:false,text:"Tạo tk không thành công"});
+                return res.redirect("/admin/register");
+              }
+              req.flash("mess-register",{status:true,text:"Đăng ký thành công"});
+              return res.redirect("/admin/register");
+            })
+          })
+      })
     })
     .catch(err=>{
       req.flash("mess-register",{status:false,text:`Tài khoản ${email} đã tồn tại !!!`});
@@ -54,4 +69,10 @@ router.post('/register/check', function(req, res, next) {
   })
 });
 
+
+var findIdRole=cb=>{
+  role.findOption({name:"Thính Giả"}).then(value=>{
+    cb(value[0]._id);
+  })
+}
 module.exports = router;

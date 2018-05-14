@@ -32,7 +32,7 @@
             <div class="card-header">Quản Lý Quyền</div>
             <div class="list-group ">
               <% data.forEach(item=>{ %>
-              <a class="list-group-item list-group-item-action "><%= item.name%> <span class="float-right badge badge-danger">Xóa</span></a>
+              <a href="/admin/role/remove/<%= item._id%>" class="list-group-item list-group-item-action" onclick="if(!confirm('Bạn có muốn xóa toàn bộ thông tin liên quan đến ')) return false;"><%= item.name%> <span class="float-right badge badge-danger">Xóa</span></a>
               <%})%>
             </div>
           </div>

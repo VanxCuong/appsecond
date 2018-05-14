@@ -14,22 +14,22 @@
                 </a>
                 <a href="#" class="list-group-item list-group-item-action ">
                     <span class="img-ctg"><i class="fas fa-home"></i></span>
-                    <span class="a-content">Trang Chủ</span>
+                    <span class="a-content">Bài đăng mới nhất</span>
                     <i class="fas fa-chevron-right"></i>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action ">
                     <span class="img-ctg"><i class="fas fa-home"></i></span>
-                    <span class="a-content">Trang Chủ</span>
+                    <span class="a-content">Cộng Đồng Quan Tâm</span>
                     <i class="fas fa-chevron-right"></i>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action ">
                     <span class="img-ctg"><i class="fas fa-home"></i></span>
-                    <span class="a-content">Trang Chủ</span>
+                    <span class="a-content">LIVE CODE</span>
                     <i class="fas fa-chevron-right"></i>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action ">
                     <span class="img-ctg"><i class="fas fa-home"></i></span>
-                    <span class="a-content">Trang Chủ</span>
+                    <span class="a-content">Liên Hệ</span>
                     <i class="fas fa-chevron-right"></i>
                 </a>
             </div>
@@ -83,12 +83,13 @@
                 <!-- tab-first -->
                 <div class="tab-content">
                     <div class="content-main ">
+                        <% news.forEach(item=>{%>
                         <div class="frames-news-main">
                             <div class="card text-white frames-news">
-                                <a href=""><div class="img-news" style="background-image:url('./images/5.jpg')"></div></a>
+                                <a href=""><div class="img-news" style="background-image:url('./uploads/<%= item.image%>')"></div></a>
                                 <div class="card-body">
-                                    <h4 class="card-title title-news"><a href="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit qu</a></h4>
-                                    <p class="card-text des-news">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum natus consequuntur unde, ea, aliquid iure commodi et repellat facere sit ratione! Magnam inventore similique maxime sint cumque veniam delectus sequi?</p>
+                                    <h4 class="card-title title-news"><a href=""><%= item.title%></a></h4>
+                                    <div class="card-text des-news"><%- item.description%></div>
                                 </div>
                                 <div class="card-footer">
                                     <div class="evaluate">
@@ -101,60 +102,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="frames-news-main">
-                            <div class="card text-white frames-news">
-                                <a href=""><div class="img-news" style="background-image:url('./images/6.jpg')"></div></a>
-                                <div class="card-body">
-                                    <h4 class="card-title title-news"><a href="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit qu</a></h4>
-                                    <p class="card-text des-news">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum natus consequuntur unde, ea, aliquid iure commodi et repellat facere sit ratione! Magnam inventore similique maxime sint cumque veniam delectus sequi?</p>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="evaluate">
-                                        <span class="quantity">3</span>
-                                        <span class="element-evl like"><i class="far fa-thumbs-up"></i></span>
-                                        <span class="quantity">3</span>
-                                        <span class="element-evl heart"><i class="far fa-heart"></i></span>
-                                    </div>
-                                    <div class="detail-news"><i class="fas fa-arrow-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="frames-news-main">
-                            <div class="card text-white frames-news">
-                                <a href=""><div class="img-news" style="background-image:url('./images/7.jpg')"></div></a>
-                                <div class="card-body">
-                                    <h4 class="card-title title-news"><a href="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit qu</a></h4>
-                                    <p class="card-text des-news">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum natus consequuntur unde, ea, aliquid iure commodi et repellat facere sit ratione! Magnam inventore similique maxime sint cumque veniam delectus sequi?</p>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="evaluate">
-                                        <span class="quantity">3</span>
-                                        <span class="element-evl like"><i class="far fa-thumbs-up"></i></span>
-                                        <span class="quantity">3</span>
-                                        <span class="element-evl heart"><i class="far fa-heart"></i></span>
-                                    </div>
-                                    <div class="detail-news"><i class="fas fa-arrow-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="frames-news-main">
-                            <div class="card text-white frames-news">
-                                <a href=""><div class="img-news" style="background-image:url('./images/8.jpg')"></div></a>
-                                <div class="card-body">
-                                    <h4 class="card-title title-news"><a href="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit qu</a></h4>
-                                    <p class="card-text des-news">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum natus consequuntur unde, ea, aliquid iure commodi et repellat facere sit ratione! Magnam inventore similique maxime sint cumque veniam delectus sequi?</p>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="evaluate">
-                                        <span class="quantity">3</span>
-                                        <span class="element-evl like"><i class="far fa-thumbs-up"></i></span>
-                                        <span class="quantity">3</span>
-                                        <span class="element-evl heart"><i class="far fa-heart"></i></span>
-                                    </div>
-                                    <div class="detail-news"><i class="fas fa-arrow-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
+                        <%})%>
                     </div>
                     <!-- content-main -->
                     <div class="info-marginalizanation">
@@ -197,15 +145,11 @@
                                 <div>Danh Mục</div>
                             </div>
                             <ul class="nav ">
+                                <% category.forEach(item=>{%>
                                 <li class="nav-item">
-                                    <a class="nav-link " href="#">Active link</a>
+                                    <a class="nav-link " href="#"><%= item.name%></a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Link</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " href="#">Disabled link</a>
-                                </li>
+                                <%})%>
                             </ul>
                         </div>
                         <div class="fames-register-email mt-3">
