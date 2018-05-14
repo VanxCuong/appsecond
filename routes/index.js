@@ -5,14 +5,41 @@ var passportjs=require("../lib/passport");
 var news=require("../models/news");
 var category=require("../models/category");
 var router = express.Router();
-
+var numberPage=4;
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  Promise.all([news.getLimitDocument({status:1},20,0),category.getDocument()]).then(value=>{
+  Promise.all([news.getLimitDocument({status:1},numberPage,0),category.getDocument()]).then(value=>{
     res.render('index', {news:value[0],category:value[1]});
   })
-  
 });
+router.post('/load', function(req, res, next) {
+  var NumberPageNew=(req.body.page-1)*numberPage;
+  var xHTML="";
+  news.getLimitDocument({status:1},numberPage,NumberPageNew).then(value=>{
+    value.forEach(element => {
+      xHTML+=`<div class="frames-news-main">
+              <div class="card text-white frames-news">
+                  <a href=""><div class="img-news" style="background-image:url('./uploads/${element.image}')"></div></a>
+                  <div class="card-body">
+                      <h4 class="card-title title-news"><a href="">${element.title}</a></h4>
+                      <div class="card-text des-news">${element.description}</div>
+                  </div>
+                  <div class="card-footer">
+                      <div class="evaluate">
+                          <span class="quantity">3</span>
+                          <span class="element-evl like"><i class="far fa-thumbs-up"></i></span>
+                          <span class="quantity">3</span>
+                          <span class="element-evl heart"><i class="far fa-heart"></i></span>
+                      </div>
+                      <div class="detail-news"><i class="fas fa-arrow-right"></i></div>
+                  </div>
+              </div>
+          </div>`;
+    });
+    res.send(xHTML);
+  })
+});
+
 router.get('/news', function(req, res, next) {
   res.render('news_detail', { title: 'Express' });
 });

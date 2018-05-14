@@ -83,26 +83,31 @@
                 <!-- tab-first -->
                 <div class="tab-content">
                     <div class="content-main ">
-                        <% news.forEach(item=>{%>
-                        <div class="frames-news-main">
-                            <div class="card text-white frames-news">
-                                <a href=""><div class="img-news" style="background-image:url('./uploads/<%= item.image%>')"></div></a>
-                                <div class="card-body">
-                                    <h4 class="card-title title-news"><a href=""><%= item.title%></a></h4>
-                                    <div class="card-text des-news"><%- item.description%></div>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="evaluate">
-                                        <span class="quantity">3</span>
-                                        <span class="element-evl like"><i class="far fa-thumbs-up"></i></span>
-                                        <span class="quantity">3</span>
-                                        <span class="element-evl heart"><i class="far fa-heart"></i></span>
+                        <div class="av-content">
+                            <% news.forEach(item=>{%>
+                            <div class="frames-news-main">
+                                <div class="card text-white frames-news">
+                                    <a href=""><div class="img-news" style="background-image:url('./uploads/<%= item.image%>')"></div></a>
+                                    <div class="card-body">
+                                        <h4 class="card-title title-news"><a href=""><%= item.title%></a></h4>
+                                        <div class="card-text des-news"><%- item.description%></div>
                                     </div>
-                                    <div class="detail-news"><i class="fas fa-arrow-right"></i></div>
+                                    <div class="card-footer">
+                                        <div class="evaluate">
+                                            <span class="quantity">3</span>
+                                            <span class="element-evl like"><i class="far fa-thumbs-up"></i></span>
+                                            <span class="quantity">3</span>
+                                            <span class="element-evl heart"><i class="far fa-heart"></i></span>
+                                        </div>
+                                        <div class="detail-news"><i class="fas fa-arrow-right"></i></div>
+                                    </div>
                                 </div>
                             </div>
+                            <%})%>
                         </div>
-                        <%})%>
+                        <div class="handleOrther text-center d-none">
+                            <div class="loaditem"><img src="/uploads/load.gif" alt=""></div>
+                        </div>
                     </div>
                     <!-- content-main -->
                     <div class="info-marginalizanation">

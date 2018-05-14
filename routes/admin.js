@@ -30,7 +30,7 @@ function checkRoleRouter(req,res,next){
             k=false;
         }
     }
-    console.log("HIHI"+k);
+    // next();
     if(k==true){
         next();
     }else if(k==false){
