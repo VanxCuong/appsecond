@@ -1,4 +1,21 @@
 *{margin:0;padding: 0}
+
+.value-search {
+    width: 100%;
+    display: flex;
+}
+
+span.key-main {
+    padding-right: 9px;
+    font-family: inherit;
+}
+
+.result-search,.key-search {color: #f0f3f7;padding: 2% 0 0 5%;font-size: 17px;font-family: cursive;width: 50%;}
+
+.key-search {
+    text-align: right;
+    padding-right: 5%;
+}
 /* Contact */
 main.main-contact{
     padding-top: 68px;
@@ -716,6 +733,7 @@ body{
         cursor: pointer;
         top: 2%;
         font-size: 22px;
+        display: block !important;
     }
     #frames-left{
         width: 100% !important;

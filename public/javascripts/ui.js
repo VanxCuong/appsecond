@@ -26,7 +26,7 @@ function scrollPage(){
     window.addEventListener("scroll",()=>{
         var positionScroll=window.scrollY;
         var sumHeightPage=document.documentElement.scrollHeight;
-        var elementContent=document.querySelector(".tab-content .frames-news-main:last-child");
+        var elementContent=document.querySelector(".tab-content .av-content .frames-news-main:last-child");
         if(heightPage+positionScroll>=sumHeightPage){
             page+=1;
             var data={page:page};

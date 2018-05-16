@@ -4,6 +4,8 @@ var passport = require('passport')
 var passportjs=require("../lib/passport");
 var news=require("../models/news");
 var category=require("../models/category");
+var lib=require("../lib/lib");
+var slug=require("../lib/slug");
 var router = express.Router();
 var numberPage=4;
 /* GET home page. */
@@ -57,6 +59,16 @@ router.get('/contact', function(req, res, next) {
 router.get('/test', function(req, res, next) {
   res.render('test', { title: 'Express' });
 });
+// Search
+router.get('/you', function(req, res, next) {
+  var text=req.query.search;
+  var txtSearch=slug(text);
+  const regex=new RegExp(lib.escapeRegex(txtSearch),'gi');
+  console.log(regex);
+  Promise.all([news.findOrtherDocument({token:regex}),category.getDocument()]).then(value=>{
+    res.render('search', {news:value[0],category:value[1],keyword:text});
+  })
 
+});
 
 module.exports = router;

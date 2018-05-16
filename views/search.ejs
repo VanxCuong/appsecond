@@ -83,7 +83,15 @@
                 <!-- tab-first -->
                 <div class="tab-content">
                     <div class="content-main ">
-                        <div class="av-content">
+                        <div class="value-search">
+                            <div class="result-search ">
+                                Tìm thấy <span class="badge badge-info"><%= news.length%></span> kết quả.
+                            </div>
+                            <div class="key-search">
+                                <span class="key-main badge badge-info"><%= keyword%></span> Từ khóa tìm kiếm
+                            </div>
+                        </div>
+                        <div class="kav-content">
                             <% news.forEach(item=>{%>
                             <div class="frames-news-main">
                                 <div class="card text-white frames-news">
@@ -185,5 +193,4 @@
         </section>
         <!-- frames-right -->
     </main>
-    <script type="text/javascript" src="/javascripts/ui.js"></script>
     <% include footer %>
