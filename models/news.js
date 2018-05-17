@@ -64,9 +64,9 @@ module.exports.findOrtherDocument=(condition)=>{
         })
     })
 }
-module.exports.deleteDocument=(id)=>{
+module.exports.deleteDocument=(condition)=>{
     return new Promise((resolve,reject)=>{
-        News.remove({_id:id},(err,result)=>{
+        News.remove(condition,(err,result)=>{
             if(err) return reject(new Error("Lỗi rồi:"+err));
             return resolve(result);
         })

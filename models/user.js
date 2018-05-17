@@ -33,9 +33,9 @@ module.exports.createDocument=(data)=>{
         })
     })
 }
-module.exports.removeDocument=(id)=>{
+module.exports.removeDocument=(condition)=>{
     return new Promise((resolve,reject)=>{
-        Users.remove({_id:id},(err,result)=>{
+        Users.remove(condition,(err,result)=>{
             if(err) return reject(err);
             return resolve(result);
         })

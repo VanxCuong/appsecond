@@ -72,7 +72,8 @@ router.post('/category',checkRoleRouter, function(req, res, next) {
 });
 router.get('/category/remove/:id',checkRoleRouter, function(req, res, next) {
     var id=req.params.id;
-    category.deleteDocument(id).then(value=>{
+    var conditionDelNews={category_id:id};
+    Promise.all([category.deleteDocument(id),news.deleteDocument(conditionDelNews)]).then(value=>{
         res.redirect('/admin/category');
     }).catch(err=>
         console.log(err)
@@ -163,7 +164,8 @@ router.post('/News/showInterface', function(req, res, next) {
 });
 router.get('/news/del/:id',checkRoleRouter, function(req, res, next) {
     var id=req.params.id;
-    news.deleteDocument(id).then(value=>res.send(true)).catch(err=>res.send(false));
+    var condition={_id:id};
+    news.deleteDocument(condition).then(value=>res.send(true)).catch(err=>res.send(false));
 });
 
 router.get('/news/edit/:id',checkRoleRouter, function(req, res, next) {
@@ -251,7 +253,8 @@ router.post('/Users/showInterface', function(req, res, next) {
 });
 router.get('/Users/del/:id',checkRoleRouter, function(req, res, next) {
     var id=req.params.id;
-    user.removeDocument(id).then(value=>res.send(true)).catch(err=>res.send(false));
+    var condition={_id:id};
+    user.removeDocument(condition).then(value=>res.send(true)).catch(err=>res.send(false));
 });
 router.get('/Users/lock/:id',checkRoleRouter, function(req, res, next) {
     var id=req.params.id;
