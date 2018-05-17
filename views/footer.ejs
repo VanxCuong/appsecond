@@ -4,18 +4,9 @@
     <div class="Slides-img">
         <div class="black"></div>
         <ul class="list-photo-ul nav">
-            <li style="background-image:url('./images/11.jpg') "></li>
-            <li style="background-image:url('./images/2.jpg') "></li>
-            <li style="background-image:url('./images/3.jpg') "></li>
-            <li style="background-image:url('./images/4.jpg') "></li>
-            <li style="background-image:url('./images/5.jpg') "></li>
-            <li style="background-image:url('./images/6.jpg') "></li>
-            <li style="background-image:url('./images/7.jpg') "></li>
-            <li style="background-image:url('./images/8.jpg') "></li>
-            <li style="background-image:url('./images/9.jpg') "></li>
-            <li style="background-image:url('./images/10.jpg') "></li>
-            <li style="background-image:url('./images/5.jpg') "></li>
-            <li style="background-image:url('./images/5.jpg') "></li>
+            <% news.forEach(item=>{%>
+                <a href="/news/<%=item.token%>.<%= item._id%>"><li style="background-image:url('/uploads/<%= item.image%>') "></li></a>
+            <%})%>
         </ul>
         <div class="buttons">
             <div class="prev"><i class="fas fa-chevron-left"></i></div>

@@ -42,9 +42,7 @@ router.post('/load', function(req, res, next) {
   })
 });
 
-router.get('/news', function(req, res, next) {
-  res.render('news_detail', { title: 'Express' });
-});
+
 router.get('/login', function(req, res, next) {
   res.render('login', {errors:null });
 });

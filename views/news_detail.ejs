@@ -3,7 +3,7 @@
         <section id="frames-left">
         <div class="remove-frames-left"><i class="fas fa-times"></i></div>
             <div class="frames-logo">
-                <div class="logo" style="background-image: url('./images/logo1.png')" ></div>
+                <a href="/"><div class="logo" style="background-image: url('/images/logo1.png')" ></div></a>
                 <h3 class="title-logo">VAN CUONG</h3>
             </div>
             <div class="list-group nav-ctg">
@@ -55,19 +55,9 @@
             <div class="list-photo">
                 <div class="title-photo">Hình Ảnh</div>
                 <ul class="list-photo-ul nav">
-                    <li style="background-image:url('./images/11.jpg') "
-                    ></li>
-                    <li style="background-image:url('./images/2.jpg') "></li>
-                    <li style="background-image:url('./images/3.jpg') "></li>
-                    <li style="background-image:url('./images/4.jpg') "></li>
-                    <li style="background-image:url('./images/5.jpg') "></li>
-                    <li style="background-image:url('./images/6.jpg') "></li>
-                    <li style="background-image:url('./images/7.jpg') "></li>
-                    <li style="background-image:url('./images/8.jpg') "></li>
-                    <li style="background-image:url('./images/9.jpg') "></li>
-                    <li style="background-image:url('./images/10.jpg') "></li>
-                    <li style="background-image:url('./images/5.jpg') "></li>
-                    <li style="background-image:url('./images/5.jpg') "></li>
+                    <% news.forEach(item=>{%>
+                        <li style="background-image:url('/uploads/<%= item.image%>') "></li>
+                    <%})%>
                 </ul>
             </div>
         </section>
@@ -84,13 +74,13 @@
                 <div class="tab-content news-detail">
                     <div class="content-main ">
                         <div class="news-title">
-                                MU & cuộc tình cay nghiệt: Bữa tối bí mật của Sir Alex và Pep Guardiola
+                                <%= news_detail.title%>
                         </div>
                         <div class="news-time">
                                 Thứ Ba, ngày 01/05/2018 13:03 PM (GMT+7)
                         </div>
                         <div class="news-ctg">
-                            <span class="ctg-name badge badge-dark">Danh Mục:</span> <span class="ctg-text">Premier League 2017-2018, Sir Alex Ferguson - Ông già gân, Pep Guardiola</span>
+                            <span class="ctg-name badge badge-dark">Danh Mục:</span> <span class="ctg-text"><%= news_detail.category_id.name%></span>
                         </div>
                         <div class="news-evaluate mt-1">
                             <div class="title">Đánh giá:</div>
@@ -104,33 +94,7 @@
                             <div class="text-evaluate"></div>
                         </div>
                         <div class="news-content mt-2">
-                            lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quod similique ut illum enim officia libero facilis earum, facere, ducimus dicta suscipit adipisci, nemo rem corrupti porro. Tenetur, quod at?
+                            <%- news_detail.news_detail%>
                         </div>
                     </div>
                     <!-- content-main -->
