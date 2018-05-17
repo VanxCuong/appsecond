@@ -1,5 +1,29 @@
 *{margin:0;padding: 0}
 
+.login-google.btn-block {
+    background: #c13636;
+    border: 1px solid #9e3030;
+    border-radius: 3px;
+    color: white;
+    padding: 3px 10px;
+    text-align: center;
+}
+
+.login-google.btn-block:hover {
+    background: #c13636c9;
+}
+.login-fb.btn-block {
+    background: #4267b2;
+    border: 1px solid #4267b2;
+    border-radius: 3px !important;
+    color: white !important;
+    padding: 3px 10px;
+    text-align: center;
+}
+
+.login-fb.btn-block:hover {
+    background: #4267b2bf;
+}
 .value-search {
     width: 100%;
     display: flex;

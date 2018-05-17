@@ -2,6 +2,7 @@ var express = require('express');
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 var passportjs=require("../lib/passport");
+var passportSetupGoogle=require("../lib/passport-google");
 var news=require("../models/news");
 var category=require("../models/category");
 var lib=require("../lib/lib");
@@ -51,6 +52,7 @@ router.post('/login',
                                    failureRedirect: '/login',
                                    failureFlash: true })
 );
+
 router.get('/contact', function(req, res, next) {
   res.render('contact', { title: 'Express' });
 });
