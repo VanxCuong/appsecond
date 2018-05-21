@@ -1,0 +1,81 @@
+<% include header %>
+  <div class="content-wrapper add-news manager-Category manager-router">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">add news</li>
+      </ol>
+      <div class="row">
+        <div class="col-12">
+          <h1 class="_title">Danh Mục Con</h1>
+          <form action="/admin/categorychild" method="post" class="form-add" >
+                <div class="form-group">
+                    <label for="">Tên Danh Mục Con</label>
+                    <input type="text" name="name" required class="form-control" placeholder="" aria-describedby="helpId">
+                    <small id="helpId" class="text-muted"></small>
+                </div>
+                <div class="form-group">
+                    <label for="">Danh Mục Cha</label>
+                    <select class="form-control" required name="category_id">
+                        <option value="">Lựa Chọn</option>
+                        <% data.forEach(item=>{ %>
+                            <option value="<%= item._id%>"><%= item.name%></option>
+                        <%})%>
+                    </select>
+                </div>
+              <button type="submit" onclick="if(!confirm('bạn có muốn thêm không ?'))  return false;" class="btn btn-outline-success btn-block">Đăng Bài</button>
+          </form>
+          <hr>
+          <h3>Danh Mục</h3>
+          <div class="card text-left">
+            <div class="card-body">
+              <% data.forEach(item=>{%>
+                <div class="card-header"><%= item.name%></div>
+                <ul class="ctg-child">
+                  <% item.categorychild.forEach(x=>{%>
+                  <li>
+                    <span class="text-ctg-child"><%= x.name%></span>
+                    <span class="handle-ctg-child">
+                      <a href="<%= x._id%>" class="badge badge-info edit-ctg-child" data-id-parent="<%= item._id%>" data-ctg="<%= x.name%>">Sửa</a>
+                      <a href="/admin/categorychild/del/<%= x._id%>" class="badge badge-danger">Xóa</a>
+                    </span>
+                  </li>
+                  <%})%>
+                </ul>
+              <%})%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <div class="method-edit-router" style="display:none">
+        <div class="black" onclick="removePerformRouter(this)"></div>
+        <form>
+          <div class="form-group">
+            <div class="title-role">Sửa Danh Mục Con: <span></span></div>
+            <div class="title-id">ID: <span></span></div>
+          </div>
+          <div class="form-group">
+              <label>Danh Mục Cha</label>
+              <select class="form-control ctg-parent"  onchange="changeCategoryNow(this)"  name="role_id">
+                  <% data.forEach(item=>{ %>
+                    <option value="<%= item._id%>"><%= item.name%></option>
+                  <%})%>
+              </select>
+          </div>
+          <div class="form-group">
+              <label>Danh Mục Con</label>
+              <select class="form-control" id="categoryChild"  name="role_id">
+                
+              </select>
+          </div>
+          <div class="btn btn-success btn-block save"  onclick="UpdateRouterNow(this)">Cập Nhật</div>
+          <div onclick="removePerformRouter(this)" class="remove"><i class="fa fa-remove"></i></div>
+        </form>
+      </div>
+ <% include footer%>

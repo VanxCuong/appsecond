@@ -30,14 +30,14 @@ function checkRoleRouter(req,res,next){
             k=false;
         }
     }
-    // next();
-    if(k==true){
-        next();
-    }else if(k==false){
-        res.send("hihi k đủ quyền");
-    }else{
-        res.redirect("/");
-    }
+    next();
+    // if(k==true){
+    //     next();
+    // }else if(k==false){
+    //     res.send("hihi k đủ quyền");
+    // }else{
+    //     res.redirect("/");
+    // }
 }
 router.get('/',checkRoleRouter, function(req, res, next) {
   res.render('./admin/index', { title: 'Express' });
@@ -48,7 +48,7 @@ router.get('/',checkRoleRouter, function(req, res, next) {
  */
 router.get('/category',checkRoleRouter, function(req, res, next) {
     var checkInputCategory=req.flash("message");
-    category.getDocument().then(value=>{
+    category.getDocument({}).then(value=>{
         res.render('./admin/managerCategory', { title: 'Express',data:value,checkInputCategory:checkInputCategory[0]});
     }).catch(err=>{
         console.log(err);
@@ -69,6 +69,43 @@ router.post('/category',checkRoleRouter, function(req, res, next) {
         req.flash("message","Mời bạn nhập tên danh mục");
         res.redirect("/admin/category");
     }
+});
+router.get('/categorychild', function(req, res, next) {
+    category.getDocument({}).then(value=>{
+        res.render('./admin/CategoryChild', {data:value});
+    }).catch(err=>{
+        console.log(err);
+    });
+});
+router.post('/categorychild', function(req, res, next) {
+    var {category_id,name}=req.body;
+    var data={name:name};
+    category.getDocument({_id:category_id}).then(value=>{
+       value[0].categorychild.push(data);
+       value[0].save((err,result)=>{
+            res.redirect('/admin/categorychild');
+       })
+    })
+});
+router.get('/categorychild/del/:id', function(req, res, next) {
+    var id=req.params.id;
+    category.findOne({'categorychild._id':id}).then(value=>{
+        value.categorychild.pull(id);
+        value.save((err,result)=>{
+            res.redirect('/admin/categorychild');
+        })
+    }).catch(err=>{
+        console.log(err);
+    })
+});
+router.get('/category/:id', function(req, res, next) {
+    var id=req.params.id;
+    category.findOne({_id:id}).then(value=>{
+        
+        res.send(value);
+    }).catch(err=>{
+        res.send(false);
+    });
 });
 router.get('/category/remove/:id',checkRoleRouter, function(req, res, next) {
     var id=req.params.id;
@@ -118,23 +155,25 @@ router.get('/addNews',checkRoleRouter, function(req, res, next) {
     var obj=[{status:true,text:""}];
     var message=req.flash("message-add");
     if(message[0]) obj=message;
-    category.getDocument().then(value=>{
+    category.getDocument({}).then(value=>{
         res.render('./admin/add_News', {data:value,message:obj[0]});
     }).catch(err=>{
         console.log(err);
     });
 });
 router.post('/addNews',checkRoleRouter,upload, function(req, res, next) {
-    var {title,category,description,newsdetail}=req.body;
+    var {title,categorychild,description,newsdetail}=req.body;
     var image=req.file.path.split("\\");
     var data={
         title:title,
         image:image[2],
-        category_id:category,
+        categorychild_id:categorychild,
         description:description,
         news_detail:newsdetail,
         token:slug(title)
     }
+    console.log(data);
+    
     news.createDocument(data).then(value=>{
         req.flash("message-add",{status:true,text:"Thêm mới thành công"});
             res.redirect('/admin/addNews');
@@ -175,18 +214,20 @@ router.get('/news/edit/:id',checkRoleRouter, function(req, res, next) {
     if(message[0]){
         obj=message
     }
-    Promise.all([news.findIDDocument(id),category.getDocument()]).then(data=>{
-        res.render("./admin/edit_news",{dataNews:data[0],dataCtg:data[1],message:obj[0]});
+    Promise.all([news.findIDDocument(id),category.getDocument({})]).then(data=>{
+        category.getDocument({'categorychild._id':data[0].categorychild_id}).then(value=>{
+            res.render("./admin/edit_news",{dataNews:data[0],dataCtg:data[1],message:obj[0],categoryChild:value});
+        })
     }).catch(err=>{
         cb(false,err)
     })
 });
 router.post('/news/edit/:id',upload,checkRoleRouter, function(req, res, next) {
     var id=req.params.id;
-    var {title,category,description,newsdetail}=req.body;
+    var {title,categorychild,description,newsdetail}=req.body;
     var data={
         title:title,
-        category_id:category,
+        categorychild_id:categorychild,
         description:description,
         news_detail:newsdetail,
         token:slug(title)

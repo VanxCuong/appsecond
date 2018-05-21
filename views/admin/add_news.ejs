@@ -24,11 +24,18 @@
               </div>
               <div class="form-group">
                 <label for="">Danh Mục</label>
-                <select class="form-control" required name="category" >
+                <select class="form-control" onchange="changeCategoryNow(this)" required name="category" >
                   <option value="">Lựa Chọn</option>
                   <% data.forEach(item=>{%>
                     <option value="<%= item._id%>"><%= item.name%></option>
                   <%})%>
+                </select>
+                <small id="helpId" class="text-muted"></small>
+              </div>
+              <div class="form-group">
+                <label for="">Danh Mục Con</label>
+                <select class="form-control" id="categoryChild" required name="categorychild" >
+                  <option value="">Lựa Chọn</option>
                 </select>
                 <small id="helpId" class="text-muted"></small>
               </div>

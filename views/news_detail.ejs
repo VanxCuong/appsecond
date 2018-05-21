@@ -1,86 +1,53 @@
-<% include header%>
-    <main class="main">
-        <section id="frames-left">
-        <div class="remove-frames-left"><i class="fas fa-times"></i></div>
-            <div class="frames-logo">
-                <a href="/"><div class="logo" style="background-image: url('/images/logo1.png')" ></div></a>
-                <h3 class="title-logo">VAN CUONG</h3>
-            </div>
-            <div class="list-group nav-ctg">
-                <a href="#" class="list-group-item list-group-item-action active    ">
-                    <span class="img-ctg"><i class="fas fa-home"></i></span>
-                    <span class="a-content">Trang Chủ</span>
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action ">
-                    <span class="img-ctg"><i class="fas fa-home"></i></span>
-                    <span class="a-content">Trang Chủ</span>
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action ">
-                    <span class="img-ctg"><i class="fas fa-home"></i></span>
-                    <span class="a-content">Trang Chủ</span>
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action ">
-                    <span class="img-ctg"><i class="fas fa-home"></i></span>
-                    <span class="a-content">Trang Chủ</span>
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action ">
-                    <span class="img-ctg"><i class="fas fa-home"></i></span>
-                    <span class="a-content">Trang Chủ</span>
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-            </div>
-            <div class="list-comment" >
-                <div class="title-comment">Nhận Xét</div>
-                <div class="list-comment-content">
-                    <ul class="list-comment-ul nav">
-                        <li class="active">
-                            <div class="users"><i class="fas fa-users"></i> MasterTVC</div>
-                            <div class="content"><p>Looking for git in: C:\Program Files (x86)\Git\cmd\git.exe </p></div>
-                        </li>
-                        <li>
-                            <div class="users"><i class="fas fa-users"></i> Van Cuong</div>
-                            <div class="content"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p></div>
-                        </li>
-                        <li>
-                            <div class="users"><i class="fas fa-users"></i> Thu Trang</div>
-                            <div class="content"><p>Git installation not found.</p></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="list-photo">
-                <div class="title-photo">Hình Ảnh</div>
-                <ul class="list-photo-ul nav">
-                    <% news.forEach(item=>{%>
-                        <li style="background-image:url('/uploads/<%= item.image%>') "></li>
-                    <%})%>
-                </ul>
-            </div>
-        </section>
-        <section id="frames-right">
-            <div id="frames-content">
-                <div class="tab-first">
-                    <div class="tab-menu">
-                        <div class="icon-toogle-menu"><i class="fas fa-bars"></i></div>
-                        <div class="tab-tittle">BLOG</div>
-                        <div class="time-info">08:24:39</div>
-                    </div>
-                </div>
-                <!-- tab-first -->
+<% include index_left %>
+<%
+function getDateTime(a) {
+  var date = new Date(a);
+  var weekday=date.getDay();
+  var weekdayString="";
+  switch(weekday){
+      case 0:weekdayString="Thứ Hai";break;
+      case 1:weekdayString="Thứ Ba";break;
+      case 2:weekdayString="Thứ Tư";break;
+      case 3:weekdayString="Thứ Năm";break;
+      case 4:weekdayString="Thứ Sáu";break;
+      case 5:weekdayString="Thứ Bảy";break;
+      case 6:weekdayString="Thứ Chủ Nhật";break;
+  }
+  var hour = date.getHours();
+  var hourString="";
+  hour<12 ? hourString="AM":hourString="PM";
+  hour = (hour < 10 ? "0" : "") + hour;
+  var min  = date.getMinutes();
+  min = (min < 10 ? "0" : "") + min;
+  var sec  = date.getSeconds();
+  sec = (sec < 10 ? "0" : "") + sec;
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  month = (month < 10 ? "0" : "") + month;
+  var day  = date.getDate();
+  day = (day < 10 ? "0" : "") + day;
+//   hour + ":" + min + ":" + sec+" - "+day + "/" + month + "/" + year
+  return weekdayString+", ngày "+day+"/"+month+"/"+year+" "+hour+":"+min+" "+hourString+" (GMT+7)";
+}
+%>
                 <div class="tab-content news-detail">
                     <div class="content-main ">
                         <div class="news-title">
                                 <%= news_detail.title%>
                         </div>
                         <div class="news-time">
-                                Thứ Ba, ngày 01/05/2018 13:03 PM (GMT+7)
+                                <%= getDateTime(news_detail.create_at)%>
                         </div>
                         <div class="news-ctg">
-                            <span class="ctg-name badge badge-dark">Danh Mục:</span> <span class="ctg-text"><%= news_detail.category_id.name%></span>
+                            <span class="ctg-name badge badge-dark">Danh Mục:</span> 
+                            <span class="ctg-text"> 
+                                <%= categorychild[0].name%> - 
+                                <% categorychild[0].categorychild.forEach(item=>{ %>
+                                    <%if(news_detail.categorychild_id.toString()===item._id.toString()){%>
+                                        <a href=""><%= item.name %></a> 
+                                    <%}%>
+                                <%})%>
+                            </span>
                         </div>
                         <div class="news-evaluate mt-1">
                             <div class="title">Đánh giá:</div>
@@ -96,85 +63,48 @@
                         <div class="news-content mt-2">
                             <%- news_detail.news_detail%>
                         </div>
+                        <div class="frames-comment mt-3">
+                            <div class="card-header title">Bình luận về bài viết <i class="far fa-comments"></i></div>
+                            <div class="fb-comments" data-href="https://b5f5e6ca.ngrok.io/news/<%= news_detail.token %>.<%= news_detail._id %>" data-numposts="5" width="100%"></div>
+                        </div>
+                        <div class="frames-news-other mt-3">
+                            <div class="card text-left">
+                              <div class="card-header">
+                                  Bài viết liên quan <i class="fas fa-check"></i>
+                              </div>
+                              <div class="card-body">
+                                 <ul>
+                                    <% newsCtg.forEach(item=>{%>
+                                        <li><a href="/news/<%= item.token%>.<%= item._id%>"><i class="fas fa-hand-point-right"></i> <%= item.title%></a></li>
+                                    <%})%>
+                                 </ul>
+                              </div>
+                            </div>
+                        </div>
+                        
+                        <div class="frames-news-other mt-3">
+                            <div class="card text-left">
+                              <div class="card-header">
+                                  Bài gần đây <i class="fas fa-check"></i>
+                              </div>
+                              <div class="card-body">
+                                 <ul>
+                                    <% news_Other.forEach(item=>{%>
+                                     <li><a href="/news/<%= item.token%>.<%= item._id%>"><i class="fas fa-hand-point-right"></i> <%= item.title%></a></li>
+                                    <%})%>
+                                 </ul>
+                              </div>
+                            </div>
+                        </div>
+                        
                     </div>
                     <!-- content-main -->
-                    <div class="info-marginalizanation">
-                        <div class="frames-search mt-3">
-                            <div class="title">
-                                <div>Tìm Kiếm</div>
-                            </div>
-                            <form class="">
-                                <input type="text" class="form-control input-Search" name="txtSearch" id="" placeholder="Tìm kiếm">
-                                <button type="submit" class="btn btn-danger btn-block btnSubmit">Submit</button>
-                            </form>
-                        </div>
-                        <div class="frames-note mt-3">
-                            <div class="title">
-                                <div>Từ khóa gợi ý</div>
-                            </div>
-                            <ul class="nav">
-                                <li class="badge badge-dark">
-                                    <a class="nav-link " href="#">Active link</a>
-                                </li>
-                                <li class="badge badge-dark">
-                                    <a class="nav-link" href="#">Link</a>
-                                </li>
-                                <li class="badge badge-dark">
-                                    <a class="nav-link " href="#">Disabled link</a>
-                                </li>
-                                <li class="badge badge-dark">
-                                    <a class="nav-link " href="#">Disabled link</a>
-                                </li>
-                                <li class="badge badge-dark">
-                                    <a class="nav-link " href="#">Disabled link</a>
-                                </li>
-                                <li class="badge badge-dark">
-                                    <a class="nav-link " href="#">Disabled link</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="frames-category mt-3">
-                            <div class="title">
-                                <div>Danh Mục</div>
-                            </div>
-                            <ul class="nav ">
-                                <li class="nav-item">
-                                    <a class="nav-link " href="#">Active link</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Link</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " href="#">Disabled link</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="fames-register-email mt-3">
-                            <div class="frames-input">
-                                <div class="title">
-                                    <div>Đăng ký</div>
-                                </div>
-                                <form action="" method="post" class="form-register">
-                                    <div class="form-group">
-                                        <input type="email" class="form-control input-Email mt-3" name="txtEmail"  placeholder="Địa Chỉ Email">
-                                        <small id="emailHelpId" class="form-text text-muted check"></small>
-                                    </div>
-                                    <div class="form-group mt-3">
-                                        <input type="text" class="form-control input-Name" name="txtName"  placeholder="Họ & Tên">
-                                        <small id="emailHelpId" class="form-text text-muted check"></small>
-                                    </div>
-                                    <button type="submit" class="btn btn-outline-success btn-block btnRegister mt-3">Đăng Ký</button>
-                                </form>
-                                <p class="text-note">Đăng ký ngay để nhận được những bài đăng mới nhất.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- info-marginalizanation -->
-                </div>
-                <!-- tab-content -->
-            </div>
-            <!-- frames-content -->
-        </section>
-        <!-- frames-right -->
-    </main>
-    <% include footer%>
+                    <div id="fb-root"></div>
+                    <script>(function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s); js.id = id;
+                    js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.0&appId=854420028069993&autoLogAppEvents=1';
+                    fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));</script>
+                    <% include index_right %>

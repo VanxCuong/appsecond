@@ -2,7 +2,63 @@ document.addEventListener("DOMContentLoaded",function () {
     Category();
     performNews();
     performRouter();
+    performCtgChild();
 });
+var changeCategoryNow=(element)=>{
+    var id=element.value;
+    var url="/admin/category/"+id;
+    var ctgChild=document.querySelector("#categoryChild");
+    loadMethodGet(url,res=>{
+        ctgChild.innerHTML=OptionCtgChild(JSON.parse(res));
+    })
+}
+var OptionCtgChild=(value)=>{
+    var html="";
+    value.categorychild.forEach(element => {
+        html+=`<option value='${element._id}'>${element.name}</option>`
+    });
+    return html;
+}
+var OptionSetCtgChild=(value,idCtgChild)=>{
+    var html="";
+    value.categorychild.forEach(element => {
+        if(element._id.toString()===idCtgChild.toString()){
+            html+=`<option value='${element._id}' selected>${element.name}</option>`
+        }else{
+            html+=`<option value='${element._id}'>${element.name}</option>`
+        }
+    });
+    return html;
+}
+var performCtgChild=()=>{
+    var elementEdit=document.querySelectorAll(".manager-Category .edit-ctg-child"),
+        elementModal=document.querySelector(".manager-Category .method-edit-router"),
+        elementTitleCtgChild=document.querySelector(".manager-Category .method-edit-router .title-role span"),
+        elementIdCtgChild=document.querySelector(".method-edit-router .title-id span"),
+        elementOptionCtgParent=document.querySelectorAll(".method-edit-router .ctg-parent option"),
+        elementCtgChild=document.querySelector("#categoryChild");
+    OptimalFor(elementEdit,i=>{
+        elementEdit[i].onclick=()=>{
+            var id=elementEdit[i].getAttribute("href");
+                name=elementEdit[i].getAttribute("data-ctg");
+                idParent=elementEdit[i].getAttribute("data-id-parent");
+            elementModal.classList.add("show");
+            elementIdCtgChild.innerHTML=id;
+            elementTitleCtgChild.innerHTML=name;
+            OptimalFor(elementOptionCtgParent,i=>{
+                if(elementOptionCtgParent[i].innerHTML==name){
+                    elementOptionCtgParent[i].selected="selected";
+                }
+            })
+            var url="/admin/category/"+idParent;
+            loadMethodGet(url,res=>{
+                elementCtgChild.innerHTML=OptionSetCtgChild(JSON.parse(res),id);
+            })
+            return false;
+        }
+    })
+    
+}
 var performRouter=()=>{
     var elementEdit=document.querySelectorAll(".manager-router .method-router .edit"),
         elementModal=document.querySelector(".method-edit-router"),

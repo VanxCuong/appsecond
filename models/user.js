@@ -7,6 +7,8 @@ const schema=new Schema({
     birthday:{type:String,default:"01/01/1970"},
     phone:{type:String},
     id:{type:Number},
+    googleId:{type:Number},
+    facebookID:{type:Number},
     address:{type:String},
     sex:{type:Boolean,default:1},
     resetPasswordToken:{type:String},
@@ -20,6 +22,14 @@ var Users=module.exports=mongoose.model("User",schema);
 module.exports.findOption=(condition,number,position)=>{
     return new Promise((resolve,reject)=>{
         Users.find(condition).limit(Number(number)).sort({_id:-1}).skip(Number(position)).exec((err,result)=>{
+            if(err) return reject(new Error("Lỗi rồi:"+err));
+            return resolve(result);
+        })
+    })
+}
+module.exports.findDocument=(condition)=>{
+    return new Promise((resolve,reject)=>{
+        Users.find(condition,(err,result)=>{
             if(err) return reject(new Error("Lỗi rồi:"+err));
             return resolve(result);
         })

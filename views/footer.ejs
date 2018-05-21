@@ -5,7 +5,9 @@
         <div class="black"></div>
         <ul class="list-photo-ul nav">
             <% news.forEach(item=>{%>
-                <a href="/news/<%=item.token%>.<%= item._id%>"><li style="background-image:url('/uploads/<%= item.image%>') "></li></a>
+                <li > 
+                    <a href="/news/<%=item.token%>.<%= item._id%>"><div class="picture" style="background-image:url('/uploads/<%= item.image%>') "></div></a>
+                </li>
             <%})%>
         </ul>
         <div class="buttons">

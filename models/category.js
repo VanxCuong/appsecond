@@ -1,7 +1,9 @@
 const mongoose=require("mongoose");
+var categorychild=require("./categoryChild");
 var Schema = mongoose.Schema;
 const schema=new Schema({
     name:{type:String,required:true},
+    categorychild:[categorychild.schema]
 },{collection:"category"});
 var Category=module.exports=mongoose.model("Category",schema);
 module.exports.createDocument=(dl)=>{
@@ -12,9 +14,9 @@ module.exports.createDocument=(dl)=>{
         })
     })
 }
-module.exports.getDocument=()=>{
+module.exports.getDocument=(condition)=>{
     return new Promise((resolve,reject)=>{
-        Category.find({},(err,result)=>{
+        Category.find(condition,(err,result)=>{
             if(err) return reject(new Error("Lỗi rồi:"+err));
             return resolve(result);
         })

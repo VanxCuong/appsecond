@@ -18,20 +18,35 @@ var load_content=()=>{
         <div class="detail-news"><i class="fas fa-arrow-right"></i></div>
     </div>`   
 }
+var loadStatus=true;
 function scrollPage(){
     var url="/load";
-    var page=0;
+    var page=1;
     var heightPage=screen.height;
     var elementLoad=document.querySelector(".tab-content .handleOrther");
     window.addEventListener("scroll",()=>{
         var positionScroll=window.scrollY;
         var sumHeightPage=document.documentElement.scrollHeight;
         var elementContent=document.querySelector(".tab-content .av-content .frames-news-main:last-child");
-        if(heightPage+positionScroll>=sumHeightPage){
+        console.log(sumHeightPage);
+        
+        if(heightPage+positionScroll>=sumHeightPage&&loadStatus==true){
+            elementLoad.classList.remove("d-none");
+            loadStatus=false;
             page+=1;
             var data={page:page};
             loadDoc(url,data,(res)=>{
-                elementContent.insertAdjacentHTML("afterend",res);
+                if(res){
+                    elementLoad.classList.add("d-none");
+                    if(res=="false"){
+                        return loadStatus=false;
+                    }
+                    console.log(res);
+                    elementContent.insertAdjacentHTML("afterend",res);
+                    setTimeout(()=>{
+                        loadStatus=true;
+                    },200)
+                } 
             })
         }
     })

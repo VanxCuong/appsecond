@@ -14,6 +14,7 @@ var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 var auth = require('./routes/auth');
 var news = require('./routes/news');
+var groups = require('./routes/groups');
 
 var app = express();
 
@@ -50,6 +51,7 @@ app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
 app.use('/news', news);
 app.use('/auth', auth);
+app.use('/groups', groups);
 
 
 // catch 404 and forward to error handler

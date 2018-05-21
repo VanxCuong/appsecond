@@ -1,0 +1,74 @@
+<% include header%>
+    <main class="main">
+        <section id="frames-left">
+            <div class="remove-frames-left d-none"><i class="fas fa-times"></i></div>
+            <div class="frames-logo">
+                <a href="/"><div class="logo" style="background-image: url('/images/logo1.png')" ></div></a>
+                <h3 class="title-logo">VAN CUONG</h3>
+            </div>
+            <div class="list-group nav-ctg">
+                <a href="#" class="list-group-item list-group-item-action active    ">
+                    <span class="img-ctg"><i class="fas fa-home"></i></span>
+                    <span class="a-content">Trang Chủ</span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action ">
+                    <span class="img-ctg"><i class="fas fa-home"></i></span>
+                    <span class="a-content">Bài đăng mới nhất</span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action ">
+                    <span class="img-ctg"><i class="fas fa-home"></i></span>
+                    <span class="a-content">Cộng Đồng Quan Tâm</span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action ">
+                    <span class="img-ctg"><i class="fas fa-home"></i></span>
+                    <span class="a-content">LIVE CODE</span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+                <a href="/contact" class="list-group-item list-group-item-action ">
+                    <span class="img-ctg"><i class="fas fa-home"></i></span>
+                    <span class="a-content">Liên Hệ</span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+            <div class="list-comment" >
+                <div class="title-comment">Nhận Xét</div>
+                <div class="list-comment-content">
+                    <ul class="list-comment-ul nav">
+                        <li class="active">
+                            <div class="users"><i class="fas fa-users"></i> MasterTVC</div>
+                            <div class="content"><p>Looking for git in: C:\Program Files (x86)\Git\cmd\git.exe </p></div>
+                        </li>
+                        <li>
+                            <div class="users"><i class="fas fa-users"></i> Van Cuong</div>
+                            <div class="content"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p></div>
+                        </li>
+                        <li>
+                            <div class="users"><i class="fas fa-users"></i> Thu Trang</div>
+                            <div class="content"><p>Git installation not found.</p></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="list-photo">
+                <div class="title-photo">Hình Ảnh</div>
+                <ul class="list-photo-ul nav">
+                    <% news.forEach(item=>{%>
+                        <li style="background-image:url('/uploads/<%= item.image%>') "></li>
+                    <%})%>
+                    
+                </ul>
+            </div>
+        </section>
+        <section id="frames-right">
+            <div id="frames-content">
+                <div class="tab-first">
+                    <div class="tab-menu">
+                        <div class="icon-toogle-menu"><i class="fas fa-bars"></i></div>
+                        <div class="tab-tittle">BLOG</div>
+                        <div class="time-info">08:24:39</div>
+                    </div>
+                </div>
+                <!-- tab-first -->

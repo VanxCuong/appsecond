@@ -8,7 +8,7 @@ const schema=new Schema({
     description:{type:String,trim:true},
     news_detail:{type:String,trim:true},
     token:{type:String,trim:true},
-    category_id:{type: Schema.Types.ObjectId, ref: 'Category' },
+    categorychild_id:{type: Schema.Types.ObjectId, ref: 'Category' },
     status:{type:Boolean,default:1},
     view:{type:Number,default:0},
     heart:{type:Number,default:0},

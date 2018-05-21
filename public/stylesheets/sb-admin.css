@@ -1,4 +1,15 @@
 *{}
+
+.manager-Category ul.ctg-child li span.handle-ctg-child a {
+    width: 81px;
+    padding: 5px;
+}
+
+.manager-Category ul.ctg-child li span.text-ctg-child {display: inline-block;width: 40%;}
+
+.manager-Category ul.ctg-child li {
+    width: 100%;
+}
 .manager-router .method-edit-router.show{
   animation:showMoveup 0.5s forwards ease-in-out;
   display: block !important;
