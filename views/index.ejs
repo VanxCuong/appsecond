@@ -1,7 +1,7 @@
 <% include index_left %>
                 <div class="tab-content">
                     <div class="content-main ">
-                        <div class="av-content">
+                        <div class="av-content clearfix">
                             <% news.forEach(item=>{%>
                             <div class="frames-news-main">
                                 <div class="card text-white frames-news">
@@ -12,12 +12,16 @@
                                     </div>
                                     <div class="card-footer">
                                         <div class="evaluate">
-                                            <span class="quantity">3</span>
-                                            <span class="element-evl like"><i class="far fa-thumbs-up"></i></span>
-                                            <span class="quantity">3</span>
-                                            <span class="element-evl heart"><i class="far fa-heart"></i></span>
+                                            <span class="quantity">
+                                                <% if(item.view<10&&item.view>0){%>
+                                                    0<%= item.view%> 
+                                                <% }else{ %> 
+                                                    <%= item.view%>
+                                                <%}%> 
+                                                    lượt xem
+                                            </span>
                                         </div>
-                                        <div class="detail-news"><i class="fas fa-arrow-right"></i></div>
+                                        <a href="/news/<%= item.token%>.<%=item._id%>"><div class="detail-news"><i class="fas fa-arrow-right"></i></div></a>
                                     </div>
                                 </div>
                             </div>

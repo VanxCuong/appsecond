@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded",function () {
     performRouter();
     performCtgChild();
 });
+
 var changeCategoryNow=(element)=>{
     var id=element.value;
     var url="/admin/category/"+id;

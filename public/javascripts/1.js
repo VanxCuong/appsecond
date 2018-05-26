@@ -5,6 +5,126 @@
     roomInterFace();
     evaluate();
 });
+
+var HTML_CHECK_LOGIN=(res)=>{
+    return `<div class="form-group text-center">
+<div class="check" style="color:#ce2a2a;">${res}</div>
+</div>`;
+}
+const submitLogin=(elm)=>{
+    var urlMain=location.pathname;
+    var a=document.getElementById("username-access").value,
+        b=document.getElementById("password-access").value,
+        url="/login",
+        d={username:a,password:b};
+    loadDoc(url,d,res=>{
+        res=JSON.parse(res);
+        if(res.success==true){
+            location.reload(urlMain);
+        }else{
+            elm.parentElement.insertAdjacentHTML("beforebegin",HTML_CHECK_LOGIN(res.message));
+        }
+    })
+}
+/**
+ * Đánh Giá Bài Viết
+ * @param {*} elm 
+ */
+var textEvaluateSucces=`<p style="color:#3cca3c">Đánh giá của bạn đã được gửi thành công .</p>`;
+var submitEvaluate=elm=>{
+    if(confirm("Bạn có muốn gửi đánh giá của mình ???")){
+        var modalValueEvaluate=document.querySelector(".frames-evaluate .handle-evaluate .text-evaluate");
+            modalEvaluate=document.querySelector(".frames-evaluate"),
+            framesEvaluate=document.querySelector(".news-detail .news-evaluate"),
+            url="/session/users",
+            startEvaluate=modalValueEvaluate.getAttribute("data-start"),
+            content=document.getElementById("content-Evaluate").value,
+            name=document.getElementById("name-Evaluate").value,
+            idNews=elm.getAttribute("data-idNews");
+        loadMethodGet(url,res=>{
+            res=JSON.parse(res);
+            data={idNews:idNews,level:startEvaluate,text:content,name:name};
+            let url="/evaluate/"+res._id;
+            loadDoc(url,data,res=>{
+                if(res=="true"){
+                    framesEvaluate.innerHTML=textEvaluateSucces;
+                    modalEvaluate.classList.remove("show");
+                    return;
+                }
+                if(res=="false"){
+
+                }
+            })
+        })
+    }
+}
+/**
+ * AJAX POST
+ * @param {*} url 
+ * @param {*} data 
+ * @param {*} cb 
+ */
+var loadDoc=(url,data,cb)=>{
+    if (window.XMLHttpRequest) {
+        //code for IE7+, Firefox, Chrome and Opera
+        xhr = new XMLHttpRequest();
+    }else {
+        //code for IE6, IE5
+        xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            cb(this.responseText);
+        }
+    };
+    xhr.open("POST",url,true);
+    xhr.setRequestHeader("cache-control", "no-cache");
+    xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
+    xhr.send(JSON.stringify(data));
+}
+/**
+ * AJAX GET
+ * @param {*} url 
+ * @param {*} cb 
+ */
+var loadMethodGet=(url,cb)=>{
+    if (window.XMLHttpRequest) {
+        //code for IE7+, Firefox, Chrome and Opera
+        xhr = new XMLHttpRequest();
+    }else {
+        //code for IE6, IE5
+        xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            cb(this.responseText);
+        }
+    };
+    xhr.open("GET",url,true);
+    xhr.send();
+}
+
+var ShowGroupNews=(element)=>{
+    var position=element.getAttribute("data-sl"),
+        GroupID=element.getAttribute("data-GroupId"),
+        EffectLoad=document.querySelector(".loaditem"),
+        framesShow=document.querySelector(".av-content .frames-news-main:last-child"),
+        data={position:position},
+        url="/groups/ShowInterFace/"+GroupID;
+    EffectLoad.classList.remove("d-none");
+    loadDoc(url,data,res=>{
+        var res=JSON.parse(res);
+        console.log(res);
+        framesShow.insertAdjacentHTML("afterend",res.value);
+        if(res.status){
+            element.setAttribute("data-sl",Number(position)+4);
+        }else{
+            element.classList.add("d-none");
+        }
+        
+        EffectLoad.classList.add("d-none");
+    })
+}
 var OptimalFor=(array,cb)=>{
     for (let i = 0; i < array.length; i++) {
         cb(i);
@@ -178,18 +298,28 @@ var HandleImg=()=>{
     }
 }
 // Xử lý đánh giá
-
+/**
+ * statusEvaluate: Trạng thái đánh giá: Nếu click vào thì statusEvaluate=false => người dùng k thể hover tự động nữa mà chỉ có thể click.s
+ */
 var statusEvaluate=true;
 var evaluate=()=>{
     var star_All=document.querySelectorAll(".news-detail .content-main .news-evaluate ul li");
     var textEvaluate=document.querySelector(".news-detail .content-main .news-evaluate .text-evaluate");
-    
+    var modalEvaluate=document.querySelector(".frames-evaluate");
+    var modalPeopleEvaluate=document.querySelectorAll(".frames-evaluate ul li");
     // Xử lý hiệu ứng click đánh giá
     OptimalFor(star_All,(i)=>{
         star_All[i].addEventListener("click",()=>{
+            var modalValueEvaluate=document.querySelector(".frames-evaluate .handle-evaluate .text-evaluate");
             statusEvaluate=false;
             checkClick=true;
             handleAddClassActive(i);
+            modalEvaluate.classList.add("show");
+            for (let k = 0; k <= i; k++) {
+                modalPeopleEvaluate[k].classList.add("active");
+            }
+            modalValueEvaluate.setAttribute("data-start",i);
+            handleTextEvalue(Number(i),modalValueEvaluate);
         })
     })
     //  Xử lý hiệu ứng hover
@@ -202,7 +332,7 @@ var evaluate=()=>{
         }
         star_All[i].onmouseover=()=>{ 
             if(statusEvaluate){
-                handleAddClassActive(i);
+                handleAddClassActive(i,textEvaluate);
             }
         }
     })
@@ -212,16 +342,16 @@ var evaluate=()=>{
         for (let j = 0; j<=i; j++) {
             star_All[j].classList.add("active");
         }
-        handleTextEvalue(i);
+        handleTextEvalue(i,textEvaluate);
     }
-    var handleTextEvalue=(i)=>{
+    var handleTextEvalue=(i,elm)=>{
         switch(i){
-            case 0:setTextEvaluate(textEvaluate,"Yếu");break;
-            case 1:setTextEvaluate(textEvaluate,"Tạm được");break;
-            case 2:setTextEvaluate(textEvaluate,"Được");break;
-            case 3:setTextEvaluate(textEvaluate,"Hay");break;
-            case 4:setTextEvaluate(textEvaluate,"Rất hay");break;
-            default:setTextEvaluate(textEvaluate,"Rất hay");break;
+            case 0:setTextEvaluate(elm,"Yếu");break;
+            case 1:setTextEvaluate(elm,"Tạm được");break;
+            case 2:setTextEvaluate(elm,"Được");break;
+            case 3:setTextEvaluate(elm,"Hay");break;
+            case 4:setTextEvaluate(elm,"Rất hay");break;
+            default:setTextEvaluate(elm,"Rất hay");break;
         }
     }
 }

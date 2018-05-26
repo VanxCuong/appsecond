@@ -44,7 +44,7 @@ function getDateTime(a) {
                                 <%= categorychild[0].name%> - 
                                 <% categorychild[0].categorychild.forEach(item=>{ %>
                                     <%if(news_detail.categorychild_id.toString()===item._id.toString()){%>
-                                        <a href=""><%= item.name %></a> 
+                                        <a href="/groups/<%= item._id %>"><%= item.name %></a> 
                                     <%}%>
                                 <%})%>
                             </span>
@@ -96,7 +96,6 @@ function getDateTime(a) {
                               </div>
                             </div>
                         </div>
-                        
                     </div>
                     <!-- content-main -->
                     <div id="fb-root"></div>
@@ -107,4 +106,118 @@ function getDateTime(a) {
                     js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.0&appId=854420028069993&autoLogAppEvents=1';
                     fjs.parentNode.insertBefore(js, fjs);
                     }(document, 'script', 'facebook-jssdk'));</script>
+
+                    <div class="frames-evaluate d-none">
+                        
+                        <div class="black" onclick="handleHiddenEvaluate(this)"></div>
+                        <div class="handle-evaluate ">
+                            <div class="title">Đánh giá bài viết</div>
+                            <div class="result-evaluate clearfix">
+                                <ul class="nav float-left">
+                                    <li class="active"><i class="far fa-star"></i></li>
+                                    <li class=""><i class="far fa-star"></i></li>
+                                    <li class=""><i class="far fa-star"></i></li>
+                                    <li class=""><i class="far fa-star"></i></li>
+                                    <li><i class="far fa-star"></i></li>
+                                </ul>
+                                <div class="text-evaluate"></div>
+                            </div>
+                            <div class="t-evaluate">
+                                <input type="text" class="form-control" id="name-Evaluate" placeholder="Tên Của Bạn">
+                                <textarea placeholder="Nhập nội dung ..." maxlength="300" class="mt-1" id="content-Evaluate" onkeyup="checkValue(this)" ></textarea>
+                                <div class="quantity-evaluate"><span class="kq">0</span>/300</div>
+                            </div>
+                            <div class="btn-group btn-submit" style="width:100%">
+                                <div class="btn btn-outline-danger" onclick="handleHiddenEvaluate(this)">Hủy</div>
+                                <div class="btn btn-outline-success submitEvaluate" onclick="submitEvaluate(this)" data-idNews="<%= news_detail._id %>">Đánh giá</div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        var checkValue=(elm)=>{
+                            var elmRS=document.querySelector(".quantity-evaluate .kq");
+                            var quantity=elm.value.length;
+                            console.log(quantity);
+                            
+                            if(quantity<10 && quantity>0){
+                                return elmRS.innerHTML="0"+quantity;
+                            }
+                            return elmRS.innerHTML=quantity;
+                        }
+                        var handleHiddenEvaluate=elm=>{
+                            var framesEvalaute=document.querySelector(".frames-evaluate");
+                            var framesEvalauteLI=document.querySelectorAll(".frames-evaluate .result-evaluate ul li");
+                            for (let i = 0; i < framesEvalauteLI.length; i++) {
+                                const element = framesEvalauteLI[i];
+                                element.classList.remove("active");
+                            }
+                            framesEvalaute.classList.remove("show");
+                        }
+                    </script>
+                    <script>
+                        var elm=document.querySelector(".submitEvaluate");
+                        var url="/session/users";
+                        var elementLogin=`
+                            <div style="color:red;width:100%;text-align:center;">Vui lòng đăng nhập để đánh giá bài viết.</div>
+                            <a class="btn btn-outline-success btn-block accessFlash" href="#form-dangnhap" data-toggle="modal">Đăng nhập ngay<i class="fas fa-users"></i></a>`;
+                        var loadMethodGet=(url,cb)=>{
+                            if (window.XMLHttpRequest) {
+                                //code for IE7+, Firefox, Chrome and Opera
+                                xhr = new XMLHttpRequest();
+                            }else {
+                                //code for IE6, IE5
+                                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                            }
+                            xhr.onreadystatechange = function() {
+                                if (this.readyState == 4 && this.status == 200) {
+                                    cb(this.responseText);
+                                }
+                            };
+                            xhr.open("GET",url,true);
+                            xhr.send();
+                        }
+                        loadMethodGet(url,res=>{
+                            var res=JSON.parse(res);
+                            if(!res.status){
+                                elm.parentElement.innerHTML=elementLogin;
+                            }
+                        })
+                    </script>
                     <% include index_right %>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="form-dangnhap" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Đăng Nhập</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/login" method="post">
+                                    <div class="form-group">
+                                        <label for="">Email</label>
+                                        <input type="email" name="username" id="username-access" class="form-control" placeholder="email@gmail.com" aria-describedby="helpId">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Mật khẩu</label>
+                                        <input type="password" name="password"  id="password-access" maxlength="12" class="form-control" placeholder="Nhập mật khẩu" aria-describedby="helpId">
+                                    </div>
+                                    <div class="form-group">
+                                        <div href="#" class="btn btn-block" onclick="submitLogin(this)"  style="background: #c1295a;color: white;">Đăng Nhập</div>
+                                        <div href="/register" class="btn btn-block" onclick="submitFacebook(this)" style="background: #4267b2;color: white;">Đăng nhập bằng Facebook</div>
+                                        <div href="/register" class="btn btn-block" onclick="submitGoogle(this)" style="background:#d14836;color:white;">Đăng nhập bằng Google</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <a href="/register" class="text-center" style="">Đăng ký</a>
+                                        <a href="/forget" class="text-center float-right" style="">Quyên mật khẩu</a>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                        </div>
+                    </div>

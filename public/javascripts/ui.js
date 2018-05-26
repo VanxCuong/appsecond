@@ -28,8 +28,6 @@ function scrollPage(){
         var positionScroll=window.scrollY;
         var sumHeightPage=document.documentElement.scrollHeight;
         var elementContent=document.querySelector(".tab-content .av-content .frames-news-main:last-child");
-        console.log(sumHeightPage);
-        
         if(heightPage+positionScroll>=sumHeightPage&&loadStatus==true){
             elementLoad.classList.remove("d-none");
             loadStatus=false;
@@ -41,7 +39,6 @@ function scrollPage(){
                     if(res=="false"){
                         return loadStatus=false;
                     }
-                    console.log(res);
                     elementContent.insertAdjacentHTML("afterend",res);
                     setTimeout(()=>{
                         loadStatus=true;

@@ -2,6 +2,7 @@ const mongoose=require("mongoose");
 var Schema = mongoose.Schema;
 var evaluate=require("./evaluate.js");
 var comment=require("./comment.js");
+var evaluate=require("./evaluate");
 const schema=new Schema({
     title:{type:String,required:true,trim:true},
     image:{type:String,required:true},
@@ -18,6 +19,20 @@ const schema=new Schema({
     create_at:{type:Date,default:Date.now}
 },{collection:"news"});
 var News=module.exports=mongoose.model("News",schema);
+module.exports.createEvaluate=(idNews,dataEvaluate)=>{
+    return new Promise((resolve,reject)=>{
+        var newEvalaute=new evaluate(dataEvaluate);
+        newEvalaute.save((err,result)=>{
+            News.findOne({_id:idNews}).then(value=>{
+                value.evaluate.push(newEvalaute);
+                value.save((err,result)=>{
+                    if(err) return reject(new Error("Đánh giá lỗi"));
+                    return resolve(result);
+                });
+            })
+        })
+    })
+}
 module.exports.createDocument=(dl)=>{
     return new Promise((resolve,reject)=>{
         News.create(dl,(err,result)=>{

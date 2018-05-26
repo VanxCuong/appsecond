@@ -4,13 +4,13 @@
     <div class="content-main ">
         <div class="value-search">
             <div class="result-search ">
-                Danh Mục: <span class="badge badge-info"><%= ctgNews%></span>
+                Danh Mục: <span class="badge badge-info"><%= ctgNews.name%></span>
             </div>
             <div class="key-search">
                 <span class="key-main badge badge-info"></span> 
             </div>
         </div>
-        <div class="av-content">
+        <div class="av-content clearfix">
             <% dem=0;%>
                 <% dataNews.forEach(item=>{%>
                     <% dem++;%>
@@ -23,12 +23,16 @@
                         </div>
                         <div class="card-footer">
                             <div class="evaluate">
-                                <span class="quantity">3</span>
-                                <span class="element-evl like"><i class="far fa-thumbs-up"></i></span>
-                                <span class="quantity">3</span>
-                                <span class="element-evl heart"><i class="far fa-heart"></i></span>
+                                <span class="quantity">
+                                    <% if(item.view<10&&item.view>0){%>
+                                        0<%= item.view%> 
+                                    <% }else{ %> 
+                                        <%= item.view%>
+                                    <%}%> 
+                                        lượt xem
+                                </span>
                             </div>
-                            <div class="detail-news"><i class="fas fa-arrow-right"></i></div>
+                            <a href="/news/<%= item.token%>.<%=item._id%>"><div class="detail-news"><i class="fas fa-arrow-right"></i></div></a>
                         </div>
                     </div>
                 </div>
@@ -36,8 +40,8 @@
         </div>
         <div class="handleOrther text-center ">
             <div class="loaditem d-none"><img src="/uploads/load.gif" alt=""></div>
-            <% if(dem<4){ %>
-            <div class="btn btn-outline-danger shownews"  data-sl="<%= dem%>"  onclick="showUserInterface(this)">Xem Thêm</div>
+            <% if(dem==4){ %>
+            <div class="btn btn-outline-danger shownews"  data-sl="<%= dem%>" data-GroupId="<%= ctgNews._id%>"  onclick="ShowGroupNews(this)">Xem Thêm</div>
             <%}%>
         </div>
         

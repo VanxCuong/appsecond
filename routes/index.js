@@ -2,7 +2,6 @@ var express = require('express');
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 var passportjs=require("../lib/passport");
-
 var news=require("../models/news");
 var category=require("../models/category");
 var lib=require("../lib/lib");
@@ -10,42 +9,35 @@ var slug=require("../lib/slug");
 var router = express.Router();
 var numberPage=4;
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  console.log(req.user);
+/**
+ * Frames HOME WebSite
+ * news.getLimitDocument({status:1},numberPage,0): Lấy Số Lượng bài viết
+ * category.getDocument(): Lấy All Danh Mục
+ */
+router.get('/session/users', (req, res) => {
+  console.log('hihi');
   
+  var data={status:false,_id:""};
+  if(req.user){
+    data={status:true,_id:req.user._id};
+  }
+  res.send(data);
+});
+router.get('/', function(req, res, next) {
   Promise.all([news.getLimitDocument({status:1},numberPage,0),category.getDocument()]).then(value=>{
     res.render('index', {news:value[0],category:value[1]});
   })
 });
+/**
+ * URL: /load
+ * Nhiệm vụ : Khi người dùng scroll chuột tại trang chủ sẽ load thêm bài viết
+ */
 router.post('/load', function(req, res, next) {
   var NumberPageNew=(req.body.page-1)*numberPage;
-  console.log(NumberPageNew);
-  
   var xHTML="";
   news.getLimitDocument({status:1},numberPage,NumberPageNew).then(value=>{
-    console.log(value.length);
-    
     if(value.length>0){
-      value.forEach(element => {
-        xHTML+=`<div class="frames-news-main">
-                <div class="card text-white frames-news">
-                    <a href="/news/${element.token}.${element._id}"><div class="img-news" style="background-image:url('./uploads/${element.image}')"></div></a>
-                    <div class="card-body">
-                        <h4 class="card-title title-news"><a href="/news/${element.token}.${element._id}">${element.title}</a></h4>
-                        <div class="card-text des-news">${element.description}</div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="evaluate">
-                            <span class="quantity">3</span>
-                            <span class="element-evl like"><i class="far fa-thumbs-up"></i></span>
-                            <span class="quantity">3</span>
-                            <span class="element-evl heart"><i class="far fa-heart"></i></span>
-                        </div>
-                        <div class="detail-news"><i class="fas fa-arrow-right"></i></div>
-                    </div>
-                </div>
-            </div>`;
-      });
+      xHTML=lib.BrowserNews(value);
       res.send(xHTML);
     }else{
       res.send(false);
@@ -53,23 +45,50 @@ router.post('/load', function(req, res, next) {
   })
 });
 
-
+/**
+ * Frames Interface Login
+ */
 router.get('/login', function(req, res, next) {
   res.render('login', {errors:null });
 });
-router.post('/login',
-  passport.authenticate('local',{ successRedirect: '/',
-                                   failureRedirect: '/login',
-                                   failureFlash: true })
-);
+/**
+ * Frames Login (POST Nhận dữ liệu từ client) => Đăng Nhập
+ */
+// router.post('/login',
+//   passport.authenticate('local',{ successRedirect: '/',
+//                                    failureRedirect: '/login',
+//                                    failureFlash: true })
+// );
+router.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) {
+      return next(err); // will generate a 500 error
+    }
+    // Generate a JSON response reflecting authentication status
+    if (! user) {
+      return res.send({ success : false, message : 'Tài khoản hoặc mật khẩu không đúng' });
+    }
+    req.login(user, function(err){
+      if(err){
+        return next(err);
+      }
+      return res.send({ success : true, message :'Đăng nhập thành công' });
+    });
+  })(req, res, next);
+});
 
+/**
+ * Framonmes Interface Contact
+ */
 router.get('/contact', function(req, res, next) {
   res.render('contact', { title: 'Express' });
 });
-router.get('/test', function(req, res, next) {
-  res.render('test', { title: 'Express' });
-});
-// Search
+
+/**
+ * URL: /you
+ * Nhiệm vụ tìm kiếm giá trị client gửi lên server.
+ * Kết quả: Trả về tất cả giá trị tìm kiếm
+ */
 router.get('/you', function(req, res, next) {
   var text=req.query.search;
   var txtSearch=slug(text);
@@ -79,5 +98,24 @@ router.get('/you', function(req, res, next) {
   })
 
 });
+
+/**
+ * Đánh Giá bài viết.
+ */
+router.post("/evaluate/:id",(req,res,next)=>{
+    var idUser=req.params.id;
+    var {level,text,name,idNews}=req.body;
+    var dataEvaluate={
+      user_id:idUser,
+      name:name,
+      text:text,
+      level:level
+    };
+    news.createEvaluate(idNews,dataEvaluate).then(value=>{
+      res.send(true);
+    }).catch((err) => {
+      res.send(false);
+    })
+})
 
 module.exports = router;
