@@ -1,0 +1,31 @@
+<% include index_left %>
+                <!-- tab-first -->
+                <div class="tab-content">
+                    <div class="content-main ">
+                            <% news.forEach(item=>{%>
+                                <div class="frames-news-main">
+                                    <div class="card text-white frames-news">
+                                        <a href="/news/<%= item.token%>.<%=item._id%>"><div class="img-news" style="background-image:url('./uploads/<%= item.image%>')"></div></a>
+                                        <div class="card-body">
+                                            <h4 class="card-title title-news"><a href="/news/<%=item.token%>.<%=item._id%>"><%= item.title%></a></h4>
+                                            <div class="card-text des-news"><%- item.description%></div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="evaluate">
+                                                <span class="quantity">
+                                                    <% if(item.view<10&&item.view>0){%>
+                                                        0<%= item.view%> 
+                                                    <% }else{ %> 
+                                                        <%= item.view%>
+                                                    <%}%> 
+                                                        lượt xem
+                                                </span>
+                                            </div>
+                                            <a href="/news/<%= item.token%>.<%=item._id%>"><div class="detail-news"><i class="fas fa-arrow-right"></i></div></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%})%>
+                    </div>
+                    <!-- content-main -->
+  <% include index_right %> 

@@ -1,6 +1,6 @@
 <footer class="footer">
 
-    </footer>
+</footer>
     <div class="Slides-img">
         <div class="black"></div>
         <ul class="list-photo-ul nav">
@@ -16,6 +16,41 @@
         </div>
         <div class="remove"><i class="fas fa-times"></i></div>
     </div>
+      <!-- Modal -->
+<div class="modal fade" id="form-dangnhap" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Đăng Nhập</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <form action="/login" method="post">
+            <div class="form-group">
+                <label for="">Email</label>
+                <input type="email" name="username" id="username-access" class="form-control" placeholder="email@gmail.com" aria-describedby="helpId">
+            </div>
+            <div class="form-group">
+                <label for="">Mật khẩu</label>
+                <input type="password" name="password"  id="password-access" maxlength="12" class="form-control" placeholder="Nhập mật khẩu" aria-describedby="helpId">
+            </div>
+            <div class="form-group">
+                <div class="btn btn-block" onclick="submitLogin(this)"  style="background: #c1295a;color: white;">Đăng Nhập</div>
+                <a href="/auth/facebook" class="btn btn-block" onclick="submitFacebook(this)" style="background: #4267b2;color: white;">Đăng nhập bằng Facebook</a>
+                <a href="/auth/google" class="btn btn-block" onclick="submitGoogle(this)" style="background:#d14836;color:white;">Đăng nhập bằng Google</a>
+            </div>
+            <div class="form-group">
+                <a href="/register" class="text-center" style="">Đăng ký</a>
+                <a href="/forget" class="text-center float-right" style="">Quyên mật khẩu</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+</div>
+</div>
     <script>
         var myVar = setInterval(()=>{ myTimer() }, 1000);
         var myTimer=()=>{var d = new Date();var month=d.getMonth()+1,year=d.getFullYear(),date=d.getDate(),t = d.toLocaleTimeString();document.querySelector(".time-info").innerHTML =t+" - "+date+"/"+month+"/"+year;}
@@ -23,6 +58,100 @@
     <script type="text/javascript" src="/vendor/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="/vendor/bootstrap.min.js"></script>
     <script type="text/javascript" src="/javascripts/1.js"></script>
-    
+    <script>
+        var checkValue=(elm)=>{
+            var elmRS=document.querySelector(".quantity-evaluate .kq");
+            var quantity=elm.value.length;
+            if(quantity<10 && quantity>0){
+                return elmRS.innerHTML="0"+quantity;
+            }
+            return elmRS.innerHTML=quantity;
+        }
+        var handleHiddenEvaluate=elm=>{
+            var framesEvalaute=document.querySelector(".frames-evaluate");
+            var framesEvalauteLI=document.querySelectorAll(".frames-evaluate .result-evaluate ul li");
+            for (let i = 0; i < framesEvalauteLI.length; i++) {
+                const element = framesEvalauteLI[i];
+                element.classList.remove("active");
+            }
+            framesEvalaute.classList.remove("show");
+        }
+    </script>
+    <script>
+        var url="/session/users",
+            NotUser=`<li class="nav-item active">
+                        <a class="nav-link" href="#form-dangnhap" data-toggle="modal">Đăng Nhập</a>
+                    </li>`;
+            navbar=document.querySelector(".header #navbarSupportedContent ul li:first-child");
+        var ExistsUser=res=>{
+            return `<li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"  href="#"  id="dropdownId" data-toggle="dropdown" >${res.fullname}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownId">
+                            <a class="dropdown-item" href="/edit/password/${res._id}">Đổi mật khẩu</a>
+                            <a class="dropdown-item" href="/logout">Đăng xuất</a>
+                        </div>
+                    </li>
+                    `;
+        }
+        var loadMethodGet=(url,cb)=>{
+            if (window.XMLHttpRequest) {
+                //code for IE7+, Firefox, Chrome and Opera
+                xhr = new XMLHttpRequest();
+            }else {
+                //code for IE6, IE5
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    cb(this.responseText);
+                }
+            };
+            xhr.open("GET",url,true);
+            xhr.send();
+        }
+        
+        loadMethodGet(url,res=>{
+            res=JSON.parse(res);
+            if(res.status){
+                navbar.insertAdjacentHTML("beforebegin",ExistsUser(res));
+            }else{
+                navbar.insertAdjacentHTML("beforebegin",NotUser);
+            }
+        })
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded",function () {
+            var framesNavbar=document.querySelector("#frames-left .nav-ctg");
+            var framesHeaderWebsite=document.querySelector("#frames-content .tab-tittle");
+            var data=[
+                {title:"Trang chủ",url:"/",icon:"fas fa-home"},
+                {title:"Giới thiệu",url:"/intro",icon:"fab fa-trello"},
+                {title:"Video",url:"/video",icon:"fab fa-youtube"},
+                {title:"Live Code",url:"/live",icon:"fas fa-video"},
+                {title:"Liên Hệ",url:"/contact",icon:"fas fa-map-marker"}
+            ];
+            var url=location.pathname;
+            var ctgLI=res=>`
+                <a href="${res.url}" class="list-group-item list-group-item-action ${res.active}">
+                    <span class="img-ctg"><i class="${res.icon}"></i></span>
+                    <span class="a-content">${res.title}</span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            `
+            var xHTML="";
+            data.forEach(item=>{
+                if(url===item.url){
+                    item.active="active";
+                    xHTML+=ctgLI(item);
+                    framesHeaderWebsite.innerHTML=item.title;
+                }else{
+                    item.active="";
+                    xHTML+=ctgLI(item);
+                }
+            })
+            framesNavbar.innerHTML=xHTML;
+        });
+
+    </script>
 </body>
 </html>

@@ -30,14 +30,14 @@ function checkRoleRouter(req,res,next){
             k=false;
         }
     }
-    next();
-    // if(k==true){
-    //     next();
-    // }else if(k==false){
-    //     res.send("hihi k đủ quyền");
-    // }else{
-    //     res.redirect("/");
-    // }
+    // next();
+    if(k==true){
+        next();
+    }else if(k==false){
+        res.send("hihi k đủ quyền");
+    }else{
+        res.redirect("/");
+    }
 }
 router.get('/',checkRoleRouter, function(req, res, next) {
   res.render('./admin/index', { title: 'Express' });

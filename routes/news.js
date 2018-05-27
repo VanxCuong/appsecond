@@ -1,9 +1,10 @@
 var express = require('express');
 var news=require("../models/news");
 var category=require("../models/category");
+var lib=require("../lib/lib");
 var router = express.Router();
 var numberPage=4;
-router.get('/:token.:id', function(req, res, next) {
+router.get('/:token.:id',lib.sessionURL, function(req, res, next) {
     var {token,id}=req.params;
     Promise.all([
         news.getLimitDocument({status:1},numberPage,0),

@@ -135,32 +135,9 @@ function getDateTime(a) {
                         </div>
                     </div>
                     <script>
-                        var checkValue=(elm)=>{
-                            var elmRS=document.querySelector(".quantity-evaluate .kq");
-                            var quantity=elm.value.length;
-                            console.log(quantity);
-                            
-                            if(quantity<10 && quantity>0){
-                                return elmRS.innerHTML="0"+quantity;
-                            }
-                            return elmRS.innerHTML=quantity;
-                        }
-                        var handleHiddenEvaluate=elm=>{
-                            var framesEvalaute=document.querySelector(".frames-evaluate");
-                            var framesEvalauteLI=document.querySelectorAll(".frames-evaluate .result-evaluate ul li");
-                            for (let i = 0; i < framesEvalauteLI.length; i++) {
-                                const element = framesEvalauteLI[i];
-                                element.classList.remove("active");
-                            }
-                            framesEvalaute.classList.remove("show");
-                        }
-                    </script>
-                    <script>
                         var elm=document.querySelector(".submitEvaluate");
                         var url="/session/users";
-                        var elementLogin=`
-                            <div style="color:red;width:100%;text-align:center;">Vui lòng đăng nhập để đánh giá bài viết.</div>
-                            <a class="btn btn-outline-success btn-block accessFlash" href="#form-dangnhap" data-toggle="modal">Đăng nhập ngay<i class="fas fa-users"></i></a>`;
+                        
                         var loadMethodGet=(url,cb)=>{
                             if (window.XMLHttpRequest) {
                                 //code for IE7+, Firefox, Chrome and Opera
@@ -177,6 +154,9 @@ function getDateTime(a) {
                             xhr.open("GET",url,true);
                             xhr.send();
                         }
+                        let elementLogin=`
+                            <div style="color:red;width:100%;text-align:center;">Vui lòng đăng nhập để đánh giá bài viết.</div>
+                            <a class="btn btn-outline-success btn-block accessFlash" href="#form-dangnhap" data-toggle="modal">Đăng nhập ngay<i class="fas fa-users"></i></a>`;
                         loadMethodGet(url,res=>{
                             var res=JSON.parse(res);
                             if(!res.status){
@@ -186,38 +166,4 @@ function getDateTime(a) {
                     </script>
                     <% include index_right %>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="form-dangnhap" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Đăng Nhập</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="/login" method="post">
-                                    <div class="form-group">
-                                        <label for="">Email</label>
-                                        <input type="email" name="username" id="username-access" class="form-control" placeholder="email@gmail.com" aria-describedby="helpId">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Mật khẩu</label>
-                                        <input type="password" name="password"  id="password-access" maxlength="12" class="form-control" placeholder="Nhập mật khẩu" aria-describedby="helpId">
-                                    </div>
-                                    <div class="form-group">
-                                        <div href="#" class="btn btn-block" onclick="submitLogin(this)"  style="background: #c1295a;color: white;">Đăng Nhập</div>
-                                        <div href="/register" class="btn btn-block" onclick="submitFacebook(this)" style="background: #4267b2;color: white;">Đăng nhập bằng Facebook</div>
-                                        <div href="/register" class="btn btn-block" onclick="submitGoogle(this)" style="background:#d14836;color:white;">Đăng nhập bằng Google</div>
-                                    </div>
-                                    <div class="form-group">
-                                        <a href="/register" class="text-center" style="">Đăng ký</a>
-                                        <a href="/forget" class="text-center float-right" style="">Quyên mật khẩu</a>
-                                    </div>
-                                </form>
-                            </div>
-
-                        </div>
-                        </div>
-                    </div>
+                    

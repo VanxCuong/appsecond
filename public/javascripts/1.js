@@ -16,13 +16,56 @@ const submitLogin=(elm)=>{
     var a=document.getElementById("username-access").value,
         b=document.getElementById("password-access").value,
         url="/login",
-        d={username:a,password:b};
+        d={username:a,password:b},
+        HTMLcheckError=document.querySelectorAll(".form-group .check");
+    OptimalFor(HTMLcheckError,i=>{
+        HTMLcheckError[i].parentElement.remove();
+    })
     loadDoc(url,d,res=>{
         res=JSON.parse(res);
+
         if(res.success==true){
             location.reload(urlMain);
         }else{
             elm.parentElement.insertAdjacentHTML("beforebegin",HTML_CHECK_LOGIN(res.message));
+        }
+    })
+}
+const registerReceiveNew=elm=>{
+    var name=document.querySelector(".input-Name").value,
+        email=document.querySelector(".input-Email").value,
+        data={name:name,email:email},
+        url="/receive/news",
+        HTML_CHECK_REGISTER_RECEIVE=document.querySelectorAll("#emailHelpId.check"),
+        HTML_RECEIVE_TRUE=`<div class="alert alert-success" role="alert">
+                                <strong>Chúc mừng !</strong> Bạn đã đăng ký thành công.Bạn sẽ nhận đc email khi có bài viết mới !!!
+                            </div>`,
+        HTML_RECEIVE_FALSE=`<small id="emailHelpId" class="form-text text-muted check">Email đã tồn tại !!</small>`;
+    OptimalFor(HTML_CHECK_REGISTER_RECEIVE,i=>{
+        HTML_CHECK_REGISTER_RECEIVE[i].innerHTML="";
+    })
+    elm.disabled=true;
+    loadDoc(url,data,res=>{
+        elm.disabled=false;
+        res=JSON.parse(res);
+        if(typeof(res)=="object"){
+            res.forEach(e => {
+                if(Object.is(e.param,"email")){
+                    HTML_CHECK_REGISTER_RECEIVE[0].innerHTML=e.msg;
+                }
+                if(Object.is(e.param,"name")){
+                    HTML_CHECK_REGISTER_RECEIVE[1].innerHTML=e.msg;
+                }
+            });
+            return;
+        }
+        if(typeof(res)=="boolean"){
+            if(res){
+                elm.parentElement.innerHTML=HTML_RECEIVE_TRUE;
+            }else{
+                elm.insertAdjacentHTML("beforebegin",HTML_RECEIVE_FALSE);
+            }
+            return;
         }
     })
 }

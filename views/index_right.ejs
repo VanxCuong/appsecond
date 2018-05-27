@@ -32,7 +32,7 @@
         <div class="title">
             <div>Đăng ký</div>
         </div>
-        <form action="" method="post" class="form-register">
+        <form class="form-register">
             <div class="form-group">
                 <input type="email" class="form-control input-Email mt-3" name="txtEmail"  placeholder="Địa Chỉ Email">
                 <small id="emailHelpId" class="form-text text-muted check"></small>
@@ -41,10 +41,11 @@
                 <input type="text" class="form-control input-Name" name="txtName"  placeholder="Họ & Tên">
                 <small id="emailHelpId" class="form-text text-muted check"></small>
             </div>
-            <button type="submit" class="btn btn-outline-success btn-block btnRegister mt-3">Đăng Ký</button>
+            <button class="btn btn-outline-success btn-block btnRegister mt-3" onclick="registerReceiveNew(this)">Đăng Ký</button>
         </form>
         <p class="text-note">Đăng ký ngay để nhận được những bài đăng mới nhất.</p>
     </div>
+    
 </div>
 </div>
 <!-- info-marginalizanation -->

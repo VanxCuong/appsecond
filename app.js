@@ -15,6 +15,8 @@ var adminRouter = require('./routes/admin');
 var auth = require('./routes/auth');
 var news = require('./routes/news');
 var groups = require('./routes/groups');
+var receive = require('./routes/receive');
+var live = require('./routes/live');
 
 var app = express();
 
@@ -52,6 +54,8 @@ app.use('/admin', adminRouter);
 app.use('/news', news);
 app.use('/auth', auth);
 app.use('/groups', groups);
+app.use('/receive', receive);
+app.use('/live', live);
 
 
 // catch 404 and forward to error handler
@@ -61,6 +65,7 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+  
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

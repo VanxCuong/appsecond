@@ -4,7 +4,7 @@ var category=require("../models/category");
 var lib=require("../lib/lib");
 var router = express.Router();
 var numberPage=4;
-router.get('/:id', function(req, res, next) {
+router.get('/:id',lib.sessionURL, function(req, res, next) {
     var id=req.params.id;
     var nameCtg="";
     Promise.all([

@@ -10,20 +10,29 @@ var router = express.Router();
 var numberPage=4;
 /* GET home page. */
 /**
+ * phát id vs name của user ra interface.
+ */
+router.get('/session/users', (req, res) => {
+  var data={status:false,_id:""};
+  if(req.user){
+    data={status:true,_id:req.user._id,fullname:req.user.fullname};
+  }
+  res.send(data);
+});
+/**
+ * Đăng Xuất
+ */
+router.get('/logout', function(req, res){
+  req.logout();
+  res.redirect(req.session.url);
+  delete req.session.url
+});
+/**
  * Frames HOME WebSite
  * news.getLimitDocument({status:1},numberPage,0): Lấy Số Lượng bài viết
  * category.getDocument(): Lấy All Danh Mục
  */
-router.get('/session/users', (req, res) => {
-  console.log('hihi');
-  
-  var data={status:false,_id:""};
-  if(req.user){
-    data={status:true,_id:req.user._id};
-  }
-  res.send(data);
-});
-router.get('/', function(req, res, next) {
+router.get('/',lib.sessionURL,function(req, res, next) {
   Promise.all([news.getLimitDocument({status:1},numberPage,0),category.getDocument()]).then(value=>{
     res.render('index', {news:value[0],category:value[1]});
   })
@@ -48,7 +57,10 @@ router.post('/load', function(req, res, next) {
 /**
  * Frames Interface Login
  */
-router.get('/login', function(req, res, next) {
+router.get('/login',lib.sessionURL,function(req, res, next) {
+  if(req.user){
+     res.redirect('/');
+  }
   res.render('login', {errors:null });
 });
 /**
@@ -80,7 +92,7 @@ router.post('/login', function(req, res, next) {
 /**
  * Framonmes Interface Contact
  */
-router.get('/contact', function(req, res, next) {
+router.get('/contact',lib.sessionURL, function(req, res, next) {
   res.render('contact', { title: 'Express' });
 });
 
@@ -89,7 +101,7 @@ router.get('/contact', function(req, res, next) {
  * Nhiệm vụ tìm kiếm giá trị client gửi lên server.
  * Kết quả: Trả về tất cả giá trị tìm kiếm
  */
-router.get('/you', function(req, res, next) {
+router.get('/you',lib.sessionURL, function(req, res, next) {
   var text=req.query.search;
   var txtSearch=slug(text);
   const regex=new RegExp(lib.escapeRegex(txtSearch),'gi');
