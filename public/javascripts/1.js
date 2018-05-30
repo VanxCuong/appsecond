@@ -5,6 +5,10 @@
     roomInterFace();
     evaluate();
 });
+/**
+ * Check Email
+ * @param {*} elm 
+ */
 
 var HTML_CHECK_LOGIN=(res)=>{
     return `<div class="form-group text-center">
@@ -18,6 +22,8 @@ const submitLogin=(elm)=>{
         url="/login",
         d={username:a,password:b},
         HTMLcheckError=document.querySelectorAll(".form-group .check");
+        console.log(HTMLcheckError);
+        
     OptimalFor(HTMLcheckError,i=>{
         HTMLcheckError[i].parentElement.remove();
     })

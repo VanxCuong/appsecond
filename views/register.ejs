@@ -1,0 +1,89 @@
+<% include header %>
+<div class="frames-login frames-register">
+    <div class="container">
+        <div class="row">
+            <div class="title">Đăng Ký</div>
+            <div class="col-5 login">
+                <form action="/register/account" method="post">
+                    <div class="form-group">
+                        <label for="">Họ & Tên</label>
+                        <input type="text" name="fullname" class="form-control txtPassword" required placeholder="Họ & Tên">
+                        <small id="helpId" class="text-muted"></small>
+                    </div>
+                    <div class="form-group ctg">
+                        <label for="">Email của bạn</label>
+                        <input type="email" name="email" class="form-control txtEmail" required placeholder="Email của bạn" onchange="checkEmailNow(this)">
+                        <div class="checkicon"></div>
+                        <small id="helpId" class="text-muted"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Mật khẩu</label>
+                        <input type="password" name="password" required class="form-control txtPassword" placeholder="Mật khẩu">
+                        <small id="helpId" class="text-muted"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Xác nhận mật khẩu</label>
+                        <input type="password" name="reqpassword" required class="form-control txtPassword" placeholder="Mật khẩu">
+                        <small id="helpId" class="text-muted"></small>
+                    </div>
+                    <% if(message.status){ %>
+                        <div class="checkResult text-center" style="color:green;font-family:'Times New Roman', Times, serif;"><%=message.text%></div>
+                        <%}else{%>
+                        <div class="checkResult text-center" style="color:firebrick;font-family:'Times New Roman', Times, serif;"><%=message.text%></div>
+                    <%}%>
+                    <button type="submit" class="btn btn-success btn-block">Đăng Ký</button>
+                    <a href="/auth/facebook" class="login-fb btn-block"><i class="fab fa-facebook-f"></i> Đăng Nhập FACEBOOK</a>
+                    <a href="/auth/google" class="login-google btn-block"><i class="fab fa-google-plus-g"></i> Đăng Nhập GOOGLE</a>
+                    <div class="forget-account">Quên tài khoản?</div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<script>
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+    var HTMLcheckTrue='<i class="fa fa-check" style="color:green"></i>';
+    var HTMLcheckFalse='<i class="fa fa-times" style="color:red;"></i>';
+    var checkEmailNow=elm=>{
+        var text=elm.value;
+        var elementCheck=document.querySelector(".frames-register .checkicon");
+        if(!validateEmail(text)){
+            return elementCheck.innerHTML=HTMLcheckFalse;
+        }
+        var url ="/users/register/check";
+        var data={email:text};
+        loadDoc(url,data,(res)=>{
+            if(res=="true"){
+                while(elementCheck.firstChild){
+                    elementCheck.removeChild(elementCheck.firstChild);
+                }
+                elementCheck.innerHTML=HTMLcheckTrue;
+            }else{
+                elementCheck.innerHTML=HTMLcheckFalse;
+            }
+        })
+    }
+    var loadDoc=(url,data,cb)=>{
+        if (window.XMLHttpRequest) {
+            //code for IE7+, Firefox, Chrome and Opera
+            xhr = new XMLHttpRequest();
+        }else {
+            //code for IE6, IE5
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                cb(this.responseText);
+            }
+        };
+        xhr.open("POST",url,true);
+        xhr.setRequestHeader("cache-control", "no-cache");
+        xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify(data));
+    }
+</script>
+

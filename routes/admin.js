@@ -2,6 +2,7 @@ var express = require('express');
 var  upload = require('../lib/multer').upload;
 var slug = require('../lib/slug');
 var passportjs = require('../lib/passport');
+var lib = require('../lib/lib');
 var category=require('../models/category');
 var user=require('../models/user');
 var news=require('../models/news');
@@ -9,6 +10,7 @@ var role=require('../models/role');
 var routers=require('../models/router');
 var routerRole=require('../models/RouterRole');
 var roleUser=require('../models/roleUser');
+
 var router = express.Router();
 var quantityShow=20;
 function checkRoleRouter(req,res,next){
@@ -70,14 +72,14 @@ router.post('/category',checkRoleRouter, function(req, res, next) {
         res.redirect("/admin/category");
     }
 });
-router.get('/categorychild', function(req, res, next) {
+router.get('/categorychild',checkRoleRouter, function(req, res, next) {
     category.getDocument({}).then(value=>{
         res.render('./admin/CategoryChild', {data:value});
     }).catch(err=>{
         console.log(err);
     });
 });
-router.post('/categorychild', function(req, res, next) {
+router.post('/categorychild',checkRoleRouter, function(req, res, next) {
     var {category_id,name}=req.body;
     var data={name:name};
     category.getDocument({_id:category_id}).then(value=>{
@@ -87,7 +89,7 @@ router.post('/categorychild', function(req, res, next) {
        })
     })
 });
-router.get('/categorychild/del/:id', function(req, res, next) {
+router.get('/categorychild/del/:id',checkRoleRouter, function(req, res, next) {
     var id=req.params.id;
     category.findOne({'categorychild._id':id}).then(value=>{
         value.categorychild.pull(id);
@@ -98,7 +100,7 @@ router.get('/categorychild/del/:id', function(req, res, next) {
         console.log(err);
     })
 });
-router.get('/category/:id', function(req, res, next) {
+router.get('/category/:id',checkRoleRouter, function(req, res, next) {
     var id=req.params.id;
     category.findOne({_id:id}).then(value=>{
         
@@ -127,13 +129,13 @@ router.post('/category/save/:id',checkRoleRouter, function(req, res, next) {
     });
 });
 // Kết thúc category
-router.get('/cards', function(req, res, next) {
+router.get('/cards',checkRoleRouter, function(req, res, next) {
   res.render('./admin/cards', { title: 'Express' });
 });
-router.get('/blank', function(req, res, next) {
+router.get('/blank',checkRoleRouter, function(req, res, next) {
   res.render('./admin/blank', { title: 'Express' });
 });
-router.get('/charts', function(req, res, next) {
+router.get('/charts',checkRoleRouter, function(req, res, next) {
   res.render('./admin/charts', { title: 'Express' });
 });
 router.get('/register',checkRoleRouter, function(req, res, next) {
@@ -172,11 +174,10 @@ router.post('/addNews',checkRoleRouter,upload, function(req, res, next) {
         news_detail:newsdetail,
         token:slug(title)
     }
-    console.log(data);
-    
     news.createDocument(data).then(value=>{
         req.flash("message-add",{status:true,text:"Thêm mới thành công"});
-            res.redirect('/admin/addNews');
+        res.redirect('/admin/addNews');
+        lib.sendMail(data);
     }).catch(err=>{
         req.flash("message-add",{status:false,text:"Insert thất bại"});
         res.redirect('/admin/addNews');

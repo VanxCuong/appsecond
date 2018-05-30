@@ -1,5 +1,20 @@
 *{margin:0;padding: 0}
 
+.frames-register .ctg .checkicon {
+    position: absolute;
+    top: 75%;
+    right: 1%;
+    transform: translateY(-50%);
+}
+
+.frames-register .ctg {
+    position: relative;
+}
+
+.frames-login.frames-register {
+    padding-top: 5%;
+}
+
 
 .frames-evaluate .handle-evaluate .t-evaluate .quantity-evaluate {
     position: absolute;

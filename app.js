@@ -17,9 +17,14 @@ var news = require('./routes/news');
 var groups = require('./routes/groups');
 var receive = require('./routes/receive');
 var live = require('./routes/live');
+var register = require('./routes/register');
 
 var app = express();
 
+// mongoose.connect('mongodb://vanxcuong:dkmdkm12@ds139950.mlab.com:39950/appsecond',(err)=>{
+//   if(err) console.log("Connect Feild");
+//   else console.log("connect success");
+// });
 mongoose.connect('mongodb://localhost:27017/appsecond',(err)=>{
   if(err) console.log("Connect Feild");
   else console.log("connect success");
@@ -56,6 +61,7 @@ app.use('/auth', auth);
 app.use('/groups', groups);
 app.use('/receive', receive);
 app.use('/live', live);
+app.use('/register', register);
 
 
 // catch 404 and forward to error handler
