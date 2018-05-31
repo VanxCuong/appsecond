@@ -100,7 +100,7 @@ router.get('/categorychild/del/:id',checkRoleRouter, function(req, res, next) {
         console.log(err);
     })
 });
-router.get('/category/:id',checkRoleRouter, function(req, res, next) {
+router.get('/category/:id', function(req, res, next) {
     var id=req.params.id;
     category.findOne({_id:id}).then(value=>{
         

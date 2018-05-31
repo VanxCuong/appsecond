@@ -144,7 +144,8 @@
                 if(url===item.url){
                     item.active="active";
                     xHTML+=ctgLI(item);
-                    framesHeaderWebsite.innerHTML=item.title;
+                    framesHeaderWebsite.innerHTML=url=== "/" ? "BLOG": item.title;
+                
                 }else{
                     item.active="";
                     xHTML+=ctgLI(item);

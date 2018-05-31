@@ -21,14 +21,14 @@ var register = require('./routes/register');
 
 var app = express();
 
-// mongoose.connect('mongodb://vanxcuong:dkmdkm12@ds139950.mlab.com:39950/appsecond',(err)=>{
-//   if(err) console.log("Connect Feild");
-//   else console.log("connect success");
-// });
-mongoose.connect('mongodb://localhost:27017/appsecond',(err)=>{
+mongoose.connect('mongodb://vanxcuong:dkmdkm12@ds139950.mlab.com:39950/appsecond',(err)=>{
   if(err) console.log("Connect Feild");
   else console.log("connect success");
 });
+// mongoose.connect('mongodb://localhost:27017/appsecond',(err)=>{
+//   if(err) console.log("Connect Feild");
+//   else console.log("connect success");
+// });
 app.use(expressValidator());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

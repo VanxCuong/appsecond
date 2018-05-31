@@ -1,52 +1,52 @@
 <div class="info-marginalizanation">
-<div class="frames-search mt-3">
-    <div class="title">
-        <div>Tìm Kiếm</div> 
-    </div>
-    <form action="/you" method="get">
-        <input type="text" class="form-control input-Search" name="search" id="" placeholder="Tìm kiếm">
-        <button type="submit" class="btn btn-danger btn-block btnSubmit">Submit</button>
-    </form>
-</div>
-<div class="frames-category mt-3">
-    <div class="title">
-        <div>Danh Mục</div>
-    </div>
-    <ul class="nav ctg-parent">
-        <% category.forEach(item=>{%>
-        <li class="nav-item mt-3">
-            <div class="card text-left|center|right">
-                <div class="card-header"><i class="fas fa-book"></i> <%= item.name%> </div>
-                <ul class="ctg-child">
-                    <% item.categorychild.forEach(item=>{ %>
-                        <li><a href="/groups/<%= item._id%>"><i class="fas fa-angle-right"></i>  <%= item.name%></a></li>
-                    <%})%>
-                </ul>
-            </div>
-        </li>
-        <%})%>
-    </ul>
-</div>
-<div class="fames-register-email mt-3">
-    <div class="frames-input">
+    <div class="frames-search mt-3">
         <div class="title">
-            <div>Đăng ký</div>
+            <div>Tìm Kiếm</div> 
         </div>
-        <form class="form-register">
-            <div class="form-group">
-                <input type="email" class="form-control input-Email mt-3" name="txtEmail"  placeholder="Địa Chỉ Email">
-                <small id="emailHelpId" class="form-text text-muted check"></small>
-            </div>
-            <div class="form-group mt-3">
-                <input type="text" class="form-control input-Name" name="txtName"  placeholder="Họ & Tên">
-                <small id="emailHelpId" class="form-text text-muted check"></small>
-            </div>
-            <button class="btn btn-outline-success btn-block btnRegister mt-3" onclick="registerReceiveNew(this)">Đăng Ký</button>
+        <form action="/you" method="get">
+            <input type="text" class="form-control input-Search" name="search" id="" placeholder="Tìm kiếm">
+            <button type="submit" class="btn btn-danger btn-block btnSubmit">Submit</button>
         </form>
-        <p class="text-note">Đăng ký ngay để nhận được những bài đăng mới nhất.</p>
     </div>
-    
-</div>
+    <div class="frames-category mt-3">
+        <div class="title">
+            <div>Danh Mục</div>
+        </div>
+        <ul class="nav ctg-parent">
+            <% category.forEach(item=>{%>
+            <li class="nav-item mt-3">
+                <div class="card text-left|center|right">
+                    <div class="card-header"><i class="fas fa-book"></i> <%= item.name%> </div>
+                    <ul class="ctg-child">
+                        <% item.categorychild.forEach(item=>{ %>
+                            <li><a href="/groups/<%= item._id%>"><i class="fas fa-angle-right"></i>  <%= item.name%></a></li>
+                        <%})%>
+                    </ul>
+                </div>
+            </li>
+            <%})%>
+        </ul>
+    </div>
+    <div class="fames-register-email mt-3">
+        <div class="frames-input">
+            <div class="title">
+                <div>Đăng ký</div>
+            </div>
+            <form class="form-register">
+                <div class="form-group">
+                    <input type="email" class="form-control input-Email mt-3" name="txtEmail"  placeholder="Địa Chỉ Email">
+                    <small id="emailHelpId" class="form-text text-muted check"></small>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="text" class="form-control input-Name" name="txtName"  placeholder="Họ & Tên">
+                    <small id="emailHelpId" class="form-text text-muted check"></small>
+                </div>
+                <button class="btn btn-outline-success btn-block btnRegister mt-3" onclick="registerReceiveNew(this)">Đăng Ký</button>
+            </form>
+            <p class="text-note">Đăng ký ngay để nhận được những bài đăng mới nhất.</p>
+        </div>
+        
+    </div>
 </div>
 <!-- info-marginalizanation -->
 </div>

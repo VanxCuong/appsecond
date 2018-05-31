@@ -10,6 +10,8 @@ var changeCategoryNow=(element)=>{
     var url="/admin/category/"+id;
     var ctgChild=document.querySelector("#categoryChild");
     loadMethodGet(url,res=>{
+        console.log(res);
+        
         ctgChild.innerHTML=OptionCtgChild(JSON.parse(res));
     })
 }
