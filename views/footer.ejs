@@ -31,7 +31,6 @@
             <div class="form-group">
                 <label for="">Email</label>
                 <input type="email" name="username" id="username-access" class="form-control" placeholder="email@gmail.com" aria-describedby="helpId">
-               
             </div>
             <div class="form-group">
                 <label for="">Mật khẩu</label>
@@ -124,6 +123,7 @@
         document.addEventListener("DOMContentLoaded",function () {
             var framesNavbar=document.querySelector("#frames-left .nav-ctg");
             var framesHeaderWebsite=document.querySelector("#frames-content .tab-tittle");
+            var addClassFramesRight=document.querySelector(".info-marginalizanation");
             var data=[
                 {title:"Trang chủ",url:"/",icon:"fas fa-home"},
                 {title:"Giới thiệu",url:"/intro",icon:"fab fa-trello"},
@@ -132,6 +132,11 @@
                 {title:"Liên Hệ",url:"/contact",icon:"fas fa-map-marker"}
             ];
             var url=location.pathname;
+            var arrUrl=url.split("/");
+            /*Nếu đang ở trang tin tức thì khung phải (danh mục tim kiếm) thêm class: Tác dụng responsive*/
+            if(arrUrl[1]){
+                addClassFramesRight.classList.add(arrUrl[1]==="news" ? "info-responsive":"");
+            }
             var ctgLI=res=>`
                 <a href="${res.url}" class="list-group-item list-group-item-action ${res.active}">
                     <span class="img-ctg"><i class="${res.icon}"></i></span>
@@ -145,7 +150,6 @@
                     item.active="active";
                     xHTML+=ctgLI(item);
                     framesHeaderWebsite.innerHTML=url=== "/" ? "BLOG": item.title;
-                
                 }else{
                     item.active="";
                     xHTML+=ctgLI(item);

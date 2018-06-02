@@ -1023,7 +1023,7 @@ body{
         width: 100% !important;
         margin: 0 !important;
     }
-    #frames-right .info-marginalizanation{/* width: 29% !important; *//* padding: 0 5px !important; */display: none;}
+    #frames-right .info-marginalizanation.info-responsive{display: none;}
     #frames-right .info-marginalizanation .title{
         font-size: 13px !important;
         text-transform: inherit;
