@@ -1,5 +1,12 @@
 *{margin:0;padding: 0}
 
+.frames-login.frames-register .checkicon {
+    position: absolute;
+    top: 75%;
+    right: 4%;
+    transform: translateY(-50%);
+}
+
 .frames-live .frames-live-news .show-rep {
     background: #28a745 !important;
 }

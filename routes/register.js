@@ -6,6 +6,7 @@ var role=require('../models/role');
 var roleUser=require("../models/roleUser");
 var encode=require("../lib/encode");
 var lib=require("../lib/lib");
+var slug=require("../lib/slug");
 var UserRegisterNew=require("../models/UserRegisterNew");
 var router = express.Router();
 router.get('/', function(req, res, next) {
@@ -23,9 +24,10 @@ router.post('/account', function(req, res, next) {
     var errors=req.validationErrors();
     if(!errors){
         var data={
-        fullname:fullname,
-        email:email,
-        password:password
+            fullname:fullname,
+            email:email,
+            password:password,
+            token:slug(fullname)
         }
         data.password=encode.hash_password(password);
         user.findOption({email:email})

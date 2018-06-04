@@ -1,5 +1,136 @@
 *{}
 
+.frames-choose .frames-value .icon {
+    position: absolute;
+    right: 3px;
+    top: 0;
+    color: #2d2820;
+    transition: .4s all ease;
+    cursor: pointer;
+}
+
+.frames-choose .frames-value .icon:hover {
+    transform: rotate(180deg);
+}
+
+.frames-choose .frames-value
+ .badge {
+    position: relative;
+}
+
+.frames-choose {
+    position: relative;
+    width: 100%;
+}
+
+.frames-choose ul li {
+    list-style: none;
+    width: 100%;
+}
+
+.frames-choose ul li:nth-child(2) {
+    position: absolute;
+    top: 0;
+    font-size: 16px;
+    padding: 5px 10px;
+}
+
+.frames-choose ul li:nth-child(2) .badge {
+    padding: 9px 20px;
+}
+
+.frames-choose ul {
+    margin: 0;
+    padding: 0;
+}
+
+.frames-select-user[frames-selected="false"] {
+    display: none !important;
+}
+
+.frames-select-user[frames-selected="true"] {
+    display: block !important;
+}
+
+.frames-select-user .card-header {
+    padding: 5px 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.frames-select-user {
+    position: absolute;
+    top: 444px;
+    left: 320px;
+    width: 40%;
+    background: #dcdee0;
+    z-index: 2;
+}
+
+.frames-select-user ul {
+    padding: 0;
+}
+
+.frames-select-user ul li {
+    list-style: none;
+    font-size: 14px;
+    padding: 5px 20px;
+    cursor: pointer;
+}
+
+.frames-select-user ul li a {color: #171515;}
+
+.frames-select-user ul li[data-selected="true"] a {
+    color: #171515 !important;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.frames-select-user ul li[data-selected="true"] {background: #d5d7d9;}
+.frames-live tr td{
+    min-width: 50px;
+}
+
+.frames-live tr td:nth-child(2) {width: 215px;}
+
+.frames-live tr td img {
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    background-position:  50% 50%;
+}
+.frames-live .card-body .handle .show-rep {
+  background: #28a745 !important;
+}
+.frames-live .card-body .handle {
+  width: 100%;
+}
+.frames-live .card-body .handle .show-rep{
+  animation: none !important;
+}
+.frames-live .card-body .handle .show-live,.frames-live .card-body .handle .show-rep {
+  width: 100%;
+  background: #e00c0cc4;
+  border-radius: 5px;
+  padding: 5px;
+  color: white;
+  text-align: center;
+  opacity:1;
+  transition: .4s all ease;
+   /* Safari 4.0 - 8.0 */
+   animation:livestream 1s infinite ease;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+/*
+  Live Code
+*/
+@-webkit-keyframes livestream {
+  from{opacity:1;color:#f1eded;}
+  to{opacity:0.7;color:#e00c0c7a}
+}
 .manager-Category ul.ctg-child li span.handle-ctg-child a {
     width: 81px;
     padding: 5px;

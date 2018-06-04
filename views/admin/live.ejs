@@ -1,0 +1,72 @@
+<% include header %>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Blank Page</li>
+      </ol>
+      <div class="row frames-live">
+        <div class="col-12">
+        <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i>Quản Lý Live Code</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="reload" width="100%" cellspacing="0">
+                <tr>
+                  <th>STT</th>
+                  <th>Tiêu đề</th>
+                  <th>Hình ảnh</th>
+                  <th>Link</th>
+                  <th>Trạng Thái</th>
+                  <th>Hành động</th>
+                  <th>Khác</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Bỉ - Bồ Đào Nha: Không Ronaldo, Lukaku 11 bàn/6 trận tung hoành</td>
+                    <td>
+                        <img src="/images/1.jpg" alt="">
+                    </td>
+                    <td>https://www.24h.com.vn/world-cup-2018/nhan-dinh-bong-da-bi-bo-dao-nha-khong-ronaldo-lukaku-11-ban-6-tran-tung-hoanh-c802a963661.html</td>
+                    <td>
+                        <div class="handle">
+                            <div class="show-live ">
+                                LIVE
+                            </div>
+                            <div class="show-rep d-none">
+                                Xem lại 
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                            <div class="btn btn-outline-danger">Tắt Stream</div>
+                            <div class="btn btn-outline-success mt-1">Mở Stream</div>
+                    </td>
+                    <td>
+                        <div class="btn btn-group">
+                            <div class="btn btn-outline-danger">Sửa</div>
+                            <div class="btn btn-outline-success">Xóa</div>
+                            
+                        </div>
+                    </td>
+                </tr>
+
+                
+
+            </table>
+            <div class="handleOrther text-center">
+              <div class="loaditem d-none"><img src="/uploads/load.gif" alt=""></div>
+              <div class="btn btn-outline-danger shownews"   onclick="showNewsInterFace(this)">Xem Thêm</div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+ <% include footer%>

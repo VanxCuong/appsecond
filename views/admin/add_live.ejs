@@ -1,0 +1,62 @@
+<% include header %>
+  <div class="content-wrapper add-news">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">add news</li>
+      </ol>
+      <div class="row">
+        <div class="col-12">
+          <h1 class="_title">Thêm Live</h1>
+          <form action="/admin/addLive" method="post" class="form-add" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="">Tiêu đề</label>
+                <input type="text" autocomplete="off" name="title" class="form-control" required="false" placeholder="">
+                <small id="helpId" class="text-muted"></small>
+              </div>
+              <div class="form-group">
+                <label for="">Hình Ảnh</label>
+                <input type="file" name="images" required class="form-control">
+                <small id="helpId" class="text-muted"></small>
+              </div>
+              <div class="form-group">
+                <label for="">Thành Viên</label>
+                <input type="text" name="fullname" id="user-choose" class="form-control d-none"  placeholder="" autocomplete="off">
+                <div class="frames-choose">
+                  <ul>
+                    <li>
+                      <input type="text"  id="fullname" class="form-control" required="true" placeholder="" autocomplete="off">
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="">Link Youtube</label>
+                <input type="text" name="link" class="form-control"  required placeholder="">
+                <small id="helpId" class="text-muted"></small>
+              </div>
+
+              <button type="submit" class="btn btn-outline-success btn-block">Đăng Bài</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <script type="text/javascript" src="/javascripts/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="/javascripts/tinymce/js/tinymce/init-tinymce.js"></script>
+    <div class="frames-select-user"  style="display:none " frames-selected="false">
+      <div class="card-header">Lựa chọn</div>
+      <ul>
+        <!-- <li data-selected="false" id="123"><a href="" >Văn Cương</a></li>
+        <li data-selected="false" id="123"><a href="" >Văn Cương 1</a></li>
+        <li data-selected="false" id="123"><a href="" >Văn Cương 2</a></li>
+        <li data-selected="true" id="123"><a href="">Văn Cương 3</a></li> -->
+      </ul>
+    </div>
+
+    <script src="/javascripts/al.js"></script>
+ <% include footer%>

@@ -18,7 +18,8 @@ router.post('/register/account', function(req, res, next) {
     var data={
       fullname:fullname,
       email:email,
-      password:password
+      password:password,
+      token:slug(fullname)
     }
     data.password=encode.hash_password(password);
     user.findOption({email:email})

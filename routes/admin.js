@@ -8,6 +8,7 @@ var user=require('../models/user');
 var news=require('../models/news');
 var role=require('../models/role');
 var routers=require('../models/router');
+var live=require('../models/live');
 var routerRole=require('../models/RouterRole');
 var roleUser=require('../models/roleUser');
 
@@ -404,4 +405,38 @@ router.get('/router/remove/:id/:idRouter',checkRoleRouter,
         res.send("Xóa Không Thành Công");
     })
 });
+
+
+/**
+ * Live Stream
+ */
+router.get('/live',(req,res,next)=>{
+    res.render("./admin/live");
+})
+router.get('/addLive',(req,res,next)=>{
+    res.render("./admin/add_live");
+})
+router.post('/addLive',upload,(req,res,next)=>{
+    var {title,link,description,newsdetail}=req.body;
+    var image=req.file.path.split("\\");
+})
+router.post('/showUser',(req,res,next)=>{
+    var fullname=req.body.fullname;
+    var txtSearch=slug(fullname);
+    const regex=new RegExp(lib.escapeRegex(txtSearch),'gi');
+    var xHTML="";
+    if(Object.is(fullname,"")){
+        user.findOption({},5,0).then(value=>{
+            xHTML=xHTML=lib.BrowserLiUser(value);
+            res.send(xHTML);
+        })
+        return;
+    }
+    user.findOption({token:regex},5,0).then(value=>{
+        xHTML=lib.BrowserLiUser(value);
+        res.send(xHTML);
+    })
+    
+})
+
 module.exports = router;

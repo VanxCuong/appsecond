@@ -13,6 +13,7 @@ const schema=new Schema({
     sex:{type:Boolean,default:1},
     resetPasswordToken:{type:String},
     resetPasswordExpires:{type:Date},
+    token:{type:String},
     create_at:{type:Date,default:Date.now},
     update_at:{type:Date,default:Date.now},
     status:{type:Boolean,default:1},
