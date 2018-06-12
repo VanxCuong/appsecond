@@ -56,6 +56,86 @@
 </section>
 <!-- frames-right -->
 </main>
+    <div class="Slides-img">
+        <div class="black"></div>
+        <ul class="list-photo-ul nav">
+            <% news.forEach(item=>{%>
+                <li >
+                    <a href="/news/<%=item.token%>.<%= item._id%>"><div class="picture" style="background-image:url('/uploads/<%= item.image%>') "></div></a>
+                </li>
+            <%})%>
+        </ul>
+        <div class="buttons">
+            <div class="prev"><i class="fas fa-chevron-left"></i></div>
+            <div class="next"><i class="fas fa-chevron-right"></i></div>
+        </div>
+        <div class="remove"><i class="fas fa-times"></i></div>
+    </div>
+      <!-- Modal -->
+    
+    <script type="text/javascript" src="/javascripts/1.js"></script>
+    
+    <script>
+        var myVar = setInterval(()=>{ myTimer() }, 1000);
+        var myTimer=()=>{var d = new Date();var month=d.getMonth()+1,year=d.getFullYear(),date=d.getDate(),t = d.toLocaleTimeString();document.querySelector(".time-info").innerHTML =t+" - "+date+"/"+month+"/"+year;}
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded",function () {
+            var framesNavbar=document.querySelector("#frames-left .nav-ctg");
+            var framesHeaderWebsite=document.querySelector("#frames-content .tab-tittle");
+            var data=[
+                {title:"Trang chủ",url:"/",icon:"fas fa-home"},
+                {title:"Giới thiệu",url:"/intro",icon:"fab fa-trello"},
+                {title:"Video",url:"/video",icon:"fab fa-youtube"},
+                {title:"Live Code",url:"/live",icon:"fas fa-video"},
+                {title:"Liên Hệ",url:"/contact",icon:"fas fa-map-marker"}
+            ];
+            var url=location.pathname;
+            var arrUrl=url.split("/");
+            /*Nếu đang ở trang tin tức thì khung phải (danh mục tim kiếm) thêm class: Tác dụng responsive*/
+            if(arrUrl[1]==="news"){
+                var addClassFramesRight=document.querySelector(".info-marginalizanation");
+                addClassFramesRight.classList.add(arrUrl[1]==="news" ? "info-responsive":"");
+            }
+            var ctgLI=res=>`
+                <a href="${res.url}" class="list-group-item list-group-item-action ${res.active}">
+                    <span class="img-ctg"><i class="${res.icon}"></i></span>
+                    <span class="a-content">${res.title}</span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            `
+            var xHTML="";
+            data.forEach(item=>{
+                if(url===item.url){
+                    item.active="active";
+                    xHTML+=ctgLI(item);
+                    framesHeaderWebsite.innerHTML=url=== "/" ? "BLOG": item.title;
+                }else{
+                    item.active="";
+                    xHTML+=ctgLI(item);
+                }
+            })
+            framesNavbar.innerHTML=xHTML;
+        });
 
-
+    </script>
+    <script>
+        var checkValue=(elm)=>{
+            var elmRS=document.querySelector(".quantity-evaluate .kq");
+            var quantity=elm.value.length;
+            if(quantity<10 && quantity>0){
+                return elmRS.innerHTML="0"+quantity;
+            }
+            return elmRS.innerHTML=quantity;
+        }
+        var handleHiddenEvaluate=elm=>{
+            var framesEvalaute=document.querySelector(".frames-evaluate");
+            var framesEvalauteLI=document.querySelectorAll(".frames-evaluate .result-evaluate ul li");
+            for (let i = 0; i < framesEvalauteLI.length; i++) {
+                const element = framesEvalauteLI[i];
+                element.classList.remove("active");
+            }
+            framesEvalaute.classList.remove("show");
+        }
+    </script>
 <% include footer %>

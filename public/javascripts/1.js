@@ -5,38 +5,13 @@
     roomInterFace();
     evaluate();
 });
+
 /**
  * Check Email
  * @param {*} elm 
  */
 
-var HTML_CHECK_LOGIN=(res)=>{
-    return `<div class="form-group text-center">
-<div class="check" style="color:#ce2a2a;">${res}</div>
-</div>`;
-}
-const submitLogin=(elm)=>{
-    var urlMain=location.pathname;
-    var a=document.getElementById("username-access").value,
-        b=document.getElementById("password-access").value,
-        url="/login",
-        d={username:a,password:b},
-        HTMLcheckError=document.querySelectorAll(".form-group .check");
-        console.log(HTMLcheckError);
-        
-    OptimalFor(HTMLcheckError,i=>{
-        HTMLcheckError[i].parentElement.remove();
-    })
-    loadDoc(url,d,res=>{
-        res=JSON.parse(res);
 
-        if(res.success==true){
-            location.reload(urlMain);
-        }else{
-            elm.parentElement.insertAdjacentHTML("beforebegin",HTML_CHECK_LOGIN(res.message));
-        }
-    })
-}
 const registerReceiveNew=elm=>{
     var name=document.querySelector(".input-Name").value,
         email=document.querySelector(".input-Email").value,

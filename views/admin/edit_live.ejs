@@ -1,0 +1,92 @@
+<% include header %>
+  <div class="content-wrapper add-news edit-news">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">add news</li>
+      </ol>
+      <div class="row">
+        
+        <div class="col-12">
+                <%if(message.status){ %>
+                    <div class="text-center" style="color:#28a745;font-weight: 500;"><%= message.text%></div>
+                    <%}else{%>
+                    <div class="text-center" style="color:#d23117;font-weight: 500;"><%= message.text%></div>
+                    <%}%>
+            <h1 class="_title">Sửa</h1>
+            <form action='/admin/live/edit/<%= data._id %>' method="POST"  enctype="multipart/form-data" class="form-add" >
+                <div class="form-group">
+                    <label for="">Tiêu đề</label>
+                    <input type="text" name="title" value="<%= data.title%>" class="form-control" required placeholder="" >
+                    <small id="helpId" class="text-muted"></small>
+                </div>
+                <div class="form-group">
+                    <label for="">Hình Ảnh</label>
+                    <img src="/uploads/<%= data.image%>" name="images" style="width:100px;height:100px;">
+                    <span class="edit-img">Sửa</span>
+                </div>
+                <div class="form-group">
+                    <label for="">Thành Viên</label>
+                    <input type="text" name="user_id" id="user-choose" value="<%= data.user_id._id%>" class="form-control d-none" required  placeholder="" autocomplete="off">
+                    <div class="frames-choose">
+                        <ul>
+                            <li>
+                            <input type="text"  id="fullname" class="form-control" placeholder="" autocomplete="off">
+                            </li>
+                            <li>
+                                <div class="frames-value">
+                                    <div class="badge badge-info" id="123">
+                                        <div class="text"><%= data.user_id.fullname%></div>
+                                        <div class="icon"><i class="fa fa-remove"></i></div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="">Link</label>
+                    <%- data.link%>
+                    <input type="text" name="link" value="<%= data.link%>" class="form-control" required placeholder="" >
+                    <small id="helpId" class="text-muted"></small>
+                </div>
+
+                <button type="submit"  class="btn btn-outline-success btn-block" >Cập Nhật</button>
+                <a href="/admin/live" class="btn btn-outline-danger btn-block" onclick="if(!confirm('Bạn có muốn quay lại trang quản lý tin tức ??'))return false;">Quay lại</a>
+            </form>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <div class="frames-select-user"  style="display:none " frames-selected="false">
+      <div class="card-header">Lựa chọn</div>
+      <ul>
+        <!-- <li data-selected="false" id="123"><a href="" >Văn Cương</a></li>
+        <li data-selected="false" id="123"><a href="" >Văn Cương 1</a></li>
+        <li data-selected="false" id="123"><a href="" >Văn Cương 2</a></li>
+        <li data-selected="true" id="123"><a href="">Văn Cương 3</a></li> -->
+      </ul>
+    </div>
+    <script src="/javascripts/al.js"></script>
+    <script>
+        var element=document.querySelector(".edit-news .edit-img");
+        var status=1;
+        var divHTML=`<div class="form-edit-img mt-2"><h4>Chọn ảnh cần sửa</h4><input type="file" name="images" class="form-control"></div>`;
+        element.onclick=()=>{
+          if(status==1){
+            status=0;
+            element.insertAdjacentHTML("afterend",divHTML);
+            element.innerHTML="Hủy";
+          }else{
+            status=1;
+            element.nextSibling.remove();
+            element.innerHTML="Sửa";
+          }
+        }
+    </script>
+
+ <% include footer%>

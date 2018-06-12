@@ -10,8 +10,6 @@ var changeCategoryNow=(element)=>{
     var url="/admin/category/"+id;
     var ctgChild=document.querySelector("#categoryChild");
     loadMethodGet(url,res=>{
-        console.log(res);
-        
         ctgChild.innerHTML=OptionCtgChild(JSON.parse(res));
     })
 }
@@ -53,12 +51,31 @@ var performCtgChild=()=>{
                     elementOptionCtgParent[i].selected="selected";
                 }
             })
-            var url="/admin/category/"+idParent;
-            loadMethodGet(url,res=>{
-                elementCtgChild.innerHTML=OptionSetCtgChild(JSON.parse(res),id);
-            })
+            elementCtgChild.value=name;
             return false;
         }
+    })
+    
+}
+var updateCategoryChild=(elm)=>{
+    var nameCtgChild=document.getElementById("categoryChild").value,
+        idCtgParent=document.getElementsByClassName("ctg-parent")[0].value,
+        elementModal=document.querySelector(".manager-Category .method-edit-router"),
+        elementIdCtgChild=document.querySelector(".method-edit-router .title-id span");
+    var data={
+        id:idCtgParent,
+        name:nameCtgChild
+    }
+    var url="/admin/categorychild/update/"+elementIdCtgChild.innerHTML;
+    loadDoc(url,data,res=>{
+        if(res=="true"){
+            alert('Sửa Thành Công !!');
+        }
+        $('#reloads').load(location.href + " #reloads>*");
+        elementModal.classList.remove("show");
+        setTimeout(() => {
+            performCtgChild();
+        }, 1000);
     })
     
 }

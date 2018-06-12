@@ -1,31 +1,51 @@
 document.addEventListener('DOMContentLoaded', function (event) {
-    LoadUser();
+    var url=location.pathname.split("/");
+    if(url[2].toLowerCase()=="live"){
+        if(url[3])
+            if(url[3].toLowerCase()=="edit")
+                removeUserChoose();
+        AjaxLiveStream();
+    }
+    if(location.pathname!="/admin/live"){
+        LoadUser();
+    }
 });
 var height=null;
 var removeUserChoose=()=>{
-    let elmRemove=document.querySelector(".frames-value .icon");
+    let elmRemove=document.querySelector(".frames-value .icon"),
+        elmInput=document.getElementById("user-choose");
     elmRemove.onclick=()=>{
         elmRemove.parentElement.parentElement.parentElement.remove();
+        elmInput.value="";
+
     }
 }
+var loadClickOut=()=>{
+    var container=document.querySelector(".form-add"),
+        elmShow=document.querySelector(".frames-select-user");
+    container.onclick=()=>{
+        elmShow.setAttribute("frames-selected","false");
+    }
+}
+var statusFames=true;
 var LoadUser=()=>{
     var input=document.querySelector(".form-add #fullname"),
-        container=document.querySelector(".container-fluid"),
         elmShowUser=document.querySelector(".frames-select-user ul"),
         elmShow=document.querySelector(".frames-select-user"),
         elmInput=document.getElementById("user-choose"),
         url="/admin/showUser";
-    
+        
     // user client input
     loadDoc(url,{fullname:""},res=>{
         elmShowUser.innerHTML=res;
         hoverElm();
     })
-    input.addEventListener("click",()=>{
-        elmShow.setAttribute("frames-selected","true");
-    })
-    container.onclick=()=>{
-        elmShow.setAttribute("frames-selected","false");
+    if(statusFames==true){
+        input.addEventListener("click",()=>{
+            statusFames=false;
+            loadClickOut();
+            elmShow.setAttribute("frames-selected","true");
+        })
     }
     input.addEventListener('keyup', function (event) {
         let value=input.value.length>0?input.value:"";
@@ -187,4 +207,23 @@ var loadMethodGet=(url,cb)=>{
     };
     xhr.open("GET",url,true);
     xhr.send();
+}
+var AjaxLiveStream=()=>{
+    var elmStatusLive=document.querySelectorAll(".StatusLive");
+    for (let i = 0; i < elmStatusLive.length; i++) {
+        const element = elmStatusLive[i];   
+        element.onclick=()=>{
+            status=element.getAttribute("data-status");
+            id=element.getAttribute("href");
+            data={id:id,status:status=="true"?"0":"1"};
+            loadDoc("/admin/live/update/"+id,data,res=>{
+                $('#reloads').load(location.href + " #reloads>*");
+            })
+            //Load lại AjaxLiveStreamf
+            setTimeout(() => {
+                AjaxLiveStream();
+            }, 1000);
+            return false;
+        }
+    }
 }

@@ -17,9 +17,10 @@ router.get('/:token.:id',lib.sessionURL, function(req, res, next) {
                 news.getLimitDocument({status:1,_id:{'$ne':id},'categorychild_id':value[3].categorychild_id},numberPage,0),
                 news.updateOne({_id:id},{view:++value[3].view})
                 ]).then(result=>{
+                    console.log(result);
                     res.render('news_detail', {news:value[0],news_detail:value[3],category:value[1],news_Other:value[2],categorychild:result[0],newsCtg:result[1]});
                     /**
-                     * news: Các Tin 
+                     * news: Các Tin
                      * news_detail: Chi Tiết tin
                      * category: Danh Mục
                      * categorychild:  Danh Mục Con
@@ -29,7 +30,6 @@ router.get('/:token.:id',lib.sessionURL, function(req, res, next) {
             })
     }).catch(err=>{
          return res.redirect('/');
-         
     })
 });
 module.exports = router;

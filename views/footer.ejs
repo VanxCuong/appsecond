@@ -1,22 +1,7 @@
 <footer class="footer">
 
 </footer>
-    <div class="Slides-img">
-        <div class="black"></div>
-        <ul class="list-photo-ul nav">
-            <% news.forEach(item=>{%>
-                <li > 
-                    <a href="/news/<%=item.token%>.<%= item._id%>"><div class="picture" style="background-image:url('/uploads/<%= item.image%>') "></div></a>
-                </li>
-            <%})%>
-        </ul>
-        <div class="buttons">
-            <div class="prev"><i class="fas fa-chevron-left"></i></div>
-            <div class="next"><i class="fas fa-chevron-right"></i></div>
-        </div>
-        <div class="remove"><i class="fas fa-times"></i></div>
-    </div>
-      <!-- Modal -->
+    
 <div class="modal fade" id="form-dangnhap" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
 <div class="modal-content">
@@ -51,32 +36,8 @@
 </div>
 </div>
 </div>
-    <script>
-        var myVar = setInterval(()=>{ myTimer() }, 1000);
-        var myTimer=()=>{var d = new Date();var month=d.getMonth()+1,year=d.getFullYear(),date=d.getDate(),t = d.toLocaleTimeString();document.querySelector(".time-info").innerHTML =t+" - "+date+"/"+month+"/"+year;}
-        </script>
     <script type="text/javascript" src="/vendor/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="/vendor/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/javascripts/1.js"></script>
-    <script>
-        var checkValue=(elm)=>{
-            var elmRS=document.querySelector(".quantity-evaluate .kq");
-            var quantity=elm.value.length;
-            if(quantity<10 && quantity>0){
-                return elmRS.innerHTML="0"+quantity;
-            }
-            return elmRS.innerHTML=quantity;
-        }
-        var handleHiddenEvaluate=elm=>{
-            var framesEvalaute=document.querySelector(".frames-evaluate");
-            var framesEvalauteLI=document.querySelectorAll(".frames-evaluate .result-evaluate ul li");
-            for (let i = 0; i < framesEvalauteLI.length; i++) {
-                const element = framesEvalauteLI[i];
-                element.classList.remove("active");
-            }
-            framesEvalaute.classList.remove("show");
-        }
-    </script>
     <script>
         var url="/session/users",
             NotUser=`<li class="nav-item active">
@@ -94,13 +55,7 @@
                     `;
         }
         var loadMethodGet=(url,cb)=>{
-            if (window.XMLHttpRequest) {
-                //code for IE7+, Firefox, Chrome and Opera
-                xhr = new XMLHttpRequest();
-            }else {
-                //code for IE6, IE5
-                xhr = new ActiveXObject("Microsoft.XMLHTTP");
-            }
+            xhr=window.XMLHttpRequest? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
             xhr.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     cb(this.responseText);
@@ -109,7 +64,18 @@
             xhr.open("GET",url,true);
             xhr.send();
         }
-        
+        var loadDoc=(url,data,cb)=>{
+            xhr=window.XMLHttpRequest? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    cb(this.responseText);
+                }
+            };
+            xhr.open("POST",url,true);
+            xhr.setRequestHeader("cache-control", "no-cache");
+            xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
+            xhr.send(JSON.stringify(data));
+        }
         loadMethodGet(url,res=>{
             res=JSON.parse(res);
             if(res.status){
@@ -118,46 +84,34 @@
                 navbar.insertAdjacentHTML("beforebegin",NotUser);
             }
         })
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded",function () {
-            var framesNavbar=document.querySelector("#frames-left .nav-ctg");
-            var framesHeaderWebsite=document.querySelector("#frames-content .tab-tittle");
-            var addClassFramesRight=document.querySelector(".info-marginalizanation");
-            var data=[
-                {title:"Trang chủ",url:"/",icon:"fas fa-home"},
-                {title:"Giới thiệu",url:"/intro",icon:"fab fa-trello"},
-                {title:"Video",url:"/video",icon:"fab fa-youtube"},
-                {title:"Live Code",url:"/live",icon:"fas fa-video"},
-                {title:"Liên Hệ",url:"/contact",icon:"fas fa-map-marker"}
-            ];
-            var url=location.pathname;
-            var arrUrl=url.split("/");
-            /*Nếu đang ở trang tin tức thì khung phải (danh mục tim kiếm) thêm class: Tác dụng responsive*/
-            if(arrUrl[1]){
-                addClassFramesRight.classList.add(arrUrl[1]==="news" ? "info-responsive":"");
+        var HTML_CHECK_LOGIN=(res)=>{
+            return `<div class="form-group text-center">
+                        <div class="check" style="color:#ce2a2a;">${res}</div>
+                    </div>`;
+        }
+        const submitLogin=(elm)=>{
+            var urlMain=location.pathname;
+            var a=document.getElementById("username-access").value,
+                b=document.getElementById("password-access").value,
+                url="/login",
+                d={username:a,password:b},
+                HTMLcheckError=document.querySelectorAll(".form-group .check");
+                console.log(HTMLcheckError);
+            for(let i=0;i<HTMLcheckError.length;i++){
+                HTMLcheckError[i].parentElement.remove();
             }
-            var ctgLI=res=>`
-                <a href="${res.url}" class="list-group-item list-group-item-action ${res.active}">
-                    <span class="img-ctg"><i class="${res.icon}"></i></span>
-                    <span class="a-content">${res.title}</span>
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-            `
-            var xHTML="";
-            data.forEach(item=>{
-                if(url===item.url){
-                    item.active="active";
-                    xHTML+=ctgLI(item);
-                    framesHeaderWebsite.innerHTML=url=== "/" ? "BLOG": item.title;
+
+            loadDoc(url,d,res=>{
+                res=JSON.parse(res);
+
+                if(res.success==true){
+                    location.reload(urlMain);
                 }else{
-                    item.active="";
-                    xHTML+=ctgLI(item);
+                    elm.parentElement.insertAdjacentHTML("beforebegin",HTML_CHECK_LOGIN(res.message));
                 }
             })
-            framesNavbar.innerHTML=xHTML;
-        });
-
+        }
     </script>
+    
 </body>
 </html>

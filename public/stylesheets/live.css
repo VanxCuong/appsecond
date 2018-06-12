@@ -32,6 +32,10 @@
 .frames-live .form-live .form-left{
     padding-right: 0;
 }
+
+.frames-live .form-live .form-left.show {
+    padding-right: 15px !important;
+}
 .frames-live .form-live .form-left .frames-stream{
     height: 500px;
 }

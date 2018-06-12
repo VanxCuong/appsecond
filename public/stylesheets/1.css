@@ -9,6 +9,7 @@
 
 .frames-live .frames-live-news .show-rep {
     background: #28a745 !important;
+    animation: none !important;
 }
 
 .frames-live .handle {

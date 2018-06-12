@@ -28,7 +28,7 @@ module.exports.removeDocument=(id)=>{
 }
 module.exports.findOption=(condition)=>{
     return new Promise((resolve,reject)=>{
-        Lives.find(condition,(err,result)=>{
+        Lives.find(condition).sort({_id:-1}).exec((err,result)=>{
             if(err) return reject(new Error(err));
             return resolve(result);
         })
@@ -36,7 +36,7 @@ module.exports.findOption=(condition)=>{
 }
 module.exports.updateDocument=(id,data)=>{
     return new Promise((resolve,reject)=>{
-        Lives.find({_id:id},data,(err,result)=>{
+        Lives.updateOne ({_id:id},data,(err,result)=>{
             if(err) return reject(new Error(err));
             return resolve(result);
         })

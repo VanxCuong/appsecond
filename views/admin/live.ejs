@@ -1,5 +1,5 @@
 <% include header %>
-  <div class="content-wrapper">
+  <div class="content-wrapper frames-live">
     <div class="container-fluid">
       <!-- Breadcrumbs-->
       <ol class="breadcrumb">
@@ -8,14 +8,14 @@
         </li>
         <li class="breadcrumb-item active">Blank Page</li>
       </ol>
-      <div class="row frames-live">
+      <div class="row ">
         <div class="col-12">
         <div class="card mb-3">
         <div class="card-header">
           <i class="fa fa-table"></i>Quản Lý Live Code</div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered" id="reload" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="reloads" width="100%" cellspacing="0">
                 <tr>
                   <th>STT</th>
                   <th>Tiêu đề</th>
@@ -25,38 +25,40 @@
                   <th>Hành động</th>
                   <th>Khác</th>
                 </tr>
+                <%var dem=0; data.forEach(item=>{ %>
                 <tr>
-                    <td>1</td>
-                    <td>Bỉ - Bồ Đào Nha: Không Ronaldo, Lukaku 11 bàn/6 trận tung hoành</td>
+                    <td><%= ++dem%></td>
+                    <td><%= item.title%></td></td>
                     <td>
-                        <img src="/images/1.jpg" alt="">
+                        <img src="/uploads/<%= item.image%>" alt="">
                     </td>
-                    <td>https://www.24h.com.vn/world-cup-2018/nhan-dinh-bong-da-bi-bo-dao-nha-khong-ronaldo-lukaku-11-ban-6-tran-tung-hoanh-c802a963661.html</td>
+                    <td><%- item.link%></td>
                     <td>
                         <div class="handle">
+                          <% if(item.status){ %>
                             <div class="show-live ">
                                 LIVE
                             </div>
-                            <div class="show-rep d-none">
+                          <%}else{%>
+                            <div class="show-rep">
                                 Xem lại 
                             </div>
+                          <%}%>
                         </div>
                     </td>
                     <td>
-                            <div class="btn btn-outline-danger">Tắt Stream</div>
-                            <div class="btn btn-outline-success mt-1">Mở Stream</div>
+                    <div href="<%=item._id%>" class="btn btn-outline-danger StatusLive" data-status="<%= item.status%>">
+                      <% if(item.status){ %> Tắt Stream <%}else{%> Mở Stream <%}%>
+                    </div>
                     </td>
                     <td>
                         <div class="btn btn-group">
-                            <div class="btn btn-outline-danger">Sửa</div>
-                            <div class="btn btn-outline-success">Xóa</div>
-                            
+                            <a href="/admin/live/edit/<%= item._id%>" class="btn btn-outline-danger">Sửa</a>
+                            <a href="/admin/live/del/<%= item._id%>" class="btn btn-outline-success">Xóa</a>
                         </div>
                     </td>
                 </tr>
-
-                
-
+                <%})%>
             </table>
             <div class="handleOrther text-center">
               <div class="loaditem d-none"><img src="/uploads/load.gif" alt=""></div>
@@ -67,6 +69,8 @@
         </div>
       </div>
     </div>
+
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
+    <script src="/javascripts/al.js"></script>
  <% include footer%>

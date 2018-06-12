@@ -64,7 +64,7 @@
     left: 320px;
     width: 40%;
     background: #dcdee0;
-    z-index: 2;
+    z-index: 9999;
 }
 
 .frames-select-user ul {
@@ -91,6 +91,11 @@ a:hover {
 .frames-select-user ul li[data-selected="true"] {background: #d5d7d9;}
 .frames-live tr td{
     min-width: 50px;
+}
+
+.frames-live tr td:nth-child(4) {
+    width: 134px;
+    height: 125px;
 }
 
 .frames-live tr td:nth-child(2) {width: 215px;}
@@ -141,7 +146,7 @@ a:hover {
 .manager-Category ul.ctg-child li {
     width: 100%;
 }
-.manager-router .method-edit-router.show{
+.manager-router .method-edit-router.show,.frames-live .method-edit-router.show{
   animation:showMoveup 0.5s forwards ease-in-out;
   display: block !important;
 }
@@ -149,7 +154,7 @@ a:hover {
   from{transform:translateY(-50px) ;opacity:0;}
   to{transform: translateY(0px) ;opacity:1;}
 }
-.manager-router .method-edit-router .remove {
+.manager-router .method-edit-router .remove,.frames-live .method-edit-router .remove {
     position: absolute;
     top: 1%;
     right: 3%;
@@ -159,12 +164,12 @@ a:hover {
     transition: .4s all cubic-bezier(0.65, 0.17, 0, 1.07);
 }
 
-.manager-router .method-edit-router .remove:hover {
+.manager-router .method-edit-router .remove:hover,.frames-live .method-edit-router .remove:hover {
     transform: rotate(180deg);
 }
 .manager-router .method-edit-router .title-role{font-size: 24px;font-family: -webkit-pictograph;font-weight: 600;}
 .manager-router .method-edit-router .title-id{font-size: 13px;color: gray;}
-.manager-router .method-edit-router{
+.manager-router .method-edit-router,.frames-live .method-edit-router{
     position: fixed;
     top: 0;
     z-index: 10;
@@ -178,7 +183,7 @@ a:hover {
     height: 100%;
     z-index: 11;
 }
-.manager-router .method-edit-router form{
+.manager-router .method-edit-router form,.frames-live .method-edit-router form{
     width: 49%;
     position: relative;
     z-index: 11;

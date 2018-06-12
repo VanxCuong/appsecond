@@ -33,14 +33,14 @@ function checkRoleRouter(req,res,next){
             k=false;
         }
     }
-    // next();
-    if(k==true){
-        next();
-    }else if(k==false){
-        res.send("hihi k đủ quyền");
-    }else{
-        res.redirect("/");
-    }
+    next();
+    // if(k==true){
+    //     next();
+    // }else if(k==false){
+    //     res.send("hihi k đủ quyền");
+    // }else{
+    //     res.redirect("/");
+    // }
 }
 router.get('/',checkRoleRouter, function(req, res, next) {
   res.render('./admin/index', { title: 'Express' });
@@ -100,6 +100,32 @@ router.get('/categorychild/del/:id',checkRoleRouter, function(req, res, next) {
     }).catch(err=>{
         console.log(err);
     })
+});
+router.post('/categorychild/update/:id',checkRoleRouter, function(req, res, next) {
+    var idchild=req.params.id;
+    var {id,name}=req.body;
+    console.log(req.body);
+    console.log(idchild);
+    
+    category.findOne({'categorychild._id':idchild}).then(value=>{
+        value.categorychild.pull(idchild);
+        value.save((err,result)=>{
+            if(result){
+                category.getDocument({_id:id}).then(value=>{
+                    value[0].categorychild.push({name:name});
+                    value[0].save((err,result)=>{
+                         res.send(true);
+                    })
+                 }).catch(err=>{
+                     res.send(false);
+                 });
+            }
+        })
+        
+    }).catch(err=>{
+        res.send(false);
+    })
+   
 });
 router.get('/category/:id', function(req, res, next) {
     var id=req.params.id;
@@ -411,14 +437,87 @@ router.get('/router/remove/:id/:idRouter',checkRoleRouter,
  * Live Stream
  */
 router.get('/live',(req,res,next)=>{
-    res.render("./admin/live");
+    live.findOption({}).then(value=>{
+        res.render("./admin/live",{data:value});
+    }).catch(err=>{
+        req.redirect("/admin/live");
+    })
+    
 })
 router.get('/addLive',(req,res,next)=>{
-    res.render("./admin/add_live");
+    var obj=[{status:true,text:""}];
+    var message=req.flash("mess-edit");
+    if(message[0]){
+        obj=message
+    }
+    res.render("./admin/add_live",{message:obj[0]});
+})
+router.get('/live/del/:id',(req,res,next)=>{
+    var id=req.params.id;
+    live.removeDocument(id).then(value=>{
+         res.redirect('/admin/live');
+    }).catch(err=>{
+        res.redirect('/admin/live');
+    })
+})
+router.get('/live/edit/:id',(req,res,next)=>{
+    var id=req.params.id;
+    var obj=[{status:true,text:""}];
+    var message=req.flash("mess-edit");
+    if(message[0]){
+        obj=message
+    }
+    live.findOne({_id:id}).populate("user_id").then(value=>{
+         res.render("./admin/edit_live",{data:value,message:obj[0]});
+    }).catch(err=>{
+        res.redirect('/admin/live');
+    })
+})
+router.post('/live/edit/:id',upload,(req,res,next)=>{
+    var {title,link,user_id}=req.body;
+    var data={
+        title:title,link:link,user_id:user_id
+    }
+    var id=req.params.id;
+    if(req.file){
+        var image=req.file.path.split("\\");
+        data.image=image[2];
+    }
+    live.updateDocument(id,data).then(value=>{
+        req.flash("mess-edit",{status:true,text:"Update thành công !!!"});
+        res.redirect('/admin/live/edit/'+id);
+    }).catch(err=>{
+        req.flash("mess-edit",{status:false,text:"Update thất bại !!!"});
+        res.redirect('/admin/live/edit/'+id);
+    })
+})
+router.post('/live/update/:id',(req,res,next)=>{
+    var id=req.params.id;
+    var data={status:Number(req.body.status)};
+    live.updateDocument(id,data).then(value=>{
+        res.send(true);
+    }).catch(err=>{
+        res.send(falsef);
+    })
 })
 router.post('/addLive',upload,(req,res,next)=>{
-    var {title,link,description,newsdetail}=req.body;
+    var {title,link,user_id}=req.body;
     var image=req.file.path.split("\\");
+    var data={
+        title:title,
+        image:image[2],
+        token:slug(title),
+        link:link,
+        user_id:user_id
+    }
+    live.createDocument(data).then(value=>{
+        req.flash('mess-edit',{status:true,text:"Thêm thành công"});
+        req.redirect("/admin/addLive");
+    }).catch(err=>{
+        req.flash("mess-edit",{status:false,text:"Thêm thất bại"})
+        res.redirect("/admin/addLive");
+    })
+
 })
 router.post('/showUser',(req,res,next)=>{
     var fullname=req.body.fullname;

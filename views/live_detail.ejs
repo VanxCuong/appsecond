@@ -5,109 +5,39 @@
             <div class="col-sm-12">
                 <div class="form-live">
                     <div class="row">
-                        <div class="col-sm-9 form-left">
+                        <div class="col form-left <%if(!live.status){%>show<%}%>">
                             <div class="frames-stream">
                                 <div class="frames-stream-header">
-                                    <p>Chơi siêu cấp ngày 03/09/2016 x5 WP Mùa Sc35 -[Boom Online] ( Phần 1)</p>
+                                    <p><%= live.title%></p>
                                 </div>
                                 <div class="frames-main-stream">
-                                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/COP7jsvqdXo?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                    <%- live.link%>
                                 </div>
                                 <div class="frames-stream-footer">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3 form-right">
-                            <div class="frames-show-chat">
-                                <ul class="list-chat">
-                                    <li>
-                                        <div class="user">
-                                            <i class="fas fa-user"></i> Văn Cương
-                                        </div>
-                                        <div class="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. </div>
-                                    </li>
-                                    <li>
-                                        <div class="user">
-                                            <i class="fas fa-user"></i> Văn Cương
-                                        </div>
-                                        <div class="content">Lorem ipsum dolo </div>
-                                    </li>
-                                    <li class="active">
-                                        <div class="user">
-                                            <i class="fas fa-user"></i> Văn Cương
-                                        </div>
-                                        <div class="content">Lorem ipsum dolor sit amet consectetur adip </div>
-                                    </li>
-                                    <li>
-                                        <div class="user">
-                                            <i class="fas fa-user"></i> Văn Cương
-                                        </div>
-                                        <div class="content">Lorem  </div>
-                                    </li>
-                                    <li>
-                                        <div class="user">
-                                            <i class="fas fa-user"></i> Văn Cương
-                                        </div>
-                                        <div class="content">Lorem ipsum do</div>
-                                    </li>
-                                    <li>
-                                        <div class="user">
-                                            <i class="fas fa-user"></i> Văn Cương
-                                        </div>
-                                        <div class="content">Lorem ipsum do</div>
-                                    </li>
-                                    <li>
-                                        <div class="user">
-                                            <i class="fas fa-user"></i> Văn Cương
-                                        </div>
-                                        <div class="content">Lorem ipsum do</div>
-                                    </li>
-                                    <li>
-                                        <div class="user">
-                                            <i class="fas fa-user"></i> Văn Cương
-                                        </div>
-                                        <div class="content">Lorem ipsum do</div>
-                                    </li>
-                                    <li>
-                                        <div class="user">
-                                            <i class="fas fa-user"></i> Văn Cương
-                                        </div>
-                                        <div class="content">Lorem ipsum do</div>
-                                    </li>
-                                    <li>
-                                        <div class="user">
-                                            <i class="fas fa-user"></i> Văn Cương
-                                        </div>
-                                        <div class="content">Lorem ipsum do</div>
-                                    </li>
-                                    <li>
-                                        <div class="user">
-                                            <i class="fas fa-user"></i> Văn Cương
-                                        </div>
-                                        <div class="content">Lorem ipsum do</div>
-                                    </li>
-                                    <li>
-                                        <div class="user">
-                                            <i class="fas fa-user"></i> Văn Cương
-                                        </div>
-                                        <div class="content">Lorem ipsum do</div>
-                                    </li>
-                                    <li>
-                                        <div class="user">
-                                            <i class="fas fa-user"></i> Văn Cương
-                                        </div>
-                                        <div class="content">Lorem ipsum do</div>
-                                    </li>
-                                </ul>
+                        <% if(live.status){ %>
+                            <div class="col-sm-3 form-right">
+                                <div class="frames-show-chat">
+                                    <ul class="list-chat">
+                                        <li>
+                                            <div class="user">
+                                                <i class="fas fa-user"></i> Văn Cương
+                                            </div>
+                                            <div class="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. </div>
+                                        </li>
+                                    </ul>
 
-                            </div>
-                            <div class="frames-content-chat">
-                                <div class="form-group">
-                                  <input type="text" name="" class="form-control" placeholder="Gửi tin nhắn" >
-                                  <a href="#" class="btn btn-primary">Gửi</a>
+                                </div>
+                                <div class="frames-content-chat">
+                                    <div class="form-group">
+                                    <input type="text" name="" class="form-control" content="contentChat" id="contentChat" placeholder="Gửi tin nhắn" >
+                                    <div <% if(!user){%> href="#form-dangnhap" data-toggle="modal"<%}else{%> aria-name="<%= user.fullname%>" aria-id="<%= user._id%>" <%}%> class="btn btn-primary" id="onSendChat">Gửi</div>
+                                    </a>
                                 </div>
                             </div>
-                        </div>
+                        <%}%>
                     </div>
                 </div>
             </div>
@@ -120,3 +50,8 @@
     var scroll=document.querySelector(".frames-show-chat .list-chat");
     scroll.scrollTop=scroll.scrollHeight-scroll.clientHeight;
 </script>
+<script src="/socket.io/socket.io.js" ></script>
+<script src="/javascripts/socket.js"></script>
+
+
+<% include footer%>

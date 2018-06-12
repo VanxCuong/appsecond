@@ -2,26 +2,33 @@
                 <!-- tab-first -->
                 <div class="tab-content frames-live">
                     <div class="content-main ">
-                        <a href=""><div class="frames-live-news mt-3">
-                            <div class="card text-white">
-                              <div class="frames-left">
-                                  <div class="frames-img" style="background-image:url('/images/6.jpg');"></div>
-                              </div>
-                              <div class="frames-right">
-                                <a href=""><h3 class="card-title">Cộng đồng gamer phát sốt bởi nữ chủ tịch công ty game vô cùng xinh đẹp</h3></a>
-                                <p class="create_at">Thứ 4, ngày 30/05/2018 17:43</p>
-                                <div class="handle">
-                                    <div class="show-live ">
-                                        LIVE
-                                        <i class="fas fa-video"></i>
-                                    </div>
-                                    <div class="show-rep d-none">
-                                        Xem lại <i class="fas fa-video"></i>
-                                    </div>
+                        <%live.forEach(item=>{%>
+                            <a href="/live/<%=item.token%>.<%= item._id%>"><div class="frames-live-news mt-3">
+                                <div class="card text-white">
+                                <div class="frames-left">
+                                    <div class="frames-img" style="background-image:url('/uploads/<%= item.image%>');"></div>
                                 </div>
-                              </div >
-                            </div>
-                        </div></a>
+                                <div class="frames-right">
+                                    <a href="/live/<%=item.token%>.<%= item._id%>"><h3 class="card-title"><%= item.title%></h3></a>
+                                    <p class="create_at"><%= item.create_at%></p>
+                                    <a href="/live/<%=item.token%>.<%= item._id%>">
+                                        <div class="handle">
+                                            <% if(item.status){ %>
+                                                <div class="show-live ">
+                                                    LIVE
+                                                    <i class="fas fa-video"></i>
+                                                </div>
+                                            <%}else{%>
+                                                <div class="show-rep">
+                                                    Xem lại <i class="fas fa-video"></i>
+                                                </div>
+                                            <%}%>
+                                        </div>
+                                    </a>
+                                </div >
+                                </div>
+                            </div></a>
+                        <%})%>
                         <!-- frames-live-news -->
 
                     </div>
