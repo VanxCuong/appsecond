@@ -1,5 +1,22 @@
 *{}
 
+.handle-other ul li.badge-info a.seconds {
+    color: white;
+}
+
+.handle-other ul li.badge-info.active {
+    background-color: #ffc107 !important;
+    color: #1d1919cf;
+}
+
+.handle-other ul li.badge-info:hover {
+    background-color: #5daebf;
+}
+
+.handle-other ul li.badge-info {
+    cursor: pointer;
+}
+
 .frames-live .form-live .form-right .frames-content-chat {
     background: #242424;
     height: 10%;
@@ -43,6 +60,8 @@
 .frames-live .form-live .form-left .frames-stream .frames-stream-footer{
     height: 10%;
     background: #242424;
+    line-height: 50px;
+    color: #c13636;
 }
 .frames-live .form-live .form-left .frames-stream .frames-stream-header{
     height: 10%;
@@ -74,10 +93,11 @@
 }
 .frames-live .form-live .form-right .frames-show-chat ul.list-chat li .user{
     float: left;
-    min-width: 40%;
-    color: black;
+    width: 40%;
+    color: #303030;
     min-height: 50px;
     padding-left: 10px;
+    font-weight: 600;
 }
 
 .frames-live .form-live .form-right .frames-show-chat ul.list-chat li.active .user {
@@ -92,5 +112,6 @@
     padding: 7px;
     margin-right: 1%;
     margin-bottom: 3%;
+    overflow: hidden;
 }
 .frames-live .form-live .form-right .frames-show-chat .frames-content-chat{}

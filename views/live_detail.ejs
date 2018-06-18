@@ -14,6 +14,17 @@
                                     <%- live.link%>
                                 </div>
                                 <div class="frames-stream-footer">
+                                    <div class="row">
+                                        <div class="col" style="padding-left:30px;">
+                                            Thuyết Minh: <%= live.user_id.fullname%>
+                                        </div>
+                                        <div class="col-3">
+                                            
+                                        </div>
+                                        <div class="col-3">
+                                            <span id="view">01</span> đang xem với bạn 
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -21,11 +32,12 @@
                             <div class="col-sm-3 form-right">
                                 <div class="frames-show-chat">
                                     <ul class="list-chat">
-                                        <li>
+                                        <li class="active">
                                             <div class="user">
-                                                <i class="fas fa-user"></i> Văn Cương
+                                                <span class="icon"><i class="fas fa-user"></i></span> 
+                                                <span class="name-user"><%= live.user_id.fullname%></spa>
                                             </div>
-                                            <div class="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. </div>
+                                            <div class="content">Xin Chào các bạn</div>
                                         </li>
                                     </ul>
 
@@ -36,6 +48,7 @@
                                     <div <% if(!user){%> href="#form-dangnhap" data-toggle="modal"<%}else{%> aria-name="<%= user.fullname%>" aria-id="<%= user._id%>" <%}%> class="btn btn-primary" id="onSendChat">Gửi</div>
                                     </a>
                                 </div>
+                                
                             </div>
                         <%}%>
                     </div>

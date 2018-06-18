@@ -14,7 +14,7 @@ router.get('/',lib.sessionURL,function(req, res, next) {
 router.get('/*.:id',lib.sessionURL,function(req, res, next) {
   var id=req.params.id;
   var user=req.user;
-  live.findOne({_id:id}).then(value=>{
+  live.findOne({_id:id}).populate("user_id").then(value=>{
     res.render('live_detail',{live:value,user:user});
   }).catch(err=>{
     res.redirect("/live");

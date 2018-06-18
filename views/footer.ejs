@@ -54,6 +54,18 @@
                     </li>
                     `;
         }
+        var xHTMLHandleLIVE=(res)=>{
+                return `<div class="handle-other">
+                    <h4>Độ chễ gửi tin nhắn</h4>
+                    <ul class="">
+                        <li class="badge badge-info "><a href="" class="seconds"><span>0</span> Giây</a></li>
+                        <li class="badge badge-info active"><a href="" class="seconds"><span >3</span> Giây</a></li>
+                        <li class="badge badge-info "><a href="" class="seconds"><span>5</span> Giây</a></li>
+                        <li class="badge badge-info "><a href="" class="seconds"><span>10</span> Giây</a></li>
+                        <li class="badge badge-info "><a href="" class="seconds"><span>20</span> Giây</a></li>
+                    </ul>
+                </div>`;
+            }
         var loadMethodGet=(url,cb)=>{
             xhr=window.XMLHttpRequest? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
             xhr.onreadystatechange = function() {
@@ -80,6 +92,10 @@
             res=JSON.parse(res);
             if(res.status){
                 navbar.insertAdjacentHTML("beforebegin",ExistsUser(res));
+                var handleOther=document.querySelector(".frames-content-chat");
+                if(Object.is(res.role.toLowerCase(),"admin")||Object.is(res.role.toLowerCase(),"quản trị")||Object.is(res.role.toLowerCase(),"nhân viên")&&handleOther){
+                    handleOther.insertAdjacentHTML("afterend",xHTMLHandleLIVE(res));
+                }
             }else{
                 navbar.insertAdjacentHTML("beforebegin",NotUser);
             }
@@ -110,6 +126,8 @@
                     elm.parentElement.insertAdjacentHTML("beforebegin",HTML_CHECK_LOGIN(res.message));
                 }
             })
+            // Live detail
+            
         }
     </script>
     

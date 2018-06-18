@@ -3,6 +3,7 @@ var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 var passportjs=require("../lib/passport");
 var news=require("../models/news");
+var roleUser=require("../models/roleUser");
 var category=require("../models/category");
 var lib=require("../lib/lib");
 var slug=require("../lib/slug");
@@ -13,11 +14,17 @@ var numberPage=4;
  * phát id vs name của user ra interface.
  */
 router.get('/session/users', (req, res) => {
+  
   var data={status:false,_id:""};
   if(req.user){
-    data={status:true,_id:req.user._id,fullname:req.user.fullname};
+    roleUser.findOption({user_id:req.user._id}).then(value=>{
+      data={status:true,_id:req.user._id,fullname:req.user.fullname,role:value[0].role_id.name};
+      res.send(data);
+    })
+  }else{
+    res.send(data);
   }
-  res.send(data);
+  
 });
 /**
  * Đăng Xuất
